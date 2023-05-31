@@ -1,5 +1,12 @@
 {
   "name": "monorepo",
   "version": "1.0.0",
-  "workspaces": ["apps/*", "packages/*"]
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start:app": "npm run start --workspace=Learning-Buddy",
+    "start:app:cache": "npm run start:cache --workspace=Learning-Buddy"
+  }
 }
