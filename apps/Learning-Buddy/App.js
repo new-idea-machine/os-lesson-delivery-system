@@ -1,40 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Constants from 'expo-constants';
 
 export default function App() {
+  const ip = Constants.manifest.extra.IP;
   const [isLoading, setLoading] = useState(true);
   const [message, setMessage] = useState();
-
 
   // TODO: Remove, for testing purposes
   const getMessage = async () => {
     try {
       // Replace below URI with your own localhost, use ipConfig command in terminal to source your ipv4 address and replace up to the colon (:)
-      const response = await fetch('http://192.168.86.137:8000/message', {
+      const response = await fetch(`http://${ip}:8000/message`, {
         // no-cors required to prevent conflict between emulator localhost/ server localhost
-        mode: 'no-cors' 
+        mode: 'no-cors',
       });
       const json = await response.json();
-      console.log(json.data)
+      // console.log(json.data);
       setMessage(json.data.message);
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getMessage()
-  },[])
+    getMessage();
+  }, []);
 
   return (
     <View style={styles.container}>
-    {isLoading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <Text>{message}</Text>)}
+      {isLoading ? <Text>Loading...</Text> : <Text>{message}</Text>}
     </View>
   );
 }
