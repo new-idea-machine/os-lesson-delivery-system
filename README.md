@@ -16,6 +16,9 @@ To run the backend, run command "python main.py".
 
 ### To integrate with frontend
 Be sure to use a separate terminal to run your frontend server.
+
+Use command "npm run start:app" from root folder to start expo server.
+
 In apps/Learning.... in App.js, replace IP address with your own using following steps:
 
 1. in terminal, run command "ipconfig"
