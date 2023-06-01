@@ -25,3 +25,5 @@ In apps/Learning.... in App.js, replace IP address with your own using following
 2. in response, find address for "ipv4 address"
 3. replace URI up to the colon (e.g. 'http://000.000.00.000') with your ipv4 address.
 4. Run emulator along backend/ frontend servers to test if the message from backend is showing up as expected in frontend.
+
+If you are having connection issues, be sure that the stated ipv4 address matches your current ipv4 address as it may have changed!
