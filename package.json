@@ -8,10 +8,5 @@
   "scripts": {
     "start:app": "npm run start --workspace=Learning-Buddy",
     "start:app:cache": "npm run start:cache --workspace=Learning-Buddy"
-  },
-  "devDependencies": {
-    "react-native-web": "^0.19.4",
-    "react-dom": "18.2.0",
-    "@expo/webpack-config": "^18.0.1"
   }
 }
