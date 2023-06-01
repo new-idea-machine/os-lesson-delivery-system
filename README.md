@@ -10,7 +10,7 @@ To set up backend:
 3. run command "python -m venv venv"
 4. run command "source venv/scripts/activate" -> if you have issues, see if you can source appropriate command for your OS
 5. run "export PYTHONPATH=$PWD"
-6. "pip install fastapi uvicorn"
+6. "pip install -r requirements.txt"
 
 To run the backend, run command "python main.py".
 
