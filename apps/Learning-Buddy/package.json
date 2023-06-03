@@ -2,6 +2,11 @@
   "name": "Learning-Buddy",
   "version": "1.0.0",
   "main": "index.js",
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "trailingComma": "none"
+  },
   "scripts": {
     "start": "expo start",
     "start:cache": "expo start -c",
