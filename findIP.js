@@ -15,8 +15,7 @@ const getIp4Address = () => {
 }
 
 const writeIpToEnv = () => {
-  fs.writeFileSync('./apps/Learning-Buddy/.env', `IP=${ip}`)
-}
+  fs.writeFileSync('./apps/learning-buddy/.env', `IP=${ip}`);
 
 const ip = getIp4Address()
 writeIpToEnv()
