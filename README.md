@@ -4,6 +4,8 @@ This repository contains a comprehensive educational course delivery system, off
 
 ---
 
+Please note that, at present time, Expo can only be run in an emulator on the same machine as the server. Future fixes to be determined.
+
 **Running the Frontend Server**
 
 To start the Expo server, navigate to the project's root directory and use the command `npm run start:app`.
