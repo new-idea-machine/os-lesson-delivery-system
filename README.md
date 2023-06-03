@@ -10,7 +10,7 @@ To start the Expo server, navigate to the project's root directory and use the c
 
 **Running the Backend Server**
 
-To start the FastAPI server, navigate to the "backend" folder within the project and use the command `python main.py`.
+To start the FastAPI server, navigate to the project's root directory and use the command `npm run start:backend`.
 
 ## Setup Information
 
@@ -28,17 +28,3 @@ To start the FastAPI server, navigate to the "backend" folder within the project
 Ensure that you use a separate terminal from the one used for the backend server.
 
 1. Start by running `npm init` from the root directory. This command will target all workspaces within.
-2. If the URL on line 14 of App.js does not match your current IPv4 address or if you are unsure, follow the steps below.
-
----
-
-Due to complications with localhost/CORS for the FastAPI server and React Native server, the current workaround is to use the developer's IP address instead of localhost to establish a connection. We anticipate a better solution in the future.
-
-To replace the IP address in **App.js** with your own, located in the apps/Learning-Buddy folder, follow these steps:
-
-1. Open your terminal and run the command `ipconfig`.
-2. Locate the "ipv4 address" in the response.
-3. On line 14 of **App.js**, replace the URI up to the colon (e.g., 'http://000.000.00.000') with your IPv4 address.
-4. Run the emulator along with the backend and frontend servers to verify if the message from the backend appears correctly in the frontend.
-
-If you encounter connection issues, ensure that the stated IPv4 address matches your current address, as it may have changed.
