@@ -9,7 +9,7 @@ origins = [
     "localhost:3000"
 ]
 # TEST: TODO remove 
-message = {"message": "sup brah"}
+message = {"message": "Success! Connected to Server"}
 
 
 app.add_middleware(

@@ -15,7 +15,6 @@ export default function App() {
         mode: 'no-cors',
       });
       const json = await response.json();
-      // console.log(json.data);
       setMessage(json.data.message);
     } catch (error) {
       console.error(error);
@@ -30,7 +29,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {isLoading ? <Text>Loading...</Text> : <Text>{message}</Text>}
+      {isLoading ? <Text>Still Loading...</Text> : <Text>{message}</Text>}
     </View>
   );
 }
