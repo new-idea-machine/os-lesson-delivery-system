@@ -6,7 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start:app": "npm run start --workspace=Learning-Buddy",
-    "start:app:cache": "npm run start:cache --workspace=Learning-Buddy"
+    "start:app": "node findIP && npm run start --workspace=learning-buddy",
+    "start:backend": "python backend/main.py",
+    "start:app:cache": "node findIP && npm run start:cache --workspace=learning-buddy"
   }
 }

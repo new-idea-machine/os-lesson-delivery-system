@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Learning-Buddy",
-    "slug": "Learning-Buddy",
+    "name": "learning-buddy",
+    "slug": "learning-buddy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
