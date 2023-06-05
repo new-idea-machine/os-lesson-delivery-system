@@ -1,10 +1,12 @@
-# os-lesson-delivery-system
+# 24-7 Learning Buddy
 
-This repository contains a comprehensive educational course delivery system, offering a flexible and intuitive platform for online learning.
+This repository contains a comprehensive educational delivery system, offering a flexible and intuitive platform for online learning.
 
 ---
 
 Please note that, at present time, Expo can only be run in an emulator on the same machine as the server. Future fixes to be determined.
+
+#### First-time user? Check out the Setup Information Section below to get started.
 
 **Running the Frontend Server**
 
