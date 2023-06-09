@@ -33,8 +33,8 @@ export const QuestionForm = () => {
         body: thing,
       });
       const json = await response.json();
-      console.log(json.response.data[0].created);
-      setResponse(json.response.data[0].created);
+      console.log(json.response.choices[0]);
+      setResponse(json.response.choices[0].text);
     } catch (error) {
       console.error(error);
       setResponse('oh no, problem');

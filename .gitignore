@@ -14,6 +14,7 @@ __pycache__/
 .vscode
 
 *.env
+backend/app/*.env
 
 # macOS
 .DS_Store
