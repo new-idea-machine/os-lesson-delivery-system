@@ -12,12 +12,12 @@ export const AppStack = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Test Screen">
+      <Stack.Navigator initialRouteName='Test Screen'>
         <Stack.Screen
-          name="Question Form"
+          name='Question Form'
           component={QuestionForm}
         ></Stack.Screen>
-        <Stack.Screen name="Test Screen" component={TestScreen}></Stack.Screen>
+        <Stack.Screen name='Test Screen' component={TestScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

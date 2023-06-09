@@ -3,18 +3,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
+import openai
 import requests
 
 load_dotenv()
 
-api_token = os.getenv("API-TOKEN")
+openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
 
 origins = ["http://localhost:3000", "localhost:3000"]
 
 # TEST: TODO remove
 message = {"message": "Success! Connected to Server"}
-header = {"Authorization": f"Bearer {api_token}"}
+header = {"Authorization": f"Bearer {openai.api_key}"}
 
 class Question(BaseModel):
     id: int | None = None
@@ -41,10 +42,11 @@ async def read_root() -> dict:
 async def get_message() -> dict:
     return {"data": message}
 
-url = "https://api.openai.com/v1/models"
+url_getinfo = "https://api.openai.com/v1/models"
+url_getcompletion= "https://api.openai.com/v1/chat/completions"
 
 @app.post("/questions", tags=["questions"])
 async def get_questions(question: Question) -> Response:
-    # print(question.question)
-    x = requests.get(url, headers=header)
-    return {"response": x.json()}
+    print(question)
+    response = openai.Completion.create(model="text-davinci-003", prompt=question.question, temperature=0, max_tokens=7)
+    return {"response": response}
