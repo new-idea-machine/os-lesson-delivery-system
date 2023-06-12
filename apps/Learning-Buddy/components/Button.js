@@ -1,7 +1,7 @@
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../config/colors';
 
-export const Button = ({ title, onPress, style }) => {
+const Button = ({ title, onPress, style }) => {
   console.log('INSIDE BUTTON');
   return (
     <TouchableOpacity
@@ -29,3 +29,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
+
+export default React.memo(Button);

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors } from '../config/colors';
 
-export const TextInput = ({ label, placeholder }) => {
+const TextInput = ({ label, placeholder }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -36,3 +36,5 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+export default React.memo(TextInput);

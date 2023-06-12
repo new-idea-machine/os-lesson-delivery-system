@@ -1,7 +1,7 @@
 import { Image, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { colors } from '../config/colors';
 
-export default Checkbox = ({ checked, onCheck }) => {
+const Checkbox = ({ checked, onCheck }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
@@ -40,3 +40,5 @@ const styles = StyleSheet.create({
     height: 9
   }
 });
+
+export default React.memo(Checkbox);
