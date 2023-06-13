@@ -1,7 +1,9 @@
+### this code is currently a place holder with example from https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/
+
 from typing import Annotated
 from fastapi import APIRouter
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
