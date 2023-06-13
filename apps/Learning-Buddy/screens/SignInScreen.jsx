@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import Button from './components/Button';
-import Input from './components/TextInput';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = () => {
   const [values, setValues] = useState({});
 
   const onChange = (key, value) => {
