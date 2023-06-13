@@ -35,7 +35,7 @@ def multiple_choice_questions(body: Request):
     model = "text-davinci-003",
     temperature = 0.8,
     max_tokens = 200,
-    prompt = "Use only the following content to create a multiple choice quiz with {}  questions and return in a JSON format following the this outline {{ \"questions\":[{{\"question\":\"\", \"options\":\"\", \"answers\":\"\"}}],}}: {}".format(num_questions,testinput)
+    prompt = "Use only the following content to create a multiple choice quiz with {}  questions and return in a JSON format following the this outline {{ \"questions\":[{{\"question\":\"\", \"options\":\"\", \"answers\":\"\"}}],}}: {}".format(body.num_questions,body.input)
     )
     return{
         "results": completion.choices[0].text

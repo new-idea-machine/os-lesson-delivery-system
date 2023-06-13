@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import chatgpt
+from .routers import auth
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
@@ -14,6 +15,7 @@ load_dotenv()
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
 app.include_router(chatgpt.router)
+app.include_router(auth.router)
 
 origins = ["http://localhost:3000", "localhost:3000"]
 
