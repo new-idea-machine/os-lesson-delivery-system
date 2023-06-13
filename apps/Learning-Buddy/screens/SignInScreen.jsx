@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
-const SignInScreen = () => {
+export const SignInScreen = () => {
   const [values, setValues] = useState({});
 
   const onChange = (key, value) => {
@@ -37,8 +37,6 @@ const SignInScreen = () => {
     </View>
   );
 };
-
-export default React.memo(SignInScreen);
 
 const styles = StyleSheet.create({
   container: {
