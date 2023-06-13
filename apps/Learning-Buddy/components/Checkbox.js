@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Image, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { colors } from '../config/colors';
 
