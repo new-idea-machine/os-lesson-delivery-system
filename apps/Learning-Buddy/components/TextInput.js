@@ -13,6 +13,8 @@ const TextInput = ({ label, placeholder }) => {
   );
 };
 
+export default React.memo(TextInput);
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20
@@ -36,5 +38,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-export default React.memo(TextInput);

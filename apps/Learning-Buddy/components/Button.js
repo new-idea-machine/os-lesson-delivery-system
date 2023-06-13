@@ -14,6 +14,8 @@ const Button = ({ title, onPress, style }) => {
   );
 };
 
+export default React.memo(Button);
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.blue,
@@ -29,5 +31,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default React.memo(Button);
