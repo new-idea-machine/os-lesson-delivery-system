@@ -6,7 +6,8 @@ import { AppStack } from './AppStack';
 export const RootNavigator = () => {
   return (
     <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
+      {/* {user ? <AppStack /> : <AuthStack />} */}
+      <AuthStack />
     </NavigationContainer>
   );
 };
