@@ -7,6 +7,12 @@ import Input from '../components/Input';
 export const SignUpScreen = ({ navigation }) => {
   const [values, setValues] = useState({});
 
+  // onHomeScreen is only for demo purpose
+  // Delete it once authentication has been setup
+  const onHomeScreen = () => {
+    navigation.navigate('HomeScreen');
+  };
+
   const onSignIn = () => {
     navigation.navigate('SignInScreen');
   };
@@ -55,7 +61,7 @@ export const SignUpScreen = ({ navigation }) => {
           placeholder='*******'
         />
 
-        <Button onPress={onSubmit} style={styles.button} title='Sign Up' />
+        <Button onPress={onHomeScreen} style={styles.button} title='Sign Up' />
 
         <Text style={styles.footerText}>
           Already have an account?
