@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 8,
-    color: colors.blue,
+    color: colors.black,
     fontSize: 14,
     fontWeight: '500'
   },

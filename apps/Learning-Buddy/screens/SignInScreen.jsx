@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   footerText: {
-    color: colors.blue,
+    color: colors.black,
     marginBottom: 56,
     textAlign: 'center'
   },
