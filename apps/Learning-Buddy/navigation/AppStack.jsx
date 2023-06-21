@@ -19,8 +19,6 @@ export const AppStack = () => {
           component={QuestionForm}
         ></Stack.Screen>
         <Stack.Screen name='Test Screen' component={TestScreen}></Stack.Screen>
-        <Stack.Screen name='Sign in' component={SignInScreen} />
-        <Stack.Screen name='Sign up' component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
