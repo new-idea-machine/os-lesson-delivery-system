@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   inputContainer: {
-    borderWidth: 1,
-    borderColor: colors.grey,
-    borderRadius: 14,
+    // borderWidth: 1,
+    // borderColor: colors.grey,
+    borderRadius: 26,
+    backgroundColor: colors.lightGrey,
     flexDirection: 'row',
     alignItems: 'center'
   },
