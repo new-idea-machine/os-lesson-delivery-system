@@ -11,6 +11,7 @@ from .database import SessionLocal, engine
 from .routers import chatgpt, auth
 
 load_dotenv()
+models.Base.metadata.create_all(bind=engine)
 
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
