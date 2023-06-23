@@ -1,12 +1,27 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppStack } from './navigation/AppStack';
+import StyleSheetProvider from './providers/StyleSheetProvider';
+import { useFonts } from 'expo-font';
+import { View, ActivityIndicator } from 'react-native';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Poppins: require('./assets/fonts/Poppins-Regular.ttf')
+  });
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size='large' />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaProvider>
-    <AppStack />
+      <StyleSheetProvider>
+        <AppStack />
+      </StyleSheetProvider>
     </SafeAreaProvider>
   );
 }
