@@ -4,7 +4,7 @@ import { AuthStack } from './AuthStack';
 import { AppStack } from './AppStack';
 
 export const RootNavigator = () => {
-  const { user } = useState();
+  const [user] = useState(true);
   // This will be replace with Auth Provider
   return (
     <NavigationContainer>
