@@ -4,7 +4,6 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../config/colors';
 
 const Button = ({ title, onPress, style }) => {
-  console.log('INSIDE BUTTON');
   return (
     <TouchableOpacity
       activeOpacity={0.6}

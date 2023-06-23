@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { useState, useContext } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+  Image
+} from 'react-native';
+// import { Text } from 'react-native-paper';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import MenuBackButton from '../components/MenuBackButton';
+import MenuInput from '../components/MenuInput';
 
-export const SignUpScreen = () => {
+export const SignUpScreen = ({ navigation }) => {
   const [values, setValues] = useState({});
+  const styles = useContext(StyleSheetContext);
 
   const onChange = (key, value) => {
     setValues((v) => ({ ...v, [key]: value }));
@@ -15,9 +27,13 @@ export const SignUpScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{ paddingTop: 50, paddingHorizontal: 10 }}>
       <ScrollView style={styles.container}>
-        <Input
+        <View>
+          <MenuBackButton navigation={navigation} />
+          <Text style={styles.pageTitle}>Sign Up</Text>
+        </View>
+        {/* <Input
           value={values.fullName}
           onChangeText={(v) => onChange('fullName', v)}
           label='Name'
@@ -48,9 +64,17 @@ export const SignUpScreen = () => {
           isPassword
           label='Confirm Password'
           placeholder='*******'
-        />
+        /> */}
+        <View style={{paddingBottom:50, paddingTop:40, alignItems:'center'}}>
 
-        <Button onPress={onSubmit} style={styles.button} title='Sign Up' />
+        <MenuInput placeholder='Your Full Name'/>
+        <MenuInput placeholder='Your Email'/>
+        <MenuInput placeholder='Your Phone Number'/>
+        <MenuInput placeholder='Password'/>
+        <MenuInput placeholder='Re-enter Password'/>
+        </View>
+
+        <Button onPress={onSubmit} style={styles.button} title='Next' />
       </ScrollView>
     </View>
   );
