@@ -33,7 +33,6 @@ export const SignUpScreen = ({ navigation }) => {
 
   return (
     <View style={localStyles.viewstyle}>
-      <ScrollView style={styles.container}>
         <View>
           <MenuBackButton navigation={navigation} />
           <Text style={styles.pageTitle}>SIGN UP</Text>
@@ -83,7 +82,7 @@ export const SignUpScreen = ({ navigation }) => {
           navigation={navigation}
           content={'next'}
           formVerify={formVerify}
-          destination={'Test Screen'}
+          destination={'Sign in'}
         />
         <Divider style={localStyles.dividerstyle} />
         <View style={localStyles.bottomsection}>
@@ -96,22 +95,27 @@ export const SignUpScreen = ({ navigation }) => {
             }}
           />
           <Text style={localStyles.accepttext}>
-            I Accept 24-7 Learning Buddy’s <Text style={localStyles.accepttextlinked} onPress={()=>{Alert.alert('hi')}}>Terms of Service</Text>, And <Text style={localStyles.accepttextlinked} onPress={()=>{Alert.alert('hi')}}>Privacy Policy</Text>.
+            I Accept 24-7 Learning Buddy’s{' '}
+            <Text
+              style={localStyles.accepttextlinked}
+              onPress={() => {
+                Alert.alert('hi');
+              }}
+            >
+              Terms of Service
+            </Text>
+            , And{' '}
+            <Text
+              style={localStyles.accepttextlinked}
+              onPress={() => {
+                Alert.alert('hi');
+              }}
+            >
+              Privacy Policy
+            </Text>
+            .
           </Text>
-          {/* <Checkbox.Item
-            label='I Accept 24-7 Learning Buddy’s Terms of Service, And Privacy Policy.'
-            labelStyle={localStyles.accepttext}
-            status={checked ? 'checked' : 'unchecked'}
-            color='#979797'
-            uncheckedColor='#979797'
-            position='leading'
-            onPress={() => {
-              setChecked(!checked);
-            }}
-            style={{ marginLeft: 10, paddingLeft: 0 }}
-          /> */}
         </View>
-      </ScrollView>
     </View>
   );
 };
@@ -120,7 +124,8 @@ const localStyles = StyleSheet.create({
   required: {
     fontSize: 10,
     color: '#00B0FC',
-    marginLeft: -145
+    marginLeft: -120,
+    letterSpacing: 1
   },
   viewstyle: {
     display: 'flex',
@@ -132,13 +137,10 @@ const localStyles = StyleSheet.create({
   },
   dividerstyle: {
     marginTop: 24,
-    // color: 'pink',
     width: 266,
     alignSelf: 'center'
   },
   bottomsection: {
-    // borderColor: 'black',
-    // backgroundColor: 'blue',
     height: 100,
     width: 300,
     display: 'flex',
@@ -155,7 +157,6 @@ const localStyles = StyleSheet.create({
     textAlign: 'left',
     lineHeight: 15,
     letterSpacing: 1
-    // backgroundColor:'red'
   },
   accepttextlinked: {
     fontFamily: 'SemiBold',
@@ -166,7 +167,6 @@ const localStyles = StyleSheet.create({
     textAlign: 'left',
     lineHeight: 15,
     letterSpacing: 1,
-    textDecorationLine:'underline'
-    // backgroundColor:'red'
+    textDecorationLine: 'underline'
   }
 });

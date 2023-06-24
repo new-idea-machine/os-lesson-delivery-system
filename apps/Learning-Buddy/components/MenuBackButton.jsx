@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from 'react-native'
+import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
 import React, {useContext} from 'react'
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
@@ -11,7 +11,7 @@ const MenuBackButton = ({navigation}) => {
     }
 
   return (
-    <View>
+    <View style={localStyles.viewStyle}>
       <Pressable style={{flexDirection:'row'}} onPress={goBack}>
             <Image
               style={styles.tinyLogo}
@@ -25,3 +25,14 @@ const MenuBackButton = ({navigation}) => {
 }
 
 export default MenuBackButton
+
+const localStyles = StyleSheet.create({
+  viewStyle: {
+    display: 'flex',
+    alignItems:'center',
+    width:'100%',
+    marginLeft:-90,
+    paddingTop:10,
+    backgroundColor:'red'
+  }
+})

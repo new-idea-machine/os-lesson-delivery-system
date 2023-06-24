@@ -16,12 +16,13 @@ const MenuInput = ({ placeholder, symbol, required, hidden, setter }) => {
         style={styles.inputContainer}
         mode='outlined'
         secureTextEntry={hidden == 'true'? true : false}
-        theme={{ colors: { onSurfaceVariant: '#979797' } }} 
+        theme={{ colors: { onSurfaceVariant: '#979797' }, fonts: { labelMedium: {fontFamily: 'Poppins'} } }} 
         left={
-          <TextInput.Icon icon={symbol} iconColor='#979797' color={'blue'} />
+          <TextInput.Icon icon={symbol} iconColor='#979797' />
         }
         outlineColor='transparent'
         activeOutlineColor='#00B0FC'
+        letterSpacing='5'
         onChangeText={text => setter(text)}
       />
     </>
@@ -36,9 +37,6 @@ const styles = StyleSheet.create({
     width: 266,
     fontFamily: 'Poppins',
     fontSize: 12,
-    backgroundColor: '#EFEFEF'
-  },
-  lockColor: {
-    color: 'blue'
+    backgroundColor: '#EFEFEF',
   }
 });

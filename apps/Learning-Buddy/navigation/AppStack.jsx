@@ -13,7 +13,7 @@ export const AppStack = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Sign up' screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName='Sign in' screenOptions={{headerShown: false}}>
         <Stack.Screen
           name='Question Form'
           component={QuestionForm}
