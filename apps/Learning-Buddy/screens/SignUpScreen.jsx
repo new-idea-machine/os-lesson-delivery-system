@@ -16,16 +16,18 @@ export const SignUpScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
 
   const formVerify = () => {
-    if (name && email && password && password2 && checked) {
+    if (name && email && password && password2) {
       if (password === password2) {
-        const returnVal = {
-          name,
-          email,
-          password,
-          ...(phone && { phone })
-        };
-        return returnVal;
-      } else Alert.alert('Passwords dont match');
+        if (checked) {
+          const returnVal = {
+            name,
+            email,
+            password,
+            ...(phone && { phone })
+          };
+          return returnVal;
+        } else Alert.alert('Please accept our Terms of Service');
+      } else Alert.alert(`Passwords don't match`);
     } else Alert.alert('Missing a required field');
   };
 
@@ -85,7 +87,18 @@ export const SignUpScreen = ({ navigation }) => {
         />
         <Divider style={localStyles.dividerstyle} />
         <View style={localStyles.bottomsection}>
-          <Checkbox.Item
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            color='#979797'
+            uncheckedColor='#979797'
+            onPress={() => {
+              setChecked(!checked);
+            }}
+          />
+          <Text style={localStyles.accepttext}>
+            I Accept 24-7 Learning Buddy’s <Text style={localStyles.accepttextlinked} onPress={()=>{Alert.alert('hi')}}>Terms of Service</Text>, And <Text style={localStyles.accepttextlinked} onPress={()=>{Alert.alert('hi')}}>Privacy Policy</Text>.
+          </Text>
+          {/* <Checkbox.Item
             label='I Accept 24-7 Learning Buddy’s Terms of Service, And Privacy Policy.'
             labelStyle={localStyles.accepttext}
             status={checked ? 'checked' : 'unchecked'}
@@ -96,7 +109,7 @@ export const SignUpScreen = ({ navigation }) => {
               setChecked(!checked);
             }}
             style={{ marginLeft: 10, paddingLeft: 0 }}
-          />
+          /> */}
         </View>
       </ScrollView>
     </View>
@@ -142,6 +155,18 @@ const localStyles = StyleSheet.create({
     textAlign: 'left',
     lineHeight: 15,
     letterSpacing: 1
+    // backgroundColor:'red'
+  },
+  accepttextlinked: {
+    fontFamily: 'SemiBold',
+    fontSize: 12,
+    color: '#00b0fc',
+    width: '85%',
+    paddingLeft: 10,
+    textAlign: 'left',
+    lineHeight: 15,
+    letterSpacing: 1,
+    textDecorationLine:'underline'
     // backgroundColor:'red'
   }
 });
