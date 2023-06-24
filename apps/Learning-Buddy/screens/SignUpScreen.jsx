@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, Alert } from 'react-native';
 import { Divider, Checkbox } from 'react-native-paper';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import BigButton from '../components/BigButton';
@@ -8,7 +8,26 @@ import MenuInput from '../components/MenuInput';
 
 export const SignUpScreen = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
+  const [password, setPassword] = useState();
+  const [password2, setPassword2] = useState();
   const styles = useContext(StyleSheetContext);
+
+  const formVerify = () => {
+    if (name && email && password && password2 && checked) {
+      if (password === password2) {
+        const returnVal = {
+          name,
+          email,
+          password,
+          ...(phone && { phone })
+        };
+        return returnVal;
+      } else Alert.alert('Passwords dont match');
+    } else Alert.alert('Missing a required field');
+  };
 
   return (
     <View style={localStyles.viewstyle}>
@@ -22,15 +41,48 @@ export const SignUpScreen = ({ navigation }) => {
           style={{ paddingBottom: 45, paddingTop: 25, alignItems: 'center' }}
         >
           <Text style={localStyles.required}>fields with a * are required</Text>
-          <MenuInput placeholder='Your Full Name' symbol='account-outline' required='true' hidden='false'/>
-          <MenuInput placeholder='Your Email' symbol='email-outline' required='true' hidden='false' />
-          <MenuInput placeholder='Your Phone Number' symbol='phone-outline' hidden='false' />
-          <MenuInput placeholder='Password' symbol='lock-outline' required='true'  hidden='true'/>
-          <MenuInput placeholder='Re-enter Password' symbol='lock-outline' required='true' hidden='true'/>
-        {/* <Text>{checked}</Text> */}
+          <MenuInput
+            placeholder='Your Full Name'
+            symbol='account-outline'
+            required='true'
+            hidden='false'
+            setter={setName}
+          />
+          <MenuInput
+            placeholder='Your Email'
+            symbol='email-outline'
+            required='true'
+            hidden='false'
+            setter={setEmail}
+          />
+          <MenuInput
+            placeholder='Your Phone Number'
+            symbol='phone-outline'
+            hidden='false'
+            setter={setPhone}
+          />
+          <MenuInput
+            placeholder='Password'
+            symbol='lock-outline'
+            required='true'
+            hidden='true'
+            setter={setPassword}
+          />
+          <MenuInput
+            placeholder='Re-enter Password'
+            symbol='lock-outline'
+            required='true'
+            hidden='true'
+            setter={setPassword2}
+          />
         </View>
 
-        <BigButton navigation={navigation} content={'next'} />
+        <BigButton
+          navigation={navigation}
+          content={'next'}
+          formVerify={formVerify}
+          destination={'Test Screen'}
+        />
         <Divider style={localStyles.dividerstyle} />
         <View style={localStyles.bottomsection}>
           <Checkbox.Item
@@ -43,9 +95,8 @@ export const SignUpScreen = ({ navigation }) => {
             onPress={() => {
               setChecked(!checked);
             }}
-            style={{marginLeft:10, paddingLeft:0}}
+            style={{ marginLeft: 10, paddingLeft: 0 }}
           />
-          
         </View>
       </ScrollView>
     </View>
@@ -61,10 +112,10 @@ const localStyles = StyleSheet.create({
   viewstyle: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor:'#ffffff',
+    backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingHorizontal: 10,
-    height:'100%'
+    height: '100%'
   },
   dividerstyle: {
     marginTop: 24,
@@ -76,7 +127,7 @@ const localStyles = StyleSheet.create({
     // borderColor: 'black',
     // backgroundColor: 'blue',
     height: 100,
-    width:300,
+    width: 300,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -85,12 +136,12 @@ const localStyles = StyleSheet.create({
   accepttext: {
     fontFamily: 'Poppins',
     fontSize: 12,
-    color:'#979797',
+    color: '#979797',
     width: '85%',
     paddingLeft: 10,
-    textAlign:'left',
-    lineHeight:15,
-    letterSpacing:1,
+    textAlign: 'left',
+    lineHeight: 15,
+    letterSpacing: 1
     // backgroundColor:'red'
   }
 });

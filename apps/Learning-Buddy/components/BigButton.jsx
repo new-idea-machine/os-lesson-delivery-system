@@ -2,10 +2,11 @@ import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import React from 'react';
 
-const BigButton = ({navigation, content}) => {
+const BigButton = ({navigation, content, formVerify, destination}) => {
 
     const navigating = () => {
-        navigation.navigate('Test Screen')
+      const result = formVerify()
+      if (result) navigation.navigate(destination)
     }
 
   return (
