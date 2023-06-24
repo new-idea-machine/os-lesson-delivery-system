@@ -15,13 +15,15 @@ export default function StyleSheetProvider({children}) {
 const styles = StyleSheet.create({
     pageTitle: {
         fontSize: 24,
-        fontFamily:'Poppins',
+        fontFamily:'Bold',
         alignSelf:"center",
-        marginTop:30
+        marginTop:35,
+        letterSpacing:2
     },
     menuBackButton: {
     //    paddingTop:10,
        fontSize:15,
+       fontFamily:'Poppins'
     //    paddingLeft:5
     },
     tinyLogo: {

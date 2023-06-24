@@ -7,7 +7,10 @@ import { View, ActivityIndicator } from 'react-native';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Poppins: require('./assets/fonts/Poppins-Regular.ttf')
+    Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+    SemiBold: require('./assets/fonts/Poppins-SemiBold.ttf'),
+    Medium: require('./assets/fonts/Poppins-Medium.ttf'),
+    Bold: require('./assets/fonts/Poppins-Bold.ttf')
   });
   if (!fontsLoaded) {
     return (

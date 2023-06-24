@@ -1,90 +1,96 @@
-import React, { useState, useContext } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Pressable,
-  Text,
-  Image
-} from 'react-native';
-// import { Text } from 'react-native-paper';
+import React, { useContext, useState } from 'react';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { Divider, Checkbox } from 'react-native-paper';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
-import Button from '../components/Button';
-import Input from '../components/Input';
+import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 
 export const SignUpScreen = ({ navigation }) => {
-  const [values, setValues] = useState({});
+  const [checked, setChecked] = useState(false);
   const styles = useContext(StyleSheetContext);
 
-  const onChange = (key, value) => {
-    setValues((v) => ({ ...v, [key]: value }));
-  };
-
-  const onSubmit = async () => {
-    console.log('Sign Up');
-  };
-
   return (
-    <View style={{ paddingTop: 50, paddingHorizontal: 10 }}>
+    <View style={localStyles.viewstyle}>
       <ScrollView style={styles.container}>
         <View>
           <MenuBackButton navigation={navigation} />
-          <Text style={styles.pageTitle}>Sign Up</Text>
-        </View>
-        {/* <Input
-          value={values.fullName}
-          onChangeText={(v) => onChange('fullName', v)}
-          label='Name'
-          placeholder='Enter your full name'
-        />
-        <Input
-          value={values.username}
-          onChangeText={(v) => onChange('username', v)}
-          label='Username'
-          placeholder='Enter your username'
-        />
-        <Input
-          value={values.email}
-          onChangeText={(v) => onChange('email', v)}
-          label='E-mail'
-          placeholder='Enter your email'
-        />
-        <Input
-          value={values.password}
-          onChangeText={(v) => onChange('password', v)}
-          isPassword
-          label='Password'
-          placeholder='*******'
-        />
-        <Input
-          value={values.confirmPassword}
-          onChangeText={(v) => onChange('confirmPassword', v)}
-          isPassword
-          label='Confirm Password'
-          placeholder='*******'
-        /> */}
-        <View style={{paddingBottom:50, paddingTop:40, alignItems:'center'}}>
-
-        <MenuInput placeholder='Your Full Name'/>
-        <MenuInput placeholder='Your Email'/>
-        <MenuInput placeholder='Your Phone Number'/>
-        <MenuInput placeholder='Password'/>
-        <MenuInput placeholder='Re-enter Password'/>
+          <Text style={styles.pageTitle}>SIGN UP</Text>
         </View>
 
-        <Button onPress={onSubmit} style={styles.button} title='Next' />
+        <View
+          style={{ paddingBottom: 45, paddingTop: 25, alignItems: 'center' }}
+        >
+          <Text style={localStyles.required}>fields with a * are required</Text>
+          <MenuInput placeholder='Your Full Name' symbol='account-outline' required='true' hidden='false'/>
+          <MenuInput placeholder='Your Email' symbol='email-outline' required='true' hidden='false' />
+          <MenuInput placeholder='Your Phone Number' symbol='phone-outline' hidden='false' />
+          <MenuInput placeholder='Password' symbol='lock-outline' required='true'  hidden='true'/>
+          <MenuInput placeholder='Re-enter Password' symbol='lock-outline' required='true' hidden='true'/>
+        {/* <Text>{checked}</Text> */}
+        </View>
+
+        <BigButton navigation={navigation} content={'next'} />
+        <Divider style={localStyles.dividerstyle} />
+        <View style={localStyles.bottomsection}>
+          <Checkbox.Item
+            label='I Accept 24-7 Learning Buddy’s Terms of Service, And Privacy Policy.'
+            labelStyle={localStyles.accepttext}
+            status={checked ? 'checked' : 'unchecked'}
+            color='#979797'
+            uncheckedColor='#979797'
+            position='leading'
+            onPress={() => {
+              setChecked(!checked);
+            }}
+            style={{marginLeft:10, paddingLeft:0}}
+          />
+          
+        </View>
       </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 24
+const localStyles = StyleSheet.create({
+  required: {
+    fontSize: 10,
+    color: '#00B0FC',
+    marginLeft: -145
   },
-  button: {
-    marginVertical: 20
+  viewstyle: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor:'#ffffff',
+    paddingTop: 50,
+    paddingHorizontal: 10,
+    height:'100%'
+  },
+  dividerstyle: {
+    marginTop: 24,
+    // color: 'pink',
+    width: 266,
+    alignSelf: 'center'
+  },
+  bottomsection: {
+    // borderColor: 'black',
+    // backgroundColor: 'blue',
+    height: 100,
+    width:300,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  accepttext: {
+    fontFamily: 'Poppins',
+    fontSize: 12,
+    color:'#979797',
+    width: '85%',
+    paddingLeft: 10,
+    textAlign:'left',
+    lineHeight:15,
+    letterSpacing:1,
+    // backgroundColor:'red'
   }
 });
