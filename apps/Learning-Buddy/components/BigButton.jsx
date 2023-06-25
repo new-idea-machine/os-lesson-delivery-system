@@ -4,21 +4,24 @@ import React from 'react';
 
 const BigButton = ({navigation, content, formVerify, destination}) => {
 
-    const navigating = () => {
+    const navigatingVerify = () => {
       const result = formVerify()
       if (result) navigation.navigate(destination)
+    }
+    const navigating = () => {
+      navigation.navigate(destination)
     }
 
   return (
     <View style={{alignItems:'center'}}>
       <Button
-        mode='contained'
+        mode='elevated'
         buttonColor='#3CC982'
         textColor='#262626'
         labelStyle={styles.fontStyle}
         style={styles.button}
         uppercase='true'
-        onPress={navigating}
+        onPress={formVerify? navigatingVerify: navigating}
       >
         {content}
       </Button>
@@ -32,11 +35,12 @@ const styles = StyleSheet.create({
   fontStyle: {
     fontFamily: 'SemiBold',
     fontSize:15,
+    letterSpacing:1
   },
   button: {
     width:265,
-    height:55,
+    height:50,
     display:'flex',
-    justifyContent:'center'
+    justifyContent:'center',
   }
 });
