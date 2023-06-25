@@ -21,14 +21,15 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 8,
-    color: colors.blue,
+    color: colors.black,
     fontSize: 14,
     fontWeight: '500'
   },
   inputContainer: {
-    borderWidth: 1,
-    borderColor: colors.grey,
-    borderRadius: 14,
+    // borderWidth: 1,
+    // borderColor: colors.grey,
+    borderRadius: 26,
+    backgroundColor: colors.lightGrey,
     flexDirection: 'row',
     alignItems: 'center'
   },
