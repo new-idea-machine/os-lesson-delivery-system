@@ -7,16 +7,16 @@ export const HomeScreen = ({ navigation }) => {
     <View style={localStyles.viewStyle}>
       <Image
         style={localStyles.logoStyle}
-        source={require('../assets/logo_draft-2.png')}
+        source={require('../assets/logo_placeholder-1.png')}
       />
-      <View style={{ marginTop: 135 }}>
+      <View style={{ marginTop: 105 }}>
         <BigButton
           navigation={navigation}
           content={'log in'}
           destination={'Log in'}
         />
       </View>
-      <View style={{ marginTop: 15 }}>
+      <View style={{ marginTop: 20 }}>
         <BigButton
           navigation={navigation}
           content={'sign up'}
@@ -29,10 +29,8 @@ export const HomeScreen = ({ navigation }) => {
 
 const localStyles = StyleSheet.create({
   logoStyle: {
-    width: 159,
-    height: 118,
     alignSelf: 'center',
-    marginTop: 120
+    marginTop: 90
   },
   viewStyle: {
     display: 'flex',

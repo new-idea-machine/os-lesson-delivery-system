@@ -33,11 +33,11 @@ export const LoginScreen = ({ navigation }) => {
           <MenuBackButton navigation={navigation}/>
           <Image
             style={localStyles.logoStyle}
-            source={require('../assets/logo_draft-2.png')}
+            source={require('../assets/logo_placeholder-1.png')}
           ></Image>
           <Text style={styles.pageTitle}>LOG IN</Text>
         </View>
-        <View style={{ paddingVertical: 30, alignItems: 'center' }}>
+        <View style={{ paddingTop: 10, paddingBottom: 30, alignItems: 'center' }}>
           <MenuInput
             placeholder='Email'
             symbol='account-outline'
@@ -72,11 +72,9 @@ export const LoginScreen = ({ navigation }) => {
 
 const localStyles = StyleSheet.create({
   logoStyle: {
-    width: 159,
-    height: 118,
     alignSelf: 'center',
-    marginTop: 100,
-    marginBottom: -20
+    marginTop: 80,
+    marginBottom: -80
   },
   viewStyle: {
     display: 'flex',
@@ -86,10 +84,10 @@ const localStyles = StyleSheet.create({
     height: '100%'
   },
   required: {
-    fontSize: 10,
-    fontFamily: 'Medium',
+    fontSize: 12,
+    fontFamily: 'Poppins',
     color: '#00B0FC',
-    marginBottom: 30,
+    marginBottom: 35,
     letterSpacing: 1,
     textTransform:'capitalize'
   }
