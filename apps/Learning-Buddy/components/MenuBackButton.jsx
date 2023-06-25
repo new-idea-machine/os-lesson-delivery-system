@@ -13,6 +13,7 @@ const MenuBackButton = ({navigation}) => {
 
   return (
     <View style={localStyles.viewStyle}>
+    {/* TODO: Note that Pressable's android_ripple is unique to android; unsure if ripple will happen on iOS devices.*/}
       <Pressable style={{flexDirection:'row'}} onPress={goBack} android_ripple={{color: '#3CC982', borderless:true, radius:100}}>
             <Image
               style={styles.tinyLogo}
