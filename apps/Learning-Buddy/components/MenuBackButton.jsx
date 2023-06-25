@@ -1,4 +1,5 @@
 import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
+import { CommonActions } from '@react-navigation/native';
 import React, {useContext} from 'react'
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
@@ -7,7 +8,7 @@ const MenuBackButton = ({navigation}) => {
     const styles = useContext(StyleSheetContext);
 
     const goBack = () => {
-        navigation.navigate('Test Screen')
+        navigation.dispatch(CommonActions.goBack())
     }
 
   return (
@@ -29,10 +30,8 @@ export default MenuBackButton
 const localStyles = StyleSheet.create({
   viewStyle: {
     display: 'flex',
-    alignItems:'center',
-    width:'100%',
-    marginLeft:-90,
-    paddingTop:10,
-    backgroundColor:'red'
+    alignItems:'flex-start',
+    position:'absolute',
+    paddingLeft:10
   }
 })
