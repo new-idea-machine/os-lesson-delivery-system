@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { Divider, Checkbox } from 'react-native-paper';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import BigButton from '../components/BigButton';
@@ -32,7 +32,7 @@ export const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={localStyles.viewstyle}>
+    <View style={localStyles.viewStyle}>
         <View>
           <MenuBackButton navigation={navigation} />
           <Text style={styles.pageTitle}>SIGN UP</Text>
@@ -82,10 +82,10 @@ export const SignUpScreen = ({ navigation }) => {
           navigation={navigation}
           content={'next'}
           formVerify={formVerify}
-          destination={'Sign in'}
+          destination={'Log in'}
         />
-        <Divider style={localStyles.dividerstyle} />
-        <View style={localStyles.bottomsection}>
+        <Divider style={localStyles.dividerStyle} />
+        <View style={localStyles.bottomSection}>
           <Checkbox
             status={checked ? 'checked' : 'unchecked'}
             color='#979797'
@@ -94,21 +94,21 @@ export const SignUpScreen = ({ navigation }) => {
               setChecked(!checked);
             }}
           />
-          <Text style={localStyles.accepttext}>
+          <Text style={localStyles.acceptText}>
             I Accept 24-7 Learning Buddy’s{' '}
             <Text
-              style={localStyles.accepttextlinked}
+              style={localStyles.acceptTextLinked}
               onPress={() => {
-                Alert.alert('hi');
+                Alert.alert('Terms of Service');
               }}
             >
               Terms of Service
             </Text>
             , And{' '}
             <Text
-              style={localStyles.accepttextlinked}
+              style={localStyles.acceptTextLinked}
               onPress={() => {
-                Alert.alert('hi');
+                Alert.alert('Privacy Policy');
               }}
             >
               Privacy Policy
@@ -127,28 +127,29 @@ const localStyles = StyleSheet.create({
     marginLeft: -120,
     letterSpacing: 1
   },
-  viewstyle: {
+  viewStyle: {
     display: 'flex',
-    alignItems: 'center',
     backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
   },
-  dividerstyle: {
-    marginTop: 24,
+  dividerStyle: {
+    marginTop:22,
+    paddingTop: 1,
     width: 266,
     alignSelf: 'center'
   },
-  bottomsection: {
+  bottomSection: {
     height: 100,
     width: 300,
+    alignSelf:'center',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  accepttext: {
+  acceptText: {
     fontFamily: 'Poppins',
     fontSize: 12,
     color: '#979797',
@@ -158,7 +159,7 @@ const localStyles = StyleSheet.create({
     lineHeight: 15,
     letterSpacing: 1
   },
-  accepttextlinked: {
+  acceptTextLinked: {
     fontFamily: 'SemiBold',
     fontSize: 12,
     color: '#00b0fc',
