@@ -11,22 +11,16 @@ export const QuestionForm = () => {
 
   useEffect(() => {
     const charLen = text.length;
-    //   console.log('Charlen is', charLen)
     const suggestLines = Math.ceil(charLen / 50);
-    //   console.log('Lines are', suggestLines);
     suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
   }, [text]);
 
   const getQuestions = async () => {
     const testItem = { id: 1, question: text };
-    // console.log(text);
     console.log(testItem);
     const thing = JSON.stringify(testItem);
-    console.log('THING IS', thing);
     try {
-      // console.log(text)
       const response = await fetch(`http://${ip}:8000/questions/`, {
-        // method: 'GET',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // mode: 'no-cors',
@@ -47,7 +41,7 @@ export const QuestionForm = () => {
     <View>
       <Text style={{ paddingTop: 20 }}>Enter text below{'\n'}</Text>
       <TextInput
-        style={styles.input}
+        style={localStyles.input}
         placeholder="Test"
         onChangeText={(text) => onChangeText(text)}
         value={text}
@@ -62,12 +56,10 @@ export const QuestionForm = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   input: {
-    // height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    // width: 100,
   },
 });
