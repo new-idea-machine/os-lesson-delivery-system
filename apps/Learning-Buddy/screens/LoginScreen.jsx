@@ -1,16 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
   Alert,
+  Image,
   Pressable,
-  Image
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
-import BigButton from '../components/BigButton';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const LoginScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
@@ -33,7 +33,7 @@ export const LoginScreen = ({ navigation }) => {
           <MenuBackButton navigation={navigation}/>
           <Image
             style={localStyles.logoStyle}
-            source={require('../assets/Logo.png')}
+            source={require('../assets/logo_draft-2.png')}
           ></Image>
           <Text style={styles.pageTitle}>LOG IN</Text>
         </View>
@@ -49,6 +49,7 @@ export const LoginScreen = ({ navigation }) => {
             symbol='lock-outline'
             hidden='true'
             setter={setPassword}
+            right
           />
         </View>
         <Pressable style={{display:'flex', alignSelf:'flex-start', marginLeft:53}}

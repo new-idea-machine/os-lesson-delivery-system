@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
 import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import BigButton from '../components/BigButton';
 
 export const HomeScreen = ({ navigation }) => {
@@ -7,7 +7,7 @@ export const HomeScreen = ({ navigation }) => {
     <View style={localStyles.viewStyle}>
       <Image
         style={localStyles.logoStyle}
-        source={require('../assets/Logo.png')}
+        source={require('../assets/logo_draft-2.png')}
       />
       <View style={{ marginTop: 135 }}>
         <BigButton
