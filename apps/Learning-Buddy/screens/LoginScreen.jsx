@@ -12,15 +12,10 @@ import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import BigButton from '../components/BigButton';
 
-import Button from '../components/Button';
-import Input from '../components/Input';
-
-export const SignInScreen = ({ navigation }) => {
+export const LoginScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
-  const [values, setValues] = useState({});
 
   const formVerify = () => {
     if (email && password) {
@@ -33,9 +28,9 @@ export const SignInScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={localStyles.viewstyle}>
+    <View style={localStyles.viewStyle}>
         <View>
-          <MenuBackButton navigation={navigation} />
+          <MenuBackButton navigation={navigation}/>
           <Image
             style={localStyles.logoStyle}
             source={require('../assets/Logo.png')}
@@ -56,7 +51,7 @@ export const SignInScreen = ({ navigation }) => {
             setter={setPassword}
           />
         </View>
-        <Pressable style={{display:'flex', alignSelf:'flex-start', marginLeft:50}}
+        <Pressable style={{display:'flex', alignSelf:'flex-start', marginLeft:53}}
           onPress={() => {
             Alert.alert('Forgot Password');
           }}
@@ -81,9 +76,8 @@ const localStyles = StyleSheet.create({
     marginTop: 100,
     marginBottom: -20
   },
-  viewstyle: {
+  viewStyle: {
     display: 'flex',
-    alignItems: 'center',
     backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingHorizontal: 10,
@@ -92,16 +86,9 @@ const localStyles = StyleSheet.create({
   required: {
     fontSize: 10,
     fontFamily: 'Medium',
-    color: '#0085ff',
+    color: '#00B0FC',
     marginBottom: 30,
     letterSpacing: 1,
     textTransform:'capitalize'
-  },
-  // old
-  container: {
-    padding: 24
-  },
-  button: {
-    marginVertical: 20
   }
 });
