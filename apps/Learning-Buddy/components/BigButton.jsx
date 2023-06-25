@@ -1,6 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import React from 'react';
+import { colors } from '../config/colors';
 
 const BigButton = ({ navigation, content, formVerify, destination }) => {
   const navigatingVerify = () => {
@@ -15,8 +16,8 @@ const BigButton = ({ navigation, content, formVerify, destination }) => {
     <View style={{ alignItems: 'center' }}>
       <Button
         mode='elevated'
-        buttonColor='#3CC982'
-        textColor='#262626'
+        buttonColor={colors.green}
+        textColor={colors.black}
         labelStyle={styles.fontStyle}
         style={styles.button}
         uppercase='true'

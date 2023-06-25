@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
+import { colors } from '../config/colors';
 
 export const TestScreen = () => {
     const ip = Constants.manifest.extra.IP;
@@ -41,7 +42,7 @@ export const TestScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },

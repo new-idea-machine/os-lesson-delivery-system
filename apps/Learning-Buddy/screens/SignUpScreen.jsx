@@ -5,6 +5,7 @@ import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import { colors } from '../config/colors';
 
 export const SignUpScreen = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -90,8 +91,8 @@ export const SignUpScreen = ({ navigation }) => {
         <View style={localStyles.bottomSection}>
           <Checkbox
             status={checked ? 'checked' : 'unchecked'}
-            color='#979797'
-            uncheckedColor='#979797'
+            color={colors.grey}
+            uncheckedColor={colors.grey}
             onPress={() => {
               setChecked(!checked);
             }}
@@ -125,13 +126,13 @@ export const SignUpScreen = ({ navigation }) => {
 const localStyles = StyleSheet.create({
   required: {
     fontSize: 10,
-    color: '#00B0FC',
+    color: colors.lightBlue,
     marginLeft: -120,
     letterSpacing: 1
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
@@ -154,7 +155,7 @@ const localStyles = StyleSheet.create({
   acceptText: {
     fontFamily: 'Poppins',
     fontSize: 12,
-    color: '#979797',
+    color: colors.gray,
     width: '85%',
     paddingLeft: 10,
     textAlign: 'left',
@@ -164,7 +165,7 @@ const localStyles = StyleSheet.create({
   acceptTextLinked: {
     fontFamily: 'SemiBold',
     fontSize: 12,
-    color: '#00b0fc',
+    color: colors.lightBlue,
     width: '85%',
     paddingLeft: 10,
     textAlign: 'left',

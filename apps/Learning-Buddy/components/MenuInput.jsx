@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { colors } from '../config/colors';
 
 const MenuInput = ({
   placeholder,
@@ -31,7 +32,7 @@ const MenuInput = ({
             ? 'eye-outline'
             : false
         }
-        iconColor='#979797'
+        iconColor={colors.gray}
         onPress={() => {
           right ? setIsItHidden(!isItHidden) : null;
         }}
@@ -46,20 +47,20 @@ const MenuInput = ({
         label={
           <Text>
             {placeholder}
-            {required ? <Text style={{ color: 'red' }}> *</Text> : null}
+            {required ? <Text style={{ color: colors.red }}> *</Text> : null}
           </Text>
         }
         style={styles.inputContainer}
         mode='outlined'
         secureTextEntry={isItHidden}
         theme={{
-          colors: { onSurfaceVariant: '#979797' },
+          colors: { onSurfaceVariant: colors.gray },
           fonts: { labelMedium: { fontFamily: 'Poppins' } }
         }}
-        left={<TextInput.Icon icon={symbol} iconColor='#979797' />}
+        left={<TextInput.Icon icon={symbol} iconColor={colors.gray} />}
         right={showRightIcon}
         outlineColor='transparent'
-        activeOutlineColor='#00B0FC'
+        activeOutlineColor={colors.blue}
         letterSpacing='5'
         onChangeText={(text) => setter(text)}
       />
@@ -75,6 +76,6 @@ const styles = StyleSheet.create({
     width: 266,
     fontFamily: 'Poppins',
     fontSize: 12,
-    backgroundColor: '#EFEFEF'
+    backgroundColor: colors.lightGray
   }
 });

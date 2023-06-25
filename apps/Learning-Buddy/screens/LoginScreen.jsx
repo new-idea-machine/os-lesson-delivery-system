@@ -11,6 +11,7 @@ import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import { colors } from '../config/colors';
 
 export const LoginScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
@@ -78,7 +79,7 @@ const localStyles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
@@ -86,7 +87,7 @@ const localStyles = StyleSheet.create({
   forgotPassword: {
     fontSize: 12,
     fontFamily: 'Poppins',
-    color: '#00B0FC',
+    color: colors.lightBlue,
     marginBottom: 30,
     letterSpacing: 1,
     textTransform:'capitalize'

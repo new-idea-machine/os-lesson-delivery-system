@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import BigButton from '../components/BigButton';
+import { colors } from '../config/colors';
 
 export const HomeScreen = ({ navigation }) => {
   return (
@@ -34,7 +35,7 @@ const localStyles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
