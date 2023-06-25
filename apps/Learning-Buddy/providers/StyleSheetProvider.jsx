@@ -16,21 +16,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Bold',
     alignSelf: 'center',
-    marginTop: 35,
+    marginTop: 60,
     letterSpacing: 2
   },
   menuBackButton: {
     fontSize: 15,
     fontFamily: 'Poppins',
+    alignSelf:'center'
   },
   tinyLogo: {
     width: 24,
     height: 24,
-    alignSelf: 'center'
   },
   inputLabel: {
-    // marginBottom: 8,
-    // color: colors.blue,
     fontSize: 14,
     fontWeight: '500'
   }
