@@ -39,7 +39,7 @@ export const SignUpScreen = ({ navigation }) => {
         </View>
 
         <View
-          style={{ paddingBottom: 45, paddingTop: 25, alignItems: 'center' }}
+          style={{ paddingBottom: 40, paddingTop: 25, alignItems: 'center' }}
         >
           <Text style={localStyles.required}>fields with a * are required</Text>
           <MenuInput

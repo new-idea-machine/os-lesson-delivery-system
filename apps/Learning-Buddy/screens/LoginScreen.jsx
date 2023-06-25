@@ -57,7 +57,7 @@ export const LoginScreen = ({ navigation }) => {
             Alert.alert('Forgot Password');
           }}
         >
-          <Text style={localStyles.required}>I Forget My Password</Text>
+          <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
         </Pressable>
         {/* This button will need to pass values to auth process in future iterations */}
         <BigButton
@@ -83,11 +83,11 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 10,
     height: '100%'
   },
-  required: {
+  forgotPassword: {
     fontSize: 12,
     fontFamily: 'Poppins',
     color: '#00B0FC',
-    marginBottom: 35,
+    marginBottom: 30,
     letterSpacing: 1,
     textTransform:'capitalize'
   }

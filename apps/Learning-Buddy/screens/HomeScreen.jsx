@@ -9,14 +9,14 @@ export const HomeScreen = ({ navigation }) => {
         style={localStyles.logoStyle}
         source={require('../assets/logo_placeholder-1.png')}
       />
-      <View style={{ marginTop: 105 }}>
+      <View style={{ marginTop: 95 }}>
         <BigButton
           navigation={navigation}
           content={'log in'}
           destination={'Log in'}
         />
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 15 }}>
         <BigButton
           navigation={navigation}
           content={'sign up'}
