@@ -77,7 +77,7 @@ export const SignUpScreen = ({ navigation }) => {
             setter={setPassword2}
           />
         </View>
-
+{/* This button will need to pass values to auth process in future iterations */}
         <BigButton
           navigation={navigation}
           content={'next'}

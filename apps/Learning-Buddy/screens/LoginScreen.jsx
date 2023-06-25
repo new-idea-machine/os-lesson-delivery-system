@@ -58,6 +58,7 @@ export const LoginScreen = ({ navigation }) => {
         >
           <Text style={localStyles.required}>I Forget My Password</Text>
         </Pressable>
+        {/* This button will need to pass values to auth process in future iterations */}
         <BigButton
           navigation={navigation}
           content={'next'}
