@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View, Text, Alert } from 'react-native';
-import { Divider, Checkbox } from 'react-native-paper';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Checkbox, Divider } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const SignUpScreen = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -68,6 +68,7 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='true'
             setter={setPassword}
+            right
           />
           <MenuInput
             placeholder='Re-enter Password'
@@ -75,6 +76,7 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='true'
             setter={setPassword2}
+            right
           />
         </View>
 {/* This button will need to pass values to auth process in future iterations */}

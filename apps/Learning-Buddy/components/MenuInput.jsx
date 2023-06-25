@@ -1,29 +1,67 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import React from 'react';
 
-const MenuInput = ({ placeholder, symbol, required, hidden, setter }) => {
-  
+const MenuInput = ({
+  placeholder,
+  symbol,
+  required,
+  hidden,
+  setter,
+  right
+}) => {
+  const [isItHidden, setIsItHidden] = useState();
+
+  useEffect(() => {
+    if (hidden === 'true') {
+      setIsItHidden(true);
+    } else {
+      setIsItHidden(false);
+    }
+  }, []);
+
+  let showRightIcon;
+  if (right) {
+    showRightIcon = (
+      <TextInput.Icon
+        icon={
+          right && isItHidden
+            ? 'eye-off-outline'
+            : right && !isItHidden
+            ? 'eye-outline'
+            : false
+        }
+        iconColor='#979797'
+        onPress={() => {
+          right ? setIsItHidden(!isItHidden) : null;
+        }}
+      />
+    );
+  } else {
+  }
+
   return (
     <>
       <TextInput
         label={
           <Text>
             {placeholder}
-            {required? <Text style={{ color: 'red' }}> *</Text> : null}
+            {required ? <Text style={{ color: 'red' }}> *</Text> : null}
           </Text>
         }
         style={styles.inputContainer}
         mode='outlined'
-        secureTextEntry={hidden == 'true'? true : false}
-        theme={{ colors: { onSurfaceVariant: '#979797' }, fonts: { labelMedium: {fontFamily: 'Poppins'} } }} 
-        left={
-          <TextInput.Icon icon={symbol} iconColor='#979797' />
-        }
+        secureTextEntry={isItHidden}
+        theme={{
+          colors: { onSurfaceVariant: '#979797' },
+          fonts: { labelMedium: { fontFamily: 'Poppins' } }
+        }}
+        left={<TextInput.Icon icon={symbol} iconColor='#979797' />}
+        right={showRightIcon}
         outlineColor='transparent'
         activeOutlineColor='#00B0FC'
         letterSpacing='5'
-        onChangeText={text => setter(text)}
+        onChangeText={(text) => setter(text)}
       />
     </>
   );
@@ -37,6 +75,6 @@ const styles = StyleSheet.create({
     width: 266,
     fontFamily: 'Poppins',
     fontSize: 12,
-    backgroundColor: '#EFEFEF',
+    backgroundColor: '#EFEFEF'
   }
 });
