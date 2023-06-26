@@ -50,7 +50,7 @@ const MenuInput = ({
             {required ? <Text style={{ color: colors.red }}> *</Text> : null}
           </Text>
         }
-        style={styles.inputContainer}
+        style={localStyles.inputContainer}
         mode='outlined'
         secureTextEntry={isItHidden}
         theme={{
@@ -60,7 +60,7 @@ const MenuInput = ({
         left={<TextInput.Icon icon={symbol} iconColor={colors.gray} />}
         right={showRightIcon}
         outlineColor='transparent'
-        activeOutlineColor={colors.blue}
+        activeOutlineColor={colors.lightBlue}
         letterSpacing='5'
         onChangeText={(text) => setter(text)}
       />
@@ -70,7 +70,7 @@ const MenuInput = ({
 
 export default MenuInput;
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   inputContainer: {
     marginTop: 10,
     width: 266,
