@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import React from 'react';
 import { colors } from '../config/colors';
 
-const BigButton = ({ navigation, content, formVerify, destination }) => {
+const NavigationBigButton = ({ navigation, content, formVerify, destination }) => {
   const navigatingVerify = () => {
     const result = formVerify();
     if (result) navigation.navigate(destination);
@@ -29,7 +29,7 @@ const BigButton = ({ navigation, content, formVerify, destination }) => {
   );
 };
 
-export default BigButton;
+export default NavigationBigButton;
 
 const styles = StyleSheet.create({
   fontStyle: {
