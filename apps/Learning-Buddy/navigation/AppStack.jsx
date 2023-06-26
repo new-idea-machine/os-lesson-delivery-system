@@ -5,7 +5,8 @@ import { QuestionForm } from '../screens/QuestionForm';
 import { LoginScreen } from '../screens/LoginScreen';
 import { SignUpScreen } from '../screens/SignUpScreen';
 import { TestScreen } from '../screens/TestScreen';
-import {HomeScreen} from '../screens/HomeScreen'
+import {HomeScreen} from '../screens/HomeScreen';
+import { colors } from '../config/colors';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,7 @@ export const AppStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Home Screen'
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, cardStyle: {backgroundColor: colors.white }}}
       >
         <Stack.Screen
           name='Question Form'

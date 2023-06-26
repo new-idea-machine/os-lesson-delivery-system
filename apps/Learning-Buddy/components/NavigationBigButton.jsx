@@ -18,8 +18,8 @@ const NavigationBigButton = ({ navigation, content, formVerify, destination }) =
         mode='elevated'
         buttonColor={colors.green}
         textColor={colors.black}
-        labelStyle={styles.fontStyle}
-        style={styles.button}
+        labelStyle={localStyles.fontStyle}
+        style={localStyles.button}
         uppercase='true'
         onPress={formVerify ? navigatingVerify : navigating}
       >
@@ -31,7 +31,7 @@ const NavigationBigButton = ({ navigation, content, formVerify, destination }) =
 
 export default NavigationBigButton;
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   fontStyle: {
     fontFamily: 'SemiBold',
     fontSize: 15,

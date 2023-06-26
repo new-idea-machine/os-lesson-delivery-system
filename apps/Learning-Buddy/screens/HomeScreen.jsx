@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import BigButton from '../components/BigButton';
-import { colors } from '../config/colors';
+import NavigationBigButton from '../components/NavigationBigButton';
 
 export const HomeScreen = ({ navigation }) => {
   return (
@@ -11,14 +10,14 @@ export const HomeScreen = ({ navigation }) => {
         source={require('../assets/logo_placeholder-1.png')}
       />
       <View style={{ marginTop: 95 }}>
-        <BigButton
+        <NavigationBigButton
           navigation={navigation}
           content={'log in'}
           destination={'Log in'}
         />
       </View>
       <View style={{ marginTop: 15 }}>
-        <BigButton
+        <NavigationBigButton
           navigation={navigation}
           content={'sign up'}
           destination={'Sign up'}
@@ -35,7 +34,6 @@ const localStyles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'

@@ -32,17 +32,16 @@ export const TestScreen = () => {
     }, []);
   
     return (
-      <View style={styles.container}>
+      <View style={localStyles.container}>
         {isLoading ? <Text>Still Loading...</Text> : <Text>{message}{"\n"}</Text>}
         {!isLoading? <Button title="Get your questions!" onPress={() => navigation.navigate('Question Form')}></Button>: null}
       </View>
     );
 }
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },

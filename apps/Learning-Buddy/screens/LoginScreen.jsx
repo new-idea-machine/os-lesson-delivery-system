@@ -7,7 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
-import BigButton from '../components/BigButton';
+import NavigationBigButton from '../components/NavigationBigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
@@ -61,7 +61,7 @@ export const LoginScreen = ({ navigation }) => {
           <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
         </Pressable>
         {/* This button will need to pass values to auth process in future iterations */}
-        <BigButton
+        <NavigationBigButton
           navigation={navigation}
           content={'next'}
           formVerify={formVerify}
@@ -79,7 +79,6 @@ const localStyles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
