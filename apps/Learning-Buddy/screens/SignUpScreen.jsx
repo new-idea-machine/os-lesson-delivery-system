@@ -1,7 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import { Checkbox, Divider } from 'react-native-paper';
-import BigButton from '../components/BigButton';
+import NavigationBigButton from '../components/NavigationBigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
@@ -33,12 +40,12 @@ export const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={localStyles.viewStyle}>
+    <KeyboardAwareScrollView>
+      <View style={localStyles.viewStyle}>
         <View>
           <MenuBackButton navigation={navigation} />
           <Text style={styles.pageTitle}>SIGN UP</Text>
         </View>
-
         <View
           style={{ paddingBottom: 40, paddingTop: 25, alignItems: 'center' }}
         >
@@ -80,8 +87,8 @@ export const SignUpScreen = ({ navigation }) => {
             right
           />
         </View>
-{/* This button will need to pass values to auth process in future iterations */}
-        <BigButton
+        {/* This button will need to pass values to auth process in future iterations */}
+        <NavigationBigButton
           navigation={navigation}
           content={'next'}
           formVerify={formVerify}
@@ -119,7 +126,8 @@ export const SignUpScreen = ({ navigation }) => {
             .
           </Text>
         </View>
-    </View>
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -132,13 +140,12 @@ const localStyles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    backgroundColor: colors.white,
     paddingTop: 50,
     paddingHorizontal: 10,
     height: '100%'
   },
   dividerStyle: {
-    marginTop:22,
+    marginTop: 22,
     paddingTop: 1,
     width: 266,
     alignSelf: 'center'
@@ -146,7 +153,7 @@ const localStyles = StyleSheet.create({
   bottomSection: {
     height: 100,
     width: 300,
-    alignSelf:'center',
+    alignSelf: 'center',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
