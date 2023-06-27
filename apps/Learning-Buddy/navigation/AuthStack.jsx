@@ -1,20 +1,21 @@
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SignInScreen } from '../screens/SignInScreen';
-import { SignUpScreen } from '../screens/SignUpScreen';
+import React from 'react';
 import { HomeScreen } from '../screens/HomeScreen';
+import { LoginScreen } from '../screens/LoginScreen';
+import { SignUpScreen } from '../screens/SignUpScreen';
+import { colors } from '../config/colors';
 
 const Stack = createStackNavigator();
 
 export const AuthStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName='SignInScreen'
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
-      <Stack.Screen name='SignInScreen' component={SignInScreen} />
-      <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+        initialRouteName='Home Screen'
+        screenOptions={{ headerShown: false, cardStyle: {backgroundColor: colors.white }}}
+      >
+      <Stack.Screen name='Home Screen' component={HomeScreen} />
+      <Stack.Screen name='Log in' component={LoginScreen} />
+      <Stack.Screen name='Sign up' component={SignUpScreen} />
     </Stack.Navigator>
   );
 };

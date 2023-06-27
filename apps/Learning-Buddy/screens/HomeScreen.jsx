@@ -1,18 +1,41 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import NavigationBigButton from '../components/NavigationBigButton';
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
   return (
-    <>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <Text style={{ fontSize: 40 }}>HomeScreen</Text>
+    <View style={localStyles.viewStyle}>
+      <Image
+        style={localStyles.logoStyle}
+        source={require('../assets/logo_placeholder-1.png')}
+      />
+      <View style={{ marginTop: 95 }}>
+        <NavigationBigButton
+          navigation={navigation}
+          content={'log in'}
+          destination={'Log in'}
+        />
       </View>
-    </>
+      <View style={{ marginTop: 15 }}>
+        <NavigationBigButton
+          navigation={navigation}
+          content={'sign up'}
+          destination={'Sign up'}
+        />
+      </View>
+    </View>
   );
 };
+
+const localStyles = StyleSheet.create({
+  logoStyle: {
+    alignSelf: 'center',
+    marginTop: 90
+  },
+  viewStyle: {
+    display: 'flex',
+    paddingTop: 50,
+    paddingHorizontal: 10,
+    height: '100%'
+  }
+});
