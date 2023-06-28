@@ -60,11 +60,11 @@ const AuthProvider = (props) => {
       email,
       password
     });
-    console.log(error);
-    console.log(data);
+
     if (error) {
-      return error;
-    } else return true;
+      console.log(error.message);
+      return error.message;
+    } else return 'SignedIn';
   };
 
   const handleSignUp = async (email, password, fullName, phoneNumber) => {
@@ -78,6 +78,11 @@ const AuthProvider = (props) => {
         }
       }
     });
+
+    if (error) {
+      console.log(error.message);
+      return error.message;
+    } else return 'SignedUp';
   };
 
   return (
