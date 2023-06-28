@@ -20,7 +20,7 @@ const options = {
 // Better put your these secret keys in .env file, not really a secret.
 const supabase = createClient(
   'https://pfyhglqdmjozazbxjbvt.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWhnbHFkbWpvemF6YnhqYnZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4MTY4NzAsImV4cCI6MjAwMzM5Mjg3MH0.nMvj03npPEBhUycgz81f6m22uuhr3rl_KFcByQhJZao',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWhnbHFkbWpvemF6YnhqYnZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc5MzY5OTksImV4cCI6MjAwMzUxMjk5OX0.GLgA7gLbIRyklOHpkvHaYfvNcCkkzlXit75e98HlZyo',
   options
 );
 
@@ -39,11 +39,9 @@ const AuthProvider = (props) => {
     // };
     // if (supabase) getauth();
 
-    console.log('use effect in auth');
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log(`Supabase auth event: ${event}`);
-        console.log('hello session', session);
         setSessionState(session);
         setUser(session?.user ?? null);
       }
