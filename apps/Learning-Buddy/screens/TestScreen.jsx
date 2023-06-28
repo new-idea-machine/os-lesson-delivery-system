@@ -11,10 +11,11 @@ export const TestScreen = () => {
   const [message, setMessage] = useState();
   const navigation = useNavigation();
   const auth = useContext(AuthContext);
-  const { signOut } = auth;
+  const { signOut, user } = auth;
 
   // TODO: Remove, for testing purposes
   const getMessage = async () => {
+    console.log('user', user.user_metadata.fullName);
     try {
       const response = await fetch(`http://${ip}:8000/message`, {
         // no-cors required to prevent conflict between emulator localhost/ server localhost
@@ -44,10 +45,13 @@ export const TestScreen = () => {
         </Text>
       )}
       {!isLoading ? (
-        <Button
-          title='Get your questions!'
-          onPress={() => navigation.navigate('Question Form')}
-        ></Button>
+        <>
+          <Text>Hi {user.user_metadata.fullName}</Text>
+          <Button
+            title='Get your questions!'
+            onPress={() => navigation.navigate('Question Form')}
+          ></Button>
+        </>
       ) : null}
       {!isLoading ? (
         <Button title='Sign Out' onPress={() => signOut()}></Button>
