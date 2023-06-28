@@ -4,5 +4,7 @@ module.exports = {
   version: '1.0.0',
   extra: {
     IP: process.env.IP,
+    supabaseURL:process.env.SUPABASEURL,
+    supabaseKEY:process.env.SUPABASEKEY
   },
 };

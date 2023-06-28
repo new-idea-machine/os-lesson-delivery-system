@@ -1,18 +1,13 @@
 import React, { useContext, useState } from 'react';
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Checkbox, Divider } from 'react-native-paper';
-import NavigationBigButton from '../components/NavigationBigButton';
+import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { colors } from '../config/colors';
+import { AuthContext } from '../providers/AuthProvider';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const SignUpScreen = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -22,6 +17,8 @@ export const SignUpScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [password2, setPassword2] = useState();
   const styles = useContext(StyleSheetContext);
+  const auth = useContext(AuthContext);
+  const { handleSignUp } = auth;
 
   const formVerify = () => {
     if (name && email && password && password2) {
@@ -33,10 +30,22 @@ export const SignUpScreen = ({ navigation }) => {
             password,
             ...(phone && { phone })
           };
+
           return returnVal;
         } else Alert.alert('Please accept our Terms of Service');
       } else Alert.alert(`Passwords don't match`);
     } else Alert.alert('Missing a required field');
+  };
+
+  const handleSubmitSignUp = async () => {
+    if (formVerify()) {
+      const status = await handleSignUp(email, password, name, phone);
+      if (status === 'SignedUp') {
+        Alert.alert('Success! You Are Signed Up!');
+      } else {
+        Alert.alert(status);
+      }
+    }
   };
 
   return (
@@ -88,11 +97,9 @@ export const SignUpScreen = ({ navigation }) => {
           />
         </View>
         {/* This button will need to pass values to auth process in future iterations */}
-        <NavigationBigButton
-          navigation={navigation}
+        <FunctionOnPressBigButton
           content={'next'}
-          formVerify={formVerify}
-          destination={'Log in'}
+          onPress={handleSubmitSignUp}
         />
         <Divider style={localStyles.dividerStyle} />
         <View style={localStyles.bottomSection}>
