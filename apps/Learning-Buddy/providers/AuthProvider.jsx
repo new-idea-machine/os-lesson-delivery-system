@@ -1,13 +1,17 @@
 // https://github.com/codingki/react-native-expo-template/blob/master/template-typescript-bottom-tabs-supabase-auth-flow/src/provider/AuthProvider.tsx
-import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createClient } from '@supabase/supabase-js';
+import Constants from 'expo-constants';
+import React, { createContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { setupURLPolyfill } from 'react-native-url-polyfill';
-import { createClient } from '@supabase/supabase-js';
 
 if (Platform.OS !== 'web') {
   setupURLPolyfill();
 }
+
+const supabase_URL = Constants.manifest.extra.supabaseURL;
+const supabase_Key = Constants.manifest.extra.supabaseKEY;
 
 const options = {
   auth: {
@@ -17,12 +21,7 @@ const options = {
     detectSessionInUrl: false
   }
 };
-// Better put your these secret keys in .env file, not really a secret.
-const supabase = createClient(
-  'https://pfyhglqdmjozazbxjbvt.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWhnbHFkbWpvemF6YnhqYnZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc5MzY5OTksImV4cCI6MjAwMzUxMjk5OX0.GLgA7gLbIRyklOHpkvHaYfvNcCkkzlXit75e98HlZyo',
-  options
-);
+const supabase = createClient(supabase_URL, supabase_Key, options);
 
 const AuthContext = createContext({});
 
@@ -31,7 +30,6 @@ const AuthProvider = (props) => {
   const [sessionState, setSessionState] = useState(null);
 
   useEffect(() => {
-
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange(async (event, session) => {
