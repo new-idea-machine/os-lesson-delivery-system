@@ -6,6 +6,7 @@ import MenuInput from '../components/MenuInput';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
+import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
 
 export const LoginScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
@@ -20,9 +21,21 @@ export const LoginScreen = ({ navigation }) => {
         email,
         password
       };
-      signInWithEmail(email, password);
+
       return returnVal;
     } else Alert.alert('Missing a required field');
+  };
+
+  const handleSubmitLogin = async () => {
+    if (formVerify()) {
+      const status = await signInWithEmail(email, password);
+      if (status === 'SignedIn') {
+        Alert.alert('Success you are Signed In!');
+        // navigation.navigate('Log in');
+      } else {
+        Alert.alert(status);
+      }
+    }
   };
 
   return (
@@ -59,12 +72,7 @@ export const LoginScreen = ({ navigation }) => {
         <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
       </Pressable>
       {/* This button will need to pass values to auth process in future iterations */}
-      <NavigationBigButton
-        navigation={navigation}
-        content={'next'}
-        formVerify={formVerify}
-        destination={'Sign up'}
-      />
+      <FunctionOnPressBigButton content={'next'} onPress={handleSubmitLogin} />
     </View>
   );
 };
