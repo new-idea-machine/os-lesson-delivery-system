@@ -44,7 +44,6 @@ export const SignUpScreen = ({ navigation }) => {
       const status = await handleSignUp(email, password, name, phone);
       if (status === 'SignedUp') {
         Alert.alert('Success you are signed up!');
-        // navigation.navigate('Log in');
       } else {
         Alert.alert(status);
       }
