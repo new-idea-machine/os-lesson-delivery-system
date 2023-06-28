@@ -15,7 +15,7 @@ export const TestScreen = () => {
 
   // TODO: Remove, for testing purposes
   const getMessage = async () => {
-    console.log('user', user.user_metadata.fullName);
+    // console.log('user', user.user_metadata.fullName);
     try {
       const response = await fetch(`http://${ip}:8000/message`, {
         // no-cors required to prevent conflict between emulator localhost/ server localhost

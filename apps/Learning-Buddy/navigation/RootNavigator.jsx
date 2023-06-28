@@ -8,7 +8,6 @@ import { AuthContext } from '../providers/AuthProvider';
 export const RootNavigator = () => {
   const auth = useContext(AuthContext);
   const { user } = auth;
-  // This will be replace with Auth Provider
   return (
     <StyleSheetProvider>
       <NavigationContainer>

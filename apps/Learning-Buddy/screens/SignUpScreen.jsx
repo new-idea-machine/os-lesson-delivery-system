@@ -1,15 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 import { Checkbox, Divider } from 'react-native-paper';
-import NavigationBigButton from '../components/NavigationBigButton';
+import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const SignUpScreen = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -43,7 +41,7 @@ export const SignUpScreen = ({ navigation }) => {
     if (formVerify()) {
       const status = await handleSignUp(email, password, name, phone);
       if (status === 'SignedUp') {
-        Alert.alert('Success you are signed up!');
+        Alert.alert('Success! You Are Signed Up!');
       } else {
         Alert.alert(status);
       }
@@ -60,7 +58,7 @@ export const SignUpScreen = ({ navigation }) => {
         <View
           style={{ paddingBottom: 40, paddingTop: 25, alignItems: 'center' }}
         >
-          <Text style={localStyles.required}>fields with a * are required</Text>
+          <Text style={localStyles.required}>Fields with a * are required</Text>
           <MenuInput
             placeholder='Your Full Name'
             symbol='account-outline'

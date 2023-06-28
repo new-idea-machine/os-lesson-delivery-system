@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import NavigationBigButton from '../components/NavigationBigButton';
+import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const LoginScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
@@ -30,8 +29,7 @@ export const LoginScreen = ({ navigation }) => {
     if (formVerify()) {
       const status = await signInWithEmail(email, password);
       if (status === 'SignedIn') {
-        Alert.alert('Success you are Signed In!');
-        // navigation.navigate('Log in');
+        Alert.alert('Success! You Are Signed In!');
       } else {
         Alert.alert(status);
       }
