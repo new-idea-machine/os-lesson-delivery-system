@@ -9,16 +9,19 @@ if (Platform.OS !== 'web') {
   setupURLPolyfill();
 }
 
-// Better put your these secret keys in .env file, not really a secret.
-const supabase = createClient(
-  'https://pfyhglqdmjozazbxjbvt.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWhnbHFkbWpvemF6YnhqYnZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4MTY4NzAsImV4cCI6MjAwMzM5Mjg3MH0.nMvj03npPEBhUycgz81f6m22uuhr3rl_KFcByQhJZao',
-  {
-    // localStorage: AsyncStorage,
+const options = {
+  auth: {
+    localStorage: AsyncStorage,
     autoRefreshToken: true,
     persistSession: false,
     detectSessionInUrl: false
   }
+};
+// Better put your these secret keys in .env file, not really a secret.
+const supabase = createClient(
+  'https://pfyhglqdmjozazbxjbvt.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWhnbHFkbWpvemF6YnhqYnZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4MTY4NzAsImV4cCI6MjAwMzM5Mjg3MH0.nMvj03npPEBhUycgz81f6m22uuhr3rl_KFcByQhJZao',
+  options
 );
 
 const AuthContext = createContext({});
@@ -34,7 +37,6 @@ const AuthProvider = (props) => {
     //   setSessionState(session);
     //   setUser(session ? true : false);
     // };
-
     // if (supabase) getauth();
 
     console.log('use effect in auth');
