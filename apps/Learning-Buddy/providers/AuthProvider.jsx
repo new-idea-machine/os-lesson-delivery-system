@@ -31,31 +31,15 @@ const AuthProvider = (props) => {
   const [sessionState, setSessionState] = useState(null);
 
   useEffect(() => {
-    // const getauth = async () => {
-    //   const { data: session } = await supabase.auth.getSession();
-    //   console.log('getauth session', session);
-    //   setSessionState(session);
-    //   setUser(session ? true : false);
-    // };
-    // if (supabase) getauth();
-    // );
 
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log(`Supabase auth event: ${event}`);
-      console.log;
       setSessionState(session);
       setUser(session?.user ?? null);
     });
 
     return () => {
-      console.log('authL', subscription);
-      console.log('type of authlistener', typeof subscription);
-      console.log(
-        'type of authlistener.unsub',
-        typeof subscription.unsubscribe
-      );
       subscription?.unsubscribe();
     };
   }, []);
@@ -63,14 +47,12 @@ const AuthProvider = (props) => {
   const signOut = async () => await supabase.auth.signOut();
 
   const signInWithEmail = async (email, password) => {
-    console.log('email', email);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
     if (error) {
-      console.log(error.message);
       return error.message;
     } else return 'SignedIn';
   };
@@ -88,7 +70,6 @@ const AuthProvider = (props) => {
     });
 
     if (error) {
-      console.log(error.message);
       return error.message;
     } else return 'SignedUp';
   };
