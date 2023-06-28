@@ -38,17 +38,25 @@ const AuthProvider = (props) => {
     //   setUser(session ? true : false);
     // };
     // if (supabase) getauth();
+    // );
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log(`Supabase auth event: ${event}`);
-        setSessionState(session);
-        setUser(session?.user ?? null);
-      }
-    );
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log(`Supabase auth event: ${event}`);
+      console.log;
+      setSessionState(session);
+      setUser(session?.user ?? null);
+    });
 
     return () => {
-      authListener.unsubscribe();
+      console.log('authL', subscription);
+      console.log('type of authlistener', typeof subscription);
+      console.log(
+        'type of authlistener.unsub',
+        typeof subscription.unsubscribe
+      );
+      subscription?.unsubscribe();
     };
   }, []);
 
