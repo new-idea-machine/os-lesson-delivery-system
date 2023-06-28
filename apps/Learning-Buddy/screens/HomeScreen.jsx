@@ -1,41 +1,30 @@
-import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import NavigationBigButton from '../components/NavigationBigButton';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../providers/AuthProvider';
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = () => {
+  const navigation = useNavigation();
+  const auth = useContext(AuthContext);
+  const { signOut, user } = auth;
+
   return (
-    <View style={localStyles.viewStyle}>
-      <Image
-        style={localStyles.logoStyle}
-        source={require('../assets/logo_placeholder-1.png')}
-      />
-      <View style={{ marginTop: 95 }}>
-        <NavigationBigButton
-          navigation={navigation}
-          content={'log in'}
-          destination={'Log in'}
-        />
-      </View>
-      <View style={{ marginTop: 15 }}>
-        <NavigationBigButton
-          navigation={navigation}
-          content={'sign up'}
-          destination={'Sign up'}
-        />
-      </View>
+    <View style={localStyles.container}>
+      <Text>Hi {user.user_metadata.fullName}</Text>
+      <Button
+        title='Get your questions!'
+        onPress={() => navigation.navigate('Question Form')}
+      ></Button>
+
+      <Button title='Sign Out' onPress={() => signOut()}></Button>
     </View>
   );
 };
 
 const localStyles = StyleSheet.create({
-  logoStyle: {
-    alignSelf: 'center',
-    marginTop: 90
-  },
-  viewStyle: {
-    display: 'flex',
-    paddingTop: 50,
-    paddingHorizontal: 10,
-    height: '100%'
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
