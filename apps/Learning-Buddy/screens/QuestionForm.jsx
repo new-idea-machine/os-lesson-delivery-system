@@ -17,7 +17,6 @@ export const QuestionForm = () => {
 
   const getQuestions = async () => {
     const testItem = { id: 1, question: text };
-    console.log(testItem);
     const thing = JSON.stringify(testItem);
     try {
       const response = await fetch(`http://${ip}:8000/questions/`, {
@@ -27,7 +26,6 @@ export const QuestionForm = () => {
         body: thing,
       });
       const json = await response.json();
-      console.log(json.response.choices[0]);
       setResponse(json.response.choices[0].text);
     } catch (error) {
       console.error(error);

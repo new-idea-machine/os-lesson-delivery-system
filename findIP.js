@@ -1,4 +1,6 @@
 const fs = require('fs');
+require('dotenv').config({ path: './apps/learning-buddy/.env' });
+
 const getIp4Address = () => {
   const os = require('os');
   const ifaces = os.networkInterfaces();
@@ -13,10 +15,21 @@ const getIp4Address = () => {
   });
   return ip4;
 };
+const currentIP = process.env.IP;
+const ip = getIp4Address();
 
-const writeIpToEnv = () => {
-  fs.writeFileSync('./apps/learning-buddy/.env', `IP=${ip}`);
+const evaluateIP = () => {
+  if (currentIP === ip) {
+    console.log('IP match confirmed');
+    return;
+  } else {
+    const sburl = process.env.SUPABASEURL;
+    const sbk = process.env.SUPABASEKEY;
+    fs.writeFileSync(
+      './apps/learning-buddy/.env',
+      `IP=${ip}\nSUPABASEURL='${sburl}'\nSUPABASEKEY='${sbk}'`
+    );
+  }
 };
 
-const ip = getIp4Address();
-writeIpToEnv();
+evaluateIP();
