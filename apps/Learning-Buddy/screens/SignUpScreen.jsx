@@ -49,7 +49,7 @@ export const SignUpScreen = ({ navigation }) => {
         <View
           style={{ paddingBottom: 40, paddingTop: 25, alignItems: 'center' }}
         >
-          <Text style={localStyles.required}>fields with a * are required</Text>
+          <Text style={localStyles.required}>Fields with a * are required</Text>
           <MenuInput
             placeholder='Your Full Name'
             symbol='account-outline'
