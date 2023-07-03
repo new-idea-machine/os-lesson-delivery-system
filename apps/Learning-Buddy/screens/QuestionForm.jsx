@@ -8,6 +8,15 @@ export const QuestionForm = () => {
   const [numLines, changeNumLines] = useState(1);
   const [response, setResponse] = useState('');
   const [complete, setComplete] = useState(false);
+  const pickerRef = useRef();
+
+  function open() {
+    pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
+  }
 
   useEffect(() => {
     const charLen = text.length;
@@ -45,7 +54,29 @@ export const QuestionForm = () => {
         value={text}
         multiline
         numberOfLines={numLines}
-      ></TextInput>
+      <Text style={{ paddingTop: 20 }}>
+        Please select the number of questions you want:{'\n'}
+      </Text>
+
+      <Picker
+        ref={pickerRef}
+        selectedValue={questionNum}
+        onValueChange={(itemValue, itemIndex) => {
+          console.log('item value is now', itemValue);
+          setQuestionNum(itemValue);
+        }}
+      >
+        <Picker.Item label='1' value={1} />
+        <Picker.Item label='2' value={2} />
+        <Picker.Item label='3' value={3} />
+        <Picker.Item label='4' value={4} />
+        <Picker.Item label='5' value={5} />
+        <Picker.Item label='6' value={6} />
+        <Picker.Item label='7' value={7} />
+        <Picker.Item label='8' value={8} />
+        <Picker.Item label='9' value={9} />
+        <Picker.Item label='10' value={10} />
+      </Picker>
       {text ? (
         <Button title="Submit To Backend" onPress={getQuestions}></Button>
       ) : null}
