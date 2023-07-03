@@ -36,12 +36,16 @@ export const QuestionForm = () => {
     setTitle('Please wait...');
     setDisabled(true);
     setComplete(false);
+    const reqQuestion = `Ask me ${questionNum} questions, multiple choice with four different potential answers, based only on this information: 
+    ${text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {"questions": [{"question1": "", "options": {"Correct": "", "Incorrect": ["", "", ""]}},...]}`;
+    let source = { id: 1, question: reqQuestion };
+    source = JSON.stringify(source);
     try {
       const response = await fetch(`http://${ip}:8000/questions/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // mode: 'no-cors',
-        body: thing,
+        body: source
       });
       const json = await response.json();
       setResponse(json.response.choices[0].text);
