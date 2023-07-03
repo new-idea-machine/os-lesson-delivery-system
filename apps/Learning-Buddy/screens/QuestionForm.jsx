@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { ActivityIndicator } from 'react-native-paper';
+import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 
 export const QuestionForm = () => {
   const ip = Constants.manifest.extra.IP;
+  const [questionNum, setQuestionNum] = useState(1);
   const [text, onChangeText] = useState('');
   const [numLines, changeNumLines] = useState(1);
   const [response, setResponse] = useState('');
   const [complete, setComplete] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   const pickerRef = useRef();
 
   function open() {
@@ -80,7 +84,9 @@ export const QuestionForm = () => {
       {text ? (
         <Button title="Submit To Backend" onPress={getQuestions}></Button>
       ) : null}
-      {complete ? <Text>Response is: {response}</Text> : null}
+      {disabled ? (
+        <ActivityIndicator animating={true} style={{paddingTop: 20}} color={colors.lightBlue} />
+      ) : null}
     </View>
   );
 };
