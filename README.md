@@ -8,6 +8,9 @@ Please note that, at present time, Expo can only be run in an emulator on the sa
 
 #### First-time user? Check out the Setup Information Section below to get started.
 
+*Please note that an API token is required to prompt ChatGPT for solutions. You can get your own token after creating an account on the OpenAI website.*
+
+
 **Running the Frontend Server**
 
 To start the Expo server, navigate to the project's root directory and use the command `npm run start:app`.
@@ -17,6 +20,11 @@ To start the Expo server, navigate to the project's root directory and use the c
 To start the FastAPI server, navigate to the project's root directory and use the command `npm run start:backend`. Be sure to run your backend and frontend servers in different terminals.
 
 ## Setup Information
+
+Note that two .env files are required for the operation of this repo at present time.
+
+1. The first one will be in apps/Learning-Buddy, with the three following fields: IP, SUPABASEURL and SUPABASEKEY. The IP field should be automatically populated with your IPv4 address upon your first time running the frontend with `npm run start:app`.
+2. The second one can be found in backend, and has the following fields: API-TOKEN and DATABASE_URL. The API-TOKEN field is required to prompt OpenAI's API and can be created through creating your own account on their website.
 
 ### Backend Setup:
 
