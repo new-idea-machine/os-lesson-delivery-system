@@ -64,11 +64,12 @@ export const QuestionForm = () => {
       <Text style={{ paddingTop: 20 }}>Enter text below{'\n'}</Text>
       <TextInput
         style={localStyles.input}
-        placeholder="Test"
+        placeholder='Test'
         onChangeText={(text) => onChangeText(text)}
         value={text}
         multiline
         numberOfLines={numLines}
+      />
       <Text style={{ paddingTop: 20 }}>
         Please select the number of questions you want:{'\n'}
       </Text>
@@ -96,6 +97,12 @@ export const QuestionForm = () => {
         <Button title={title} disabled={disabled} onPress={getQuestions} />
       ) : null}
       {disabled ? (
+        <ActivityIndicator
+          animating={true}
+          style={{ paddingTop: 20 }}
+          color={colors.lightBlue}
+        />
+      ) : null}
       {complete ? (
         <Text style={{ paddingTop: 20 }}>Response is: {response}</Text>
       ) : null}
@@ -107,6 +114,6 @@ const localStyles = StyleSheet.create({
   input: {
     margin: 12,
     borderWidth: 1,
-    padding: 10,
-  },
+    padding: 10
+  }
 });
