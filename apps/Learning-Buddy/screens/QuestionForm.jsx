@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
 import { ActivityIndicator } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
+import { colors } from '../config/colors';
 
 export const QuestionForm = () => {
   const ip = Constants.manifest.extra.IP;
@@ -10,6 +12,7 @@ export const QuestionForm = () => {
   const [numLines, changeNumLines] = useState(1);
   const [response, setResponse] = useState('');
   const [complete, setComplete] = useState(false);
+  const [title, setTitle] = useState('Submit To Backend');
   const [disabled, setDisabled] = useState(false);
 
   const pickerRef = useRef();
@@ -29,8 +32,10 @@ export const QuestionForm = () => {
   }, [text]);
 
   const getQuestions = async () => {
-    const testItem = { id: 1, question: text };
-    const thing = JSON.stringify(testItem);
+    setResponse(null);
+    setTitle('Please wait...');
+    setDisabled(true);
+    setComplete(false);
     try {
       const response = await fetch(`http://${ip}:8000/questions/`, {
         method: 'POST',
@@ -44,6 +49,8 @@ export const QuestionForm = () => {
       console.error(error);
       setResponse('oh no, problem');
     } finally {
+      setTitle('Submit To Backend');
+      setDisabled(false);
       setComplete(true);
     }
   };
@@ -82,10 +89,11 @@ export const QuestionForm = () => {
         <Picker.Item label='10' value={10} />
       </Picker>
       {text ? (
-        <Button title="Submit To Backend" onPress={getQuestions}></Button>
+        <Button title={title} disabled={disabled} onPress={getQuestions} />
       ) : null}
       {disabled ? (
-        <ActivityIndicator animating={true} style={{paddingTop: 20}} color={colors.lightBlue} />
+      {complete ? (
+        <Text style={{ paddingTop: 20 }}>Response is: {response}</Text>
       ) : null}
     </View>
   );
