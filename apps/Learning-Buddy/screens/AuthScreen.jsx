@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import NavigationBigButton from '../components/NavigationBigButton';
+import BigButton from '../components/BigButton';
+import { colors } from '../config/colors';
 
 export const AuthScreen = ({ navigation }) => {
   return (
@@ -10,17 +11,21 @@ export const AuthScreen = ({ navigation }) => {
         source={require('../assets/logo_placeholder-1.png')}
       />
       <View style={{ marginTop: 95 }}>
-        <NavigationBigButton
-          navigation={navigation}
+        <BigButton
+          buttonColor={colors.green}
+          textColor={colors.black}
           content={'log in'}
-          destination={'Log in'}
+          uppercase={true}
+          onPress={() => navigation.navigate('Log in')}
         />
       </View>
       <View style={{ marginTop: 15 }}>
-        <NavigationBigButton
-          navigation={navigation}
+        <BigButton
+          buttonColor={colors.green}
+          textColor={colors.black}
           content={'sign up'}
-          destination={'Sign up'}
+          uppercase={true}
+          onPress={() => navigation.navigate('Sign up')}
         />
       </View>
     </View>

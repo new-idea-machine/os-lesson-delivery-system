@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Checkbox, Divider } from 'react-native-paper';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { colors } from '../config/colors';
@@ -97,7 +97,7 @@ export const SignUpScreen = ({ navigation }) => {
           />
         </View>
         {/* This button will need to pass values to auth process in future iterations */}
-        <FunctionOnPressBigButton
+        <BigButton
           buttonColor={colors.green}
           textColor={colors.black}
           content={'next'}

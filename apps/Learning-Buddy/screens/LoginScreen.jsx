@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { colors } from '../config/colors';
@@ -70,7 +70,7 @@ export const LoginScreen = ({ navigation }) => {
         <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
       </Pressable>
       {/* This button will need to pass values to auth process in future iterations */}
-      <FunctionOnPressBigButton
+      <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'next'}
