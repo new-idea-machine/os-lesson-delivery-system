@@ -70,7 +70,12 @@ export const LoginScreen = ({ navigation }) => {
         <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
       </Pressable>
       {/* This button will need to pass values to auth process in future iterations */}
-      <FunctionOnPressBigButton content={'next'} onPress={handleSubmitLogin} />
+      <FunctionOnPressBigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'next'}
+        onPress={handleSubmitLogin}
+      />
     </View>
   );
 };

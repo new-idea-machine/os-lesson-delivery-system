@@ -3,17 +3,16 @@ import { Button } from 'react-native-paper';
 import React from 'react';
 import { colors } from '../config/colors';
 
-const FunctionOnPressBigButton = ({ content, onPress }) => {
+const FunctionOnPressBigButton = ({ content, onPress, ...props }) => {
   return (
     <View style={{ alignItems: 'center' }}>
       <Button
         mode='elevated'
-        buttonColor={colors.green}
-        textColor={colors.black}
         labelStyle={localStyles.fontStyle}
         style={localStyles.button}
         uppercase='true'
         onPress={() => onPress()}
+        {...props}
       >
         {content}
       </Button>

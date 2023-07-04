@@ -98,6 +98,8 @@ export const SignUpScreen = ({ navigation }) => {
         </View>
         {/* This button will need to pass values to auth process in future iterations */}
         <FunctionOnPressBigButton
+          buttonColor={colors.green}
+          textColor={colors.black}
           content={'next'}
           onPress={handleSubmitSignUp}
         />
