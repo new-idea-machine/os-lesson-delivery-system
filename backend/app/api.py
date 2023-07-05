@@ -57,12 +57,16 @@ async def get_message() -> dict:
     return {"data": message}
 
 url_getinfo = "https://api.openai.com/v1/models"
-url_getcompletion= "https://api.openai.com/v1/chat/completions"
+url_getcompletion = "https://api.openai.com/v1/chat/completions"
 
 @app.post("/questions", tags=["questions"])
 async def get_questions(question: Question) -> Response:
-    print(question)
-    response = openai.Completion.create(model="text-davinci-003", prompt=question.question, temperature=0, max_tokens=7)
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=question.question,
+        temperature=0,
+        max_tokens=100,
+    )
     return {"response": response}
 
 @app.post("/users/", response_model=schemas.User)
