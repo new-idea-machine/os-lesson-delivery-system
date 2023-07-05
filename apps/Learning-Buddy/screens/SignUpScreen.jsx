@@ -96,7 +96,6 @@ export const SignUpScreen = ({ navigation }) => {
             right
           />
         </View>
-        {/* This button will need to pass values to auth process in future iterations */}
         <BigButton
           buttonColor={colors.green}
           textColor={colors.black}
