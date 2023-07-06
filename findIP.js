@@ -24,10 +24,11 @@ const evaluateIP = () => {
     return;
   } else {
     const sburl = process.env.SUPABASEURL;
-    const sbk = process.env.SUPABASEKEY;
+    const sbPk = process.env.SUPABASEKEY_PUBLIC;
+    const sbAk = process.env.SUPABASEKEY_ANON;
     fs.writeFileSync(
       './apps/learning-buddy/.env',
-      `IP=${ip}\nSUPABASEURL='${sburl}'\nSUPABASEKEY='${sbk}'`
+      `IP=${ip}\nSUPABASEURL='${sburl}'\nSUPABASEKEY_PUBLIC='${sbPk}'\nSUPABASEKEY_ANON='${sbAk}'`
     );
   }
 };

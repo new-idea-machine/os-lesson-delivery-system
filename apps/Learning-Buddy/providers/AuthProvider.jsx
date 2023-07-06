@@ -11,7 +11,7 @@ if (Platform.OS !== 'web') {
 }
 
 const supabase_URL = Constants.manifest.extra.supabaseURL;
-const supabase_Key = Constants.manifest.extra.supabaseKEY;
+const supabase_Key = Constants.manifest.extra.supabaseKEY_PUBLIC;
 
 const options = {
   auth: {
