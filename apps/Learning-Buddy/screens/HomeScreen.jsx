@@ -16,6 +16,11 @@ export const HomeScreen = () => {
         onPress={() => navigation.navigate('Question Form')}
       ></Button>
 
+      <Button
+        title='Try Sample Test!'
+        onPress={() => navigation.navigate('Sample Test')}
+      ></Button>
+
       <Button title='Sign Out' onPress={() => signOut()}></Button>
     </View>
   );
