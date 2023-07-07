@@ -32,10 +32,11 @@ const localStyles = StyleSheet.create({
     height: 55,
     display: 'flex',
     justifyContent: 'center',
-    borderBottomEndRadius: 30,
-    borderBottomStartRadius: 30,
-    borderTopStartRadius: 30,
-    borderTopEndRadius: 30,
-    marginVertical: 5
+    // borderBottomEndRadius: 30,
+    // borderBottomStartRadius: 30,
+    // borderTopStartRadius: 30,
+    // borderTopEndRadius: 30,
+    borderRadius: 30,
+    marginVertical: 10
   }
 });
