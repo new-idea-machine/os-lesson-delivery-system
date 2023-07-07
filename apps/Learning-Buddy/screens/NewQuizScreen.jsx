@@ -41,6 +41,12 @@ export const NewQuizScreen = () => {
     setSelectedQuestionType(questionTypeContent);
   };
 
+  const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+
+  const handleDifficultyPress = (difficultyContent) => {
+    setSelectedDifficulty(difficultyContent);
+  };
+
   return (
     <View
       style={{
@@ -168,25 +174,37 @@ export const NewQuizScreen = () => {
             </View>
           </View>
           <View>
-            <Text style={localStyles.title}>Diffculty Level</Text>
+            <Text style={localStyles.title}>Difficulty Level</Text>
             <View style={localStyles.container}>
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedDifficulty === 'Beginner'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Beginner'}
-                onPress={() => {}}
+                onPress={() => handleDifficultyPress('Beginner')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedDifficulty === 'Intermediate'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Intermediate'}
-                onPress={() => {}}
+                onPress={() => handleDifficultyPress('Intermediate')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedDifficulty === 'Advanced'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Advanced'}
-                onPress={() => {}}
+                onPress={() => handleDifficultyPress('Advanced')}
               />
             </View>
           </View>
