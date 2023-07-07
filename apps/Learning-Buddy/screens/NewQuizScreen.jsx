@@ -107,7 +107,7 @@ export const NewQuizScreen = () => {
                   fontFamily: 'Poppins',
                   fontWeight: '600',
                   fontSize: 20,
-                  backgroundColor: 'lightgrey'
+                  backgroundColor: colors.lightGrey
                 }}
                 value={numQuestions.toString()}
                 onChangeText={(text) => setNumQuestions(parseInt(text))}
@@ -332,6 +332,6 @@ const localStyles = StyleSheet.create({
     borderBottomStartRadius: 15,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
-    backgroundColor: 'lightgrey'
+    backgroundColor: colors.lightGrey
   }
 });
