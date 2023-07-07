@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Card,
   IconButton,
@@ -11,6 +12,8 @@ import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
 export const NewQuizScreen = () => {
+  const insets = useSafeAreaInsets();
+
   const [text, onChangeText] = useState('');
   const [numLines, changeNumLines] = useState(1);
 
@@ -33,7 +36,15 @@ export const NewQuizScreen = () => {
   };
 
   return (
-    <>
+    <View
+      style={{
+        // Paddings to handle safe area
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right
+      }}
+    >
       <ScrollView>
         <View style={{ flex: 1, marginHorizontal: 35 }}>
           <View>
@@ -210,7 +221,7 @@ export const NewQuizScreen = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 };
 
