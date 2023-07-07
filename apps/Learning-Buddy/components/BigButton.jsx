@@ -9,7 +9,6 @@ const BigButton = ({ content, onPress, ...props }) => {
         mode='elevated'
         labelStyle={localStyles.fontStyle}
         style={localStyles.button}
-        uppercase='true'
         onPress={() => onPress()}
         {...props}
       >
@@ -18,8 +17,6 @@ const BigButton = ({ content, onPress, ...props }) => {
     </View>
   );
 };
-
-export default BigButton;
 
 const localStyles = StyleSheet.create({
   fontStyle: {
@@ -40,3 +37,5 @@ const localStyles = StyleSheet.create({
     marginVertical: 10
   }
 });
+
+export default BigButton;

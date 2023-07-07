@@ -79,6 +79,7 @@ export const LoginScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'next'}
         onPress={handleSubmitLogin}
+        uppercase={true}
       />
     </View>
   );

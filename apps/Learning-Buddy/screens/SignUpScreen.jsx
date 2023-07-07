@@ -101,6 +101,7 @@ export const SignUpScreen = ({ navigation }) => {
           textColor={colors.black}
           content={'next'}
           onPress={handleSubmitSignUp}
+          uppercase={true}
         />
         <Divider style={localStyles.dividerStyle} />
         <View style={localStyles.bottomSection}>
