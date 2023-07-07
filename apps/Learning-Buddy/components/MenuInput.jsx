@@ -9,7 +9,8 @@ const MenuInput = ({
   required,
   hidden,
   setter,
-  right
+  right,
+  ...props
 }) => {
   const [isItHidden, setIsItHidden] = useState();
 
@@ -63,6 +64,7 @@ const MenuInput = ({
         activeOutlineColor={colors.lightBlue}
         letterSpacing='5'
         onChangeText={(text) => setter(text)}
+        {...props}
       />
     </>
   );

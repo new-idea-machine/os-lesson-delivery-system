@@ -52,6 +52,10 @@ export const LoginScreen = ({ navigation }) => {
           symbol='account-outline'
           hidden='false'
           setter={setEmail}
+          autoCapitalize='none'
+          autoCompleteType='email'
+          textContentType='emailAddress'
+          keyboardType='email-address'
         />
         <MenuInput
           placeholder='Password'
