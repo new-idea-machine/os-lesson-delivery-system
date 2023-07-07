@@ -35,6 +35,12 @@ export const NewQuizScreen = () => {
     }
   };
 
+  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+
+  const handleQuestionTypePress = (questionTypeContent) => {
+    setSelectedQuestionType(questionTypeContent);
+  };
+
   return (
     <View
       style={{
@@ -111,33 +117,53 @@ export const NewQuizScreen = () => {
             <View style={localStyles.container}>
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedQuestionType === 'Multiple Choice'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Multiple Choice'}
-                onPress={() => {}}
+                onPress={() => handleQuestionTypePress('Multiple Choice')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedQuestionType === 'True/False'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'True/False'}
-                onPress={() => {}}
+                onPress={() => handleQuestionTypePress('True/False')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedQuestionType === 'Completion'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Completion'}
-                onPress={() => {}}
+                onPress={() => handleQuestionTypePress('Completion')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedQuestionType === 'Matching'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Matching'}
-                onPress={() => {}}
+                onPress={() => handleQuestionTypePress('Matching')}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
-                textColor={colors.black}
+                textColor={
+                  selectedQuestionType === 'Essays'
+                    ? colors.white
+                    : colors.black
+                }
                 content={'Essays'}
-                onPress={() => {}}
+                onPress={() => handleQuestionTypePress('Essays')}
               />
             </View>
           </View>
