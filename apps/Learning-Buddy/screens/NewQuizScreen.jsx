@@ -14,7 +14,7 @@ import { colors } from '../config/colors';
 export const NewQuizScreen = () => {
   const insets = useSafeAreaInsets();
 
-  const [text, onChangeText] = useState('');
+  const [text, setText] = useState('');
   const [numLines, changeNumLines] = useState(1);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const NewQuizScreen = () => {
               mode='flat'
               style={localStyles.input}
               label='Enter text'
-              onChangeText={(text) => onChangeText(text)}
+              onChangeText={(text) => setText(text)}
               value={text}
               multiline
               numberOfLines={numLines}
