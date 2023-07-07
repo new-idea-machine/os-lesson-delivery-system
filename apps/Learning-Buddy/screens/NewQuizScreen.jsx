@@ -88,9 +88,11 @@ export const NewQuizScreen = () => {
             <View style={localStyles.container}>
               <IconButton
                 icon='chevron-up'
+                size={34}
+                iconColor='white'
                 mode='contained'
+                style={localStyles.iconButton}
                 containerColor={colors.lightBlue}
-                iconColor={colors.black}
                 onPress={handleIncrement}
               />
               <TextInput
@@ -98,7 +100,10 @@ export const NewQuizScreen = () => {
                   textAlign: 'center',
                   width: 158,
                   height: 60,
-                  borderRadius: 15,
+                  borderBottomEndRadius: 15,
+                  borderBottomStartRadius: 15,
+                  borderTopStartRadius: 15,
+                  borderTopEndRadius: 15,
                   fontFamily: 'Poppins',
                   fontWeight: '600',
                   fontSize: 20,
@@ -110,9 +115,11 @@ export const NewQuizScreen = () => {
               />
               <IconButton
                 icon='chevron-down'
+                size={34}
+                iconColor={colors.white}
                 mode='contained'
+                style={localStyles.iconButton}
                 containerColor={colors.lightBlue}
-                iconColor={colors.black}
                 onPress={handleDecrement}
               />
             </View>
@@ -195,6 +202,7 @@ export const NewQuizScreen = () => {
                 }
                 content={'Intermediate'}
                 onPress={() => handleDifficultyPress('Intermediate')}
+                disabled={true}
               />
               <BigButton
                 buttonColor={colors.lightGrey}
@@ -205,6 +213,7 @@ export const NewQuizScreen = () => {
                 }
                 content={'Advanced'}
                 onPress={() => handleDifficultyPress('Advanced')}
+                disabled={true}
               />
             </View>
           </View>
@@ -270,6 +279,12 @@ export const NewQuizScreen = () => {
 };
 
 const localStyles = StyleSheet.create({
+  iconButton: {
+    width: 265,
+    height: 55,
+    borderRadius: 30,
+    marginVertical: 10
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -312,8 +327,11 @@ const localStyles = StyleSheet.create({
   input: {
     width: '100%',
     height: 300,
-    marginTop: 10,
-    borderRadius: 15,
+    margin: 10,
+    borderBottomEndRadius: 15,
+    borderBottomStartRadius: 15,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
     backgroundColor: 'lightgrey'
   }
 });
