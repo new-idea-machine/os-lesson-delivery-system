@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 import { colors } from '../config/colors';
 
 export const QuestionForm = () => {
-  const ip = Constants.manifest.extra.IP;
+  const ip = Constants.expoConfig.extra.IP;
   const [questionNum, setQuestionNum] = useState(1);
   const [text, onChangeText] = useState('');
   const [numLines, changeNumLines] = useState(1);
