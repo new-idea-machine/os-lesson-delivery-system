@@ -78,7 +78,6 @@ export const QuestionForm = () => {
         ref={pickerRef}
         selectedValue={questionNum}
         onValueChange={(itemValue, itemIndex) => {
-          console.log('item value is now', itemValue);
           setQuestionNum(itemValue);
         }}
       >
