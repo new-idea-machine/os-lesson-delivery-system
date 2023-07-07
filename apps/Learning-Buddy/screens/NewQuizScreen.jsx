@@ -287,7 +287,6 @@ const localStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     marginVertical: 5
