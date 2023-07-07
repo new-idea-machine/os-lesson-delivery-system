@@ -10,8 +10,8 @@ if (Platform.OS !== 'web') {
   setupURLPolyfill();
 }
 
-const supabase_URL = Constants.manifest.extra.supabaseURL;
-const supabase_Key = Constants.manifest.extra.supabaseKEY_PUBLIC;
+const supabase_URL = Constants.expoConfig.extra.supabaseURL;
+const supabase_Key = Constants.expoConfig.extra.supabaseKEY_PUBLIC;
 
 const options = {
   auth: {
