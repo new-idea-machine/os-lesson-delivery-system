@@ -3,13 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { colors } from '../config/colors';
 import { QuestionForm } from '../screens/QuestionForm';
 import { HomeScreen } from '../screens/HomeScreen';
+import { NewQuizScreen } from '../screens/NewQuizScreen';
 
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName='Home Screen'
+      initialRouteName='New Quiz Screen'
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: colors.white }
@@ -17,6 +18,7 @@ export const AppStack = () => {
     >
       <Stack.Screen name='Home Screen' component={HomeScreen} />
       <Stack.Screen name='Question Form' component={QuestionForm} />
+      <Stack.Screen name='New Quiz Screen' component={NewQuizScreen} />
     </Stack.Navigator>
   );
 };
