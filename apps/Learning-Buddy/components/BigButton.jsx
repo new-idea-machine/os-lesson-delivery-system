@@ -35,6 +35,7 @@ const localStyles = StyleSheet.create({
     borderBottomEndRadius: 30,
     borderBottomStartRadius: 30,
     borderTopStartRadius: 30,
-    borderTopEndRadius: 30
+    borderTopEndRadius: 30,
+    marginVertical: 5
   }
 });
