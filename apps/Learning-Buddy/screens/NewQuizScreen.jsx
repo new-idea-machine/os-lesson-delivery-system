@@ -47,6 +47,9 @@ export const NewQuizScreen = () => {
     setSelectedDifficulty(difficultyContent);
   };
 
+  const onSubmit = async () => {
+    console.warn('Next button works!!!');
+  };
   return (
     <View
       style={{
@@ -66,6 +69,8 @@ export const NewQuizScreen = () => {
           <View style={localStyles.container}>
             <TextInput
               mode='flat'
+              underlineColor={colors.white}
+              activeUnderlineColor={colors.white}
               style={localStyles.input}
               label='Enter text'
               onChangeText={(text) => setText(text)}
@@ -82,20 +87,24 @@ export const NewQuizScreen = () => {
               />
             </View>
           </View>
-          <Divider />
+          <View style={localStyles.divider}>
+            <Divider />
+          </View>
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
             <View style={localStyles.container}>
               <IconButton
                 icon='chevron-up'
                 size={34}
-                iconColor='white'
+                iconColor={colors.white}
                 mode='contained'
                 style={localStyles.iconButton}
                 containerColor={colors.lightBlue}
                 onPress={handleIncrement}
               />
               <TextInput
+                underlineColor={colors.white}
+                activeUnderlineColor={colors.white}
                 style={{
                   textAlign: 'center',
                   width: 158,
@@ -263,13 +272,15 @@ export const NewQuizScreen = () => {
               </Card>
             </View>
           </View>
-          <Divider />
+          <View style={localStyles.divider}>
+            <Divider />
+          </View>
           <View style={{ alignItems: 'center' }}>
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}
               content={'Next'}
-              onPress={() => {}}
+              onPress={onSubmit}
             />
           </View>
         </View>
@@ -305,6 +316,7 @@ const localStyles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 10
   },
+  divider: { marginVertical: 10 },
   pageTitle: {
     color: colors.black,
     fontFamily: 'Poppins',
