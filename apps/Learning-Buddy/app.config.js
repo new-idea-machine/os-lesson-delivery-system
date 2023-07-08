@@ -5,6 +5,6 @@ module.exports = {
   extra: {
     IP: process.env.IP,
     supabaseURL:process.env.SUPABASEURL,
-    supabaseKEY:process.env.SUPABASEKEY
+    supabaseKEY_PUBLIC:process.env.SUPABASEKEY_PUBLIC,
   },
 };
