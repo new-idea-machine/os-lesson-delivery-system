@@ -4,9 +4,9 @@ export const colors = {
   red: '#FF0000',
   blue: '#0D2FB8',
   green: '#3CC982',
-  lightBlue: '#00B0FC',
+  lightBlue: '#45D0E7',
   yellow: '#E4D112',
   orange: '#f57c00',
   grey: '#979797',
-  lightGrey:'#EFEFEF'
+  lightGrey: '#EFEFEF'
 };
