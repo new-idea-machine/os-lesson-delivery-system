@@ -23,12 +23,12 @@ const evaluateIP = () => {
     console.log('IP match confirmed');
     return;
   } else {
-    const sburl = process.env.SUPABASEURL;
-    const sbPk = process.env.SUPABASEKEY_PUBLIC;
-    const sbSk = process.env.SUPABASEKEY_SECRET;
+    const supabaseURL = process.env.SUPABASEURL;
+    const supabasePublicKey = process.env.SUPABASEKEY_PUBLIC;
+    const supabaseSecretKey = process.env.SUPABASEKEY_SECRET;
     fs.writeFileSync(
       './apps/learning-buddy/.env',
-      `IP=${ip}\nSUPABASEURL='${sburl}'\nSUPABASEKEY_PUBLIC='${sbPk}'\nSUPABASEKEY_SECRET='${sbSk}'`
+      `IP=${ip}\nSUPABASEURL='${supabaseURL}'\nSUPABASEKEY_PUBLIC='${supabasePublicKey}'\nSUPABASEKEY_SECRET='${supabaseSecretKey}'`
     );
   }
 };
