@@ -11,7 +11,7 @@ if (Platform.OS !== 'web') {
 }
 
 const supabase_URL = Constants.expoConfig.extra.supabaseURL;
-const supabase_AnonKey = Constants.expoConfig.extra.supabaseKEY_PUBLIC;
+const supabase_KeyPublic = Constants.expoConfig.extra.supabaseKEY_PUBLIC;
 
 const options = {
   auth: {
@@ -21,7 +21,7 @@ const options = {
     detectSessionInUrl: false
   }
 };
-const supabase = createClient(supabase_URL, supabase_AnonKey, options);
+const supabase = createClient(supabase_URL, supabase_KeyPublic, options);
 
 const AuthContext = createContext({});
 
