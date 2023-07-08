@@ -7,11 +7,11 @@ import { AuthContext } from '../providers/AuthProvider';
 
 export const RootNavigator = () => {
   const auth = useContext(AuthContext);
-  const { user } = auth;
+  const { user, session } = auth;
   return (
     <StyleSheetProvider>
       <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
+        {session && user ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     </StyleSheetProvider>
   );

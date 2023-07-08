@@ -18,7 +18,7 @@ export const SignUpScreen = ({ navigation }) => {
   const [password2, setPassword2] = useState();
   const styles = useContext(StyleSheetContext);
   const auth = useContext(AuthContext);
-  const { handleSignUp } = auth;
+  const { signUpWithEmail } = auth;
 
   const formVerify = () => {
     if (name && email && password && password2) {
@@ -39,7 +39,7 @@ export const SignUpScreen = ({ navigation }) => {
 
   const handleSubmitSignUp = async () => {
     if (formVerify()) {
-      const status = await handleSignUp(email, password, name, phone);
+      const status = await signUpWithEmail(email, password, name, phone);
       if (status === 'SignedUp') {
         Alert.alert('Success! You Are Signed Up!');
       } else {

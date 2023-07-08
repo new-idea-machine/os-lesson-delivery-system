@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 import { colors } from '../config/colors';
 
 export const QuestionForm = () => {
-  const ip = Constants.manifest.extra.IP;
+  const ip = Constants.expoConfig.extra.IP;
   const [questionNum, setQuestionNum] = useState(1);
   const [text, onChangeText] = useState('');
   const [numLines, changeNumLines] = useState(1);
@@ -78,7 +78,6 @@ export const QuestionForm = () => {
         ref={pickerRef}
         selectedValue={questionNum}
         onValueChange={(itemValue, itemIndex) => {
-          console.log('item value is now', itemValue);
           setQuestionNum(itemValue);
         }}
       >
