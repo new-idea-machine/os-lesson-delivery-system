@@ -72,12 +72,18 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='false'
             setter={setEmail}
+            autoCapitalize='none'
+            autoCompleteType='email'
+            textContentType='emailAddress'
+            keyboardType='email-address'
           />
           <MenuInput
             placeholder='Your Phone Number'
             symbol='phone-outline'
             hidden='false'
             setter={setPhone}
+            textContentType='telephoneNumber'
+            keyboardType='phone-pad'
           />
           <MenuInput
             placeholder='Password'
