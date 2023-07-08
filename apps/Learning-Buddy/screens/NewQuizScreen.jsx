@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -13,6 +14,7 @@ import { colors } from '../config/colors';
 
 export const NewQuizScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   const [text, setText] = useState('');
   const [numLines, changeNumLines] = useState(1);
@@ -47,9 +49,6 @@ export const NewQuizScreen = () => {
     setSelectedDifficulty(difficultyContent);
   };
 
-  const onSubmit = async () => {
-    console.warn('Next button works!!!');
-  };
   return (
     <View
       style={{
@@ -78,14 +77,14 @@ export const NewQuizScreen = () => {
               multiline
               numberOfLines={numLines}
             />
-            <View style={localStyles.buttonContainer}>
+            {/* <View style={localStyles.buttonContainer}>
               <BigButton
                 buttonColor={colors.grey}
                 textColor={colors.black}
                 content={'Paste'}
                 onPress={() => {}}
               />
-            </View>
+            </View> */}
           </View>
           <View style={localStyles.divider}>
             <Divider />
@@ -280,7 +279,14 @@ export const NewQuizScreen = () => {
               buttonColor={colors.green}
               textColor={colors.black}
               content={'Next'}
-              onPress={onSubmit}
+              onPress={() =>
+                navigation.navigate('Question Form', {
+                  text,
+                  numQuestions,
+                  selectedQuestionType,
+                  selectedDifficulty
+                })
+              }
             />
           </View>
         </View>
