@@ -29,7 +29,7 @@ export const LoginScreen = ({ navigation }) => {
     if (formVerify()) {
       const status = await signInWithEmail(email, password);
       if (status === 'SignedIn') {
-        Alert.alert('Success! You Are Signed In!');
+        // Alert.alert('Success! You Are Signed In!');
       } else {
         Alert.alert(status);
       }
