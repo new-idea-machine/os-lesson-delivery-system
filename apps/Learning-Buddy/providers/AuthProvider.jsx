@@ -39,7 +39,8 @@ const AuthProvider = (props) => {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      console.log('Session: ', session);
+      //testing code, leave for backend to, check Token for now
+      //console.log('Session: ', session);
     });
   }, []);
 
