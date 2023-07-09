@@ -10,8 +10,16 @@ from . import crud, models, schemas
 from .database import SessionLocal, engine
 from .routers import chatgpt, auth
 
+import os
+from supabase import create_client, Client
+from .authHandler import JWTBearer
+
 load_dotenv()
 models.Base.metadata.create_all(bind=engine)
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+supa: Client = create_client(url, key)
 
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
@@ -48,7 +56,7 @@ app.add_middleware(
 )
 
 # DEV: TODO remove following two requests
-@app.get("/", tags=["root"])
+@app.get("/", dependencies=[Depends(JWTBearer())], tags=["root"])
 async def read_root() -> dict:
     return {"message": "Hello World"}
 
