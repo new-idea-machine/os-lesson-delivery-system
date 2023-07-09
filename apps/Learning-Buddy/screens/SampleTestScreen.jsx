@@ -1,57 +1,41 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../providers/AuthProvider';
+import React, { useContext } from 'react';
 import { colors } from '../config/colors';
 import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
-
-const sampleTestData = [
-  {
-    prompt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.',
-    type: 'multiple',
-    options: {
-      Correct: 'A',
-      Incorrect: ['B', 'C', 'D'],
-    }
-  },
-  {
-    prompt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.',
-    type: 'multiple',
-    options: {
-      Correct: 'C',
-      Incorrect: ['A', 'B', 'D'],
-    }
-  },
-  {
-    prompt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.',
-    type: 'multiple',
-    options: {
-      Correct: 'D',
-      Incorrect: ['A', 'B', 'C', 'E'],
-    }
-  }
-];
+import SampleTestData from '../data/SampleTestData.json';
 
 export const SampleTestScreen = () => {
-  const auth = useContext(AuthContext);
   const styles = useContext(StyleSheetContext);
-  const { signOut, user } = auth;
+
+  function ShuffleShuffle(array1, array2) {
+    // populate with values to shuffle
+    let shuffledArray = [];
+    shuffledArray.push(...array2);
+    shuffledArray.push(array1);
+
+    // shuffle answer array
+    shuffledArray.sort(() => (Math.random() > 0.5 ? 1 : -1));
+
+    // return shuffled array
+    return shuffledArray;
+  }
 
   return (
     <SafeAreaView style={localStyles.container}>
       <ScrollView>
         <Text style={styles.pageTitle}>SAMPLE TEST</Text>
-        {sampleTestData.map((e, i) => {
+        {SampleTestData.questions.map((e, i) => {
           return (
             <View style={localStyles.card} key={i}>
               <Text>Question {i + 1}</Text>
-              <Text>Question Type: {e.type}</Text>
-              <Text>{e.prompt}</Text>
+              <Text>{e.question1}</Text>
               <Text>Correct Answer: {e.options.Correct}</Text>
-              <Text>Other Options: {e.options.Incorrect}</Text>
+              <Text>Incorrect Answers: {e.options.Incorrect}</Text>
+              <Text>
+                TODO: Radio Buttons:{' '}
+                {ShuffleShuffle(e.options.Correct, e.options.Incorrect)}
+              </Text>
             </View>
           );
         })}
