@@ -137,7 +137,11 @@ export const NewQuizScreen = () => {
             <Text style={localStyles.title}>Question Types</Text>
             <View style={localStyles.container}>
               <BigButton
-                buttonColor={colors.lightGrey}
+                buttonColor={
+                  selectedQuestionType === 'Multiple Choice'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
                 textColor={
                   selectedQuestionType === 'Multiple Choice'
                     ? colors.white
@@ -147,7 +151,11 @@ export const NewQuizScreen = () => {
                 onPress={() => handleQuestionTypePress('Multiple Choice')}
               />
               <BigButton
-                buttonColor={colors.lightGrey}
+                buttonColor={
+                  selectedQuestionType === 'True/False'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
                 textColor={
                   selectedQuestionType === 'True/False'
                     ? colors.white
@@ -156,7 +164,7 @@ export const NewQuizScreen = () => {
                 content={'True/False'}
                 onPress={() => handleQuestionTypePress('True/False')}
               />
-              <BigButton
+              {/* <BigButton
                 buttonColor={colors.lightGrey}
                 textColor={
                   selectedQuestionType === 'Completion'
@@ -185,14 +193,18 @@ export const NewQuizScreen = () => {
                 }
                 content={'Essays'}
                 onPress={() => handleQuestionTypePress('Essays')}
-              />
+              /> */}
             </View>
           </View>
           <View>
             <Text style={localStyles.title}>Difficulty Level</Text>
             <View style={localStyles.container}>
               <BigButton
-                buttonColor={colors.lightGrey}
+                buttonColor={
+                  selectedDifficulty === 'Beginner'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
                 textColor={
                   selectedDifficulty === 'Beginner'
                     ? colors.white
@@ -202,7 +214,11 @@ export const NewQuizScreen = () => {
                 onPress={() => handleDifficultyPress('Beginner')}
               />
               <BigButton
-                buttonColor={colors.lightGrey}
+                buttonColor={
+                  selectedDifficulty === 'Intermediate'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
                 textColor={
                   selectedDifficulty === 'Intermediate'
                     ? colors.white
@@ -213,7 +229,11 @@ export const NewQuizScreen = () => {
                 disabled={true}
               />
               <BigButton
-                buttonColor={colors.lightGrey}
+                buttonColor={
+                  selectedDifficulty === 'Advanced'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
                 textColor={
                   selectedDifficulty === 'Advanced'
                     ? colors.white
