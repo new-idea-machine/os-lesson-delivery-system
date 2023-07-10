@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import React, { useContext } from 'react';
 import { colors } from '../config/colors';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import BigButton from '../components/BigButton';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import SampleTestData from '../data/SampleTestData.json';
 
-export const SampleTestScreen = () => {
+export const AnsweringScreen = () => {
   const styles = useContext(StyleSheetContext);
 
-  function ShuffleShuffle(array1, array2) {
+  function ShuffleAnswers(array1, array2) {
     // populate with values to shuffle
     let shuffledArray = [];
     shuffledArray.push(...array2);
@@ -30,21 +30,21 @@ export const SampleTestScreen = () => {
             <View style={localStyles.card} key={i}>
               <Text>Question {i + 1}</Text>
               <Text>{e.question1}</Text>
-              <Text>Correct Answer: {e.options.Correct}</Text>
-              <Text>Incorrect Answers: {e.options.Incorrect}</Text>
+              <Text>
               <Text>
                 TODO: Radio Buttons:{' '}
-                {ShuffleShuffle(e.options.Correct, e.options.Incorrect)}
+                {ShuffleAnswers(e.options.Correct, e.options.Incorrect)}
+              </Text>
               </Text>
             </View>
           );
         })}
       </ScrollView>
       <View style={localStyles.footer}>
-        <FunctionOnPressBigButton
+        <BigButton
           content={'Submit'}
           onPress={() => {
-            console.log('TODO: Submit Test');
+            console.log(value);
           }}
         />
       </View>

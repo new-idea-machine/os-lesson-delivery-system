@@ -1,24 +1,24 @@
 {
   "questions": [
     {
-      "question1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.",
+      "question1": "An earthquake that measures 8 on the Richter Scale would be how many times stronger than one that measures 4 on the same scale?",
       "options": {
-        "Correct": "A",
-        "Incorrect": ["B", "C", "D"]
+        "Correct": "10,000x Stronger",
+        "Incorrect": ["1000x Stronger", "50,000x Stronger", "100,000x Stronger"]
       }
     },
     {
-      "question1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.",
+      "question1": "How many sides does a pentagon have?",
       "options": {
-        "Correct": "B",
-        "Incorrect": ["A", "C", "D"]
+        "Correct": "5",
+        "Incorrect": ["4", "6", "7"]
       }
     },
     {
-      "question1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie nunc dictum sapien auctor, et porttitor metus ornare. Nulla euismod, mauris interdum congue mattis, massa justo placerat metus, vel tincidunt.",
+      "question1": "Which planet is the largest of the ones marked below.",
       "options": {
-        "Correct": "C",
-        "Incorrect": ["A", "B", "D"]
+        "Correct": "Jupiter",
+        "Incorrect": ["Saturn", "Earth", "Venus"]
       }
     }
   ]

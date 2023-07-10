@@ -18,7 +18,7 @@ export const HomeScreen = () => {
 
       <Button
         title='Try Sample Test!'
-        onPress={() => navigation.navigate('Sample Test')}
+        onPress={() => navigation.navigate('Answering Screen')}
       ></Button>
 
       <Button title='Sign Out' onPress={() => signOut()}></Button>
