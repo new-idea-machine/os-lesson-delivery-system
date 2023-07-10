@@ -1,4 +1,4 @@
-// https://github.com/codingki/react-native-expo-template/blob/master/template-typescript-bottom-tabs-supabase-auth-flow/src/provider/AuthProvider.tsx
+// Source: https://supabase.com/docs/guides/getting-started/tutorials/with-expo
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 import Constants from 'expo-constants';
@@ -10,42 +10,41 @@ if (Platform.OS !== 'web') {
   setupURLPolyfill();
 }
 
-const supabase_URL = Constants.manifest.extra.supabaseURL;
-const supabase_Key = Constants.manifest.extra.supabaseKEY;
+const supabase_URL = Constants.expoConfig.extra.supabaseURL;
+const supabase_KeyPublic = Constants.expoConfig.extra.supabaseKEY_PUBLIC;
 
 const options = {
   auth: {
-    localStorage: AsyncStorage,
+    storage: AsyncStorage,
     autoRefreshToken: true,
-    persistSession: false,
+    persistSession: true,
     detectSessionInUrl: false
   }
 };
-const supabase = createClient(supabase_URL, supabase_Key, options);
+const supabase = createClient(supabase_URL, supabase_KeyPublic, options);
 
 const AuthContext = createContext({});
 
 const AuthProvider = (props) => {
+  const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
-  const [sessionState, setSessionState] = useState(null);
 
   useEffect(() => {
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setSessionState(session);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
       setUser(session?.user ?? null);
     });
 
-    return () => {
-      subscription?.unsubscribe();
-    };
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
   }, []);
 
   const signOut = async () => await supabase.auth.signOut();
 
   const signInWithEmail = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
@@ -55,7 +54,7 @@ const AuthProvider = (props) => {
     } else return 'SignedIn';
   };
 
-  const handleSignUp = async (email, password, fullName, phoneNumber) => {
+  const signUpWithEmail = async (email, password, fullName, phoneNumber) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -76,10 +75,10 @@ const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         user,
-        session: sessionState,
+        session,
         signOut,
         signInWithEmail,
-        handleSignUp
+        signUpWithEmail
       }}
     >
       {props.children}

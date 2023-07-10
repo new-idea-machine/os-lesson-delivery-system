@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Checkbox, Divider } from 'react-native-paper';
-import FunctionOnPressBigButton from '../components/FunctionOnPressBigButton';
+import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
 import { colors } from '../config/colors';
@@ -18,7 +18,7 @@ export const SignUpScreen = ({ navigation }) => {
   const [password2, setPassword2] = useState();
   const styles = useContext(StyleSheetContext);
   const auth = useContext(AuthContext);
-  const { handleSignUp } = auth;
+  const { signUpWithEmail } = auth;
 
   const formVerify = () => {
     if (name && email && password && password2) {
@@ -39,7 +39,7 @@ export const SignUpScreen = ({ navigation }) => {
 
   const handleSubmitSignUp = async () => {
     if (formVerify()) {
-      const status = await handleSignUp(email, password, name, phone);
+      const status = await signUpWithEmail(email, password, name, phone);
       if (status === 'SignedUp') {
         Alert.alert('Success! You Are Signed Up!');
       } else {
@@ -96,8 +96,9 @@ export const SignUpScreen = ({ navigation }) => {
             right
           />
         </View>
-        {/* This button will need to pass values to auth process in future iterations */}
-        <FunctionOnPressBigButton
+        <BigButton
+          buttonColor={colors.green}
+          textColor={colors.black}
           content={'next'}
           onPress={handleSubmitSignUp}
         />
