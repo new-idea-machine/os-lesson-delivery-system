@@ -28,7 +28,9 @@ export const NewQuizScreen = () => {
   const [numQuestions, setNumQuestions] = useState(1);
 
   const handleIncrement = () => {
-    setNumQuestions(numQuestions + 1);
+    if (numQuestions < 6) {
+      setNumQuestions(numQuestions + 1);
+    }
   };
 
   const handleDecrement = () => {
