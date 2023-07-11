@@ -100,10 +100,11 @@ export const NewQuizScreen = () => {
                 iconColor={colors.white}
                 mode='contained'
                 style={localStyles.iconButton}
-                containerColor={colors.lightBlue}
+                containerColor={colors.aqua}
                 onPress={handleIncrement}
               />
               <TextInput
+                disabled
                 underlineColor={colors.white}
                 activeUnderlineColor={colors.white}
                 style={{
@@ -129,7 +130,7 @@ export const NewQuizScreen = () => {
                 iconColor={colors.white}
                 mode='contained'
                 style={localStyles.iconButton}
-                containerColor={colors.lightBlue}
+                containerColor={colors.aqua}
                 onPress={handleDecrement}
               />
             </View>
