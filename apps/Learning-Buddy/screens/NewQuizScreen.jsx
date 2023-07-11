@@ -302,7 +302,7 @@ export const NewQuizScreen = () => {
               textColor={colors.black}
               content={'Next'}
               onPress={() =>
-                navigation.navigate('Question Form', {
+                navigation.navigate('Home Screen', {
                   text,
                   numQuestions,
                   selectedQuestionType,
