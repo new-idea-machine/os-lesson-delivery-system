@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export const AppStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName='New Quiz Screen'
+      initialRouteName='Home Screen'
       screenOptions={{
         headerShown: false,
         cardStyle: { backgroundColor: colors.white }
