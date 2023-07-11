@@ -167,36 +167,6 @@ export const NewQuizScreen = () => {
                 content={'True/False'}
                 onPress={() => handleQuestionTypePress('True/False')}
               />
-              {/* <BigButton
-                buttonColor={colors.lightGrey}
-                textColor={
-                  selectedQuestionType === 'Completion'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Completion'}
-                onPress={() => handleQuestionTypePress('Completion')}
-              />
-              <BigButton
-                buttonColor={colors.lightGrey}
-                textColor={
-                  selectedQuestionType === 'Matching'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Matching'}
-                onPress={() => handleQuestionTypePress('Matching')}
-              />
-              <BigButton
-                buttonColor={colors.lightGrey}
-                textColor={
-                  selectedQuestionType === 'Essays'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Essays'}
-                onPress={() => handleQuestionTypePress('Essays')}
-              /> */}
             </View>
           </View>
           <View>
