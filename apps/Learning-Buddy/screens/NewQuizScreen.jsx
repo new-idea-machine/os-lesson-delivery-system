@@ -144,7 +144,7 @@ export const NewQuizScreen = () => {
                 onPress={handleIncrement}
               />
               <TextInput
-                disabled
+                editable={false}
                 underlineColor={colors.white}
                 activeUnderlineColor={colors.white}
                 style={{
