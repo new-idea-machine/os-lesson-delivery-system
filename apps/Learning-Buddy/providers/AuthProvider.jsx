@@ -1,11 +1,9 @@
 // Source: https://supabase.com/docs/guides/getting-started/tutorials/with-expo
-
-import React, { createContext, useEffect, useState } from 'react';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Constants from 'expo-constants';
-import { Platform } from 'react-native';
 import { createClient } from '@supabase/supabase-js';
+import Constants from 'expo-constants';
+import React, { createContext, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import { setupURLPolyfill } from 'react-native-url-polyfill';
 
 if (Platform.OS !== 'web') {
@@ -36,11 +34,10 @@ const AuthProvider = (props) => {
       setSession(session);
       setUser(session?.user ?? null);
     });
+
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      //testing code, leave for backend to, check Token for now
-      //console.log('Session: ', session);
     });
   }, []);
 
