@@ -346,6 +346,8 @@ const localStyles = StyleSheet.create({
   },
   divider: { marginVertical: 10 },
   pageTitle: {
+    marginTop: 20,
+    marginBottom: 10,
     color: colors.black,
     fontFamily: 'Poppins',
     fontWeight: '900',
@@ -360,7 +362,7 @@ const localStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     alignSelf: 'flex-start',
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 10
   },
   input: {
