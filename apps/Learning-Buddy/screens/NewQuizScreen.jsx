@@ -9,21 +9,25 @@ import {
   Paragraph,
   TextInput
 } from 'react-native-paper';
+import Constants from 'expo-constants';
+
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
 export const NewQuizScreen = () => {
+  const ip = Constants.expoConfig.extra.IP;
+
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   const [text, setText] = useState('');
-  const [numLines, changeNumLines] = useState(1);
+  // const [numLines, changeNumLines] = useState(1);
 
-  useEffect(() => {
-    const charLen = text.length;
-    const suggestLines = Math.ceil(charLen / 50);
-    suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
-  }, [text]);
+  // useEffect(() => {
+  //   const charLen = text.length;
+  //   const suggestLines = Math.ceil(charLen / 50);
+  //   suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
+  // }, [text]);
 
   const [numQuestions, setNumQuestions] = useState(1);
 
@@ -49,6 +53,41 @@ export const NewQuizScreen = () => {
 
   const handleDifficultyPress = (difficultyContent) => {
     setSelectedDifficulty(difficultyContent);
+  };
+
+  const [response, setResponse] = useState('');
+
+  const getQuestions = async () => {
+    setResponse(null);
+    const reqQuestion = `Ask me ${numQuestions} questions, multiple choice with four different potential answers, based only on this information: 
+    ${text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {"questions": [{"question1": "", "options": {"Correct": "", "Incorrect": ["", "", ""]}},...]}`;
+    let source = { id: 1, question: reqQuestion };
+    source = JSON.stringify(source);
+
+    try {
+      const response = await fetch(`http://${ip}:8000/questions/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // mode: 'no-cors',
+        body: source
+      });
+      const json = await response.json();
+      const questions = json.response.choices[0].text;
+      console.log(
+        '🚀 ~ file: NewQuizScreen.jsx:78 ~ getQuestions ~ questions:',
+        questions
+      );
+      return questions;
+    } catch (error) {
+      console.error(error);
+      setResponse('oh no, problem');
+    }
+  };
+
+  // When question is pass to the next screen
+  const onPressHandler = async () => {
+    const passingQuestions = await getQuestions();
+    navigation.navigate('Home Screen');
   };
 
   return (
@@ -77,7 +116,8 @@ export const NewQuizScreen = () => {
               onChangeText={(text) => setText(text)}
               value={text}
               multiline
-              numberOfLines={numLines}
+              numberOfLines={30}
+              // numberOfLines={numLines}
             />
             {/* <View style={localStyles.buttonContainer}>
               <BigButton
@@ -136,7 +176,7 @@ export const NewQuizScreen = () => {
             </View>
           </View>
 
-          <View>
+          {/* <View>
             <Text style={localStyles.title}>Question Types</Text>
             <View style={localStyles.container}>
               <BigButton
@@ -168,8 +208,8 @@ export const NewQuizScreen = () => {
                 onPress={() => handleQuestionTypePress('True/False')}
               />
             </View>
-          </View>
-          <View>
+          </View> */}
+          {/* <View>
             <Text style={localStyles.title}>Difficulty Level</Text>
             <View style={localStyles.container}>
               <BigButton
@@ -217,8 +257,8 @@ export const NewQuizScreen = () => {
                 disabled={true}
               />
             </View>
-          </View>
-          <View>
+          </View> */}
+          {/* <View>
             <Text style={localStyles.title}>Your Goal Of Taking The Quiz</Text>
             <View style={localStyles.container}>
               <Card
@@ -263,7 +303,7 @@ export const NewQuizScreen = () => {
                 </Card.Content>
               </Card>
             </View>
-          </View>
+          </View> */}
           <View style={localStyles.divider}>
             <Divider />
           </View>
@@ -272,14 +312,7 @@ export const NewQuizScreen = () => {
               buttonColor={colors.green}
               textColor={colors.black}
               content={'Next'}
-              onPress={() =>
-                navigation.navigate('Home Screen', {
-                  text,
-                  numQuestions,
-                  selectedQuestionType,
-                  selectedDifficulty
-                })
-              }
+              onPress={onPressHandler}
             />
           </View>
         </View>
