@@ -12,9 +12,9 @@ export const AnsweringScreen = () => {
   // const [questionData, setQuestionData] = useState(SampleTestData);
   const [answerData, setAnswerData] = useState({})
 
-  function UpdateGivenAnswers(question, newAnswer) {
+  function UpdateGivenAnswers(question, newAnswer, array) {
     // TODO: What happens after you send the data
-    console.log(`QUESTION: ${question.prompt} \n ANSWER GIVEN: ${newAnswer}`);
+    console.log(`QUESTION: ${question.prompt} \n ANSWER GIVEN: ${newAnswer} \n ARRAY WAS: ${array}`);
   }
 
   return (

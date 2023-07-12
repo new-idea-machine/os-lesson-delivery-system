@@ -1,9 +1,19 @@
 import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RadioButton } from 'react-native-paper';
 
 export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [value, setValue] = useState();
+  const [orderedOptions, setOrderedOptions] = useState([]);
+
+  useEffect(() => {
+    let randomizedOptions = CombineArrays(
+      question.options.Correct,
+      question.options.Incorrect
+    );
+    console.log('order is:', randomizedOptions);
+    setOrderedOptions(randomizedOptions);
+  }, []);
 
   // Combine two arrays into one to be rendered to frontend
   function CombineArrays(array1, array2) {
@@ -24,21 +34,19 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
       value={value}
       onValueChange={(newValue) => {
         setValue(newValue);
-        UpdateGivenAnswers(question, newValue);
+        UpdateGivenAnswers(question, newValue, orderedOptions);
       }}
     >
       {/* Render inputs / radio options for given question */}
-      {CombineArrays(question.options.Correct, question.options.Incorrect).map(
-        (questionOption) => (
-          <View style={localStyles.item} key={questionOption}>
-            <RadioButton.Item
-              position='trailing'
-              label={questionOption}
-              value={questionOption}
-            />
-          </View>
-        )
-      )}
+      {orderedOptions.map((questionOption) => (
+        <View style={localStyles.item} key={questionOption}>
+          <RadioButton.Item
+            position='trailing'
+            label={questionOption}
+            value={questionOption}
+          />
+        </View>
+      ))}
     </RadioButton.Group>
   );
 }
