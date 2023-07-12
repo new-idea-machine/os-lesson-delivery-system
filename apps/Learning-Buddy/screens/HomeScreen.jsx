@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../providers/AuthProvider';
+import BigButton from '../components/BigButton';
+import { colors } from '../config/colors';
 
 export const HomeScreen = () => {
   const navigation = useNavigation();
@@ -11,12 +13,24 @@ export const HomeScreen = () => {
   return (
     <View style={localStyles.container}>
       <Text>Hi {user.user_metadata.fullName}</Text>
-      <Button
-        title='Get your questions!'
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Create new quiz'}
+        onPress={() => navigation.navigate('New Quiz Screen')}
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Get your questions!'}
         onPress={() => navigation.navigate('Question Form')}
-      ></Button>
-
-      <Button title='Sign Out' onPress={() => signOut()}></Button>
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Sign Out'}
+        onPress={() => signOut()}
+      />
     </View>
   );
 };
