@@ -4,102 +4,49 @@ import { colors } from '../config/colors';
 import BigButton from '../components/BigButton';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import SampleTestData from '../data/SampleTestData.json';
+import QuestionRadioGroup from '../components/QuestionRadioGroup';
 import { RadioButton } from 'react-native-paper';
 
 export const AnsweringScreen = () => {
   const styles = useContext(StyleSheetContext);
-  const [value, setValue] = useState('50,000 x Stronger');
+  // const [questionData, setQuestionData] = useState(SampleTestData);
+  const [answerData, setAnswerData] = useState({})
 
-  // function ShuffleAnswers(array1, array2) {
-  //   // populate with values to shuffle
-  //   let shuffledArray = [];
-  //   shuffledArray.push(...array2);
-  //   shuffledArray.push(array1);
-
-  //   // shuffle answer array
-  //   shuffledArray.sort(() => (Math.random() > 0.5 ? 1 : -1));
-
-  //   // return shuffled array
-  //   return shuffledArray;
-  // }
-
-  function CombineArrays(array1, array2) {
-    // populate with values to shuffle
-    let shuffledArray = [];
-    shuffledArray.push(...array2);
-    shuffledArray.push(array1);
-
-    return shuffledArray;
-  }
-
-  let radioGroupInitalState = [];
-
-  SampleTestData.questions.map((e) => {
-    radioGroupInitalState.push({
-      value: ''
-    });
-  });
-
-  const [radioGroupState, setRadioGroupState] = useState(radioGroupInitalState);
-  
-
-  function handleRadioInput(i, radioCurrent) {
-
-    const updateRadioState = radioGroupState.map((radioState, index) => {
-      if (i === index) {
-        const newRadioState = {
-          value: radioCurrent
-        };
-        return newRadioState;
-      } else {
-        return radioState;
-      }
-    });
-
-    setRadioGroupState(updateRadioState);
+  function UpdateGivenAnswers(question, newAnswer) {
+    // TODO: What happens after you send the data
+    console.log(`QUESTION: ${question.prompt} \n ANSWER GIVEN: ${newAnswer}`);
   }
 
   return (
     <SafeAreaView style={localStyles.container}>
       <ScrollView>
         <Text style={styles.pageTitle}>SAMPLE TEST</Text>
-        {SampleTestData.questions.map((e, i) => {
+
+        {/* Render Question */}
+        {SampleTestData.questions.map((question, index) => {
           return (
-            <View style={localStyles.card} key={i}>
-              <Text>Question {i + 1}</Text>
-              <Text>{e.question1}</Text>
-              {console.log(radioGroupState)}
-              <RadioButton.Group
-                value={radioGroupState[i].value}
-                onValueChange={(newValue) => {
-                  handleRadioInput(i, newValue);
-                }}
-                style={localStyles.groupContainer}
-              >
-                {CombineArrays(e.options.Correct, e.options.Incorrect).map(
-                  (e) => (
-                    <View style={localStyles.item} key={e}>
-                      <RadioButton.Item
-                        position='trailing'
-                        label={e}
-                        value={e}
-                      />
-                    </View>
-                  )
-                )}
-              </RadioButton.Group>
+            <View style={localStyles.card} key={index}>
+              {/* Question Prompt */}
+              <Text>Question {index + 1}</Text>
+              <Text>{question.prompt}</Text>
+
+              {/* Render question radio button inputs */}
+              <QuestionRadioGroup
+                question={question}
+                UpdateGivenAnswers={UpdateGivenAnswers}
+              />
             </View>
           );
         })}
       </ScrollView>
+
+      {/* Submit Button */}
       <View style={localStyles.footer}>
         <BigButton
           buttonColor={colors.green}
           textColor={colors.black}
           content={'Submit'}
-          onPress={() => {
-            console.log(value);
-          }}
+          onPress={() => {}}
         />
       </View>
     </SafeAreaView>
