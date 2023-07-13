@@ -29,7 +29,7 @@ export const LoginScreen = ({ navigation }) => {
     if (formVerify()) {
       const status = await signInWithEmail(email, password);
       if (status === 'SignedIn') {
-        Alert.alert('Success! You Are Signed In!');
+        // Alert.alert('Success! You Are Signed In!');
       } else {
         Alert.alert(status);
       }
@@ -52,6 +52,10 @@ export const LoginScreen = ({ navigation }) => {
           symbol='account-outline'
           hidden='false'
           setter={setEmail}
+          autoCapitalize='none'
+          autoCompleteType='email'
+          textContentType='emailAddress'
+          keyboardType='email-address'
         />
         <MenuInput
           placeholder='Password'
@@ -75,6 +79,7 @@ export const LoginScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'next'}
         onPress={handleSubmitLogin}
+        uppercase={true}
       />
     </View>
   );

@@ -4,6 +4,7 @@ import { colors } from '../config/colors';
 import { QuestionForm } from '../screens/QuestionForm';
 import { HomeScreen } from '../screens/HomeScreen';
 import { AnsweringScreen } from '../screens/AnsweringScreen';
+import { NewQuizScreen } from '../screens/NewQuizScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export const AppStack = () => {
       <Stack.Screen name='Home Screen' component={HomeScreen} />
       <Stack.Screen name='Question Form' component={QuestionForm} />
       <Stack.Screen name="Answering Screen" component={AnsweringScreen} />
+      <Stack.Screen name='New Quiz Screen' component={NewQuizScreen} />
     </Stack.Navigator>
   );
 };

@@ -72,12 +72,18 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='false'
             setter={setEmail}
+            autoCapitalize='none'
+            autoCompleteType='email'
+            textContentType='emailAddress'
+            keyboardType='email-address'
           />
           <MenuInput
             placeholder='Your Phone Number'
             symbol='phone-outline'
             hidden='false'
             setter={setPhone}
+            textContentType='telephoneNumber'
+            keyboardType='phone-pad'
           />
           <MenuInput
             placeholder='Password'
@@ -101,6 +107,7 @@ export const SignUpScreen = ({ navigation }) => {
           textColor={colors.black}
           content={'next'}
           onPress={handleSubmitSignUp}
+          uppercase={true}
         />
         <Divider style={localStyles.dividerStyle} />
         <View style={localStyles.bottomSection}>
