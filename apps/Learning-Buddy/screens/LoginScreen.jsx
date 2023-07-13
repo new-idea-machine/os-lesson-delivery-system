@@ -16,13 +16,19 @@ export const LoginScreen = ({ navigation }) => {
 
   const formVerify = () => {
     if (email && password) {
-      const returnVal = {
-        email,
-        password
-      };
+      if (isValidEmail(email)) {
+        const returnVal = {
+          email,
+          password
+        };
 
-      return returnVal;
-    } else Alert.alert('Missing a required field');
+        return returnVal;
+      } else {
+        Alert.alert('Invalid email address');
+      }
+    } else {
+      Alert.alert('Missing a required field');
+    }
   };
 
   const handleSubmitLogin = async () => {
@@ -34,6 +40,11 @@ export const LoginScreen = ({ navigation }) => {
         Alert.alert(status);
       }
     }
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
