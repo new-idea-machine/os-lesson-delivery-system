@@ -1,28 +1,64 @@
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
-import React, { useContext, useState, useEffect } from 'react';
 import { colors } from '../config/colors';
-import BigButton from '../components/BigButton';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import BigButton from '../components/BigButton';
 import SampleTestData from '../data/SampleTestData.json';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
-import { RadioButton } from 'react-native-paper';
 
 export const AnsweringScreen = () => {
   const styles = useContext(StyleSheetContext);
-  // const [questionData, setQuestionData] = useState(SampleTestData);
-  const [answerData, setAnswerData] = useState({})
 
+  // boolean indicating all questions have been answered
+  const [notAllQuestionsAnswered, setNotAllQuestionsAnswered] = useState(true);
+
+  // final data to send to the next page
+  const [answerData, setAnswerData] = useState(SampleTestData);
+
+  // check if all questions have been answered in the test allowing submission
+  function verifyAllAnswered() {
+    let check = false;
+
+    answerData.questions.map((question) => {
+      if (question.answer === '') {
+        // a question has not been answered return true
+        check = true;
+        return;
+      }
+    });
+
+    if (check) {
+      setNotAllQuestionsAnswered(true);
+    } else {
+      setNotAllQuestionsAnswered(false);
+    }
+  }
+
+  // after radio button has been pressed save the answer the user chose
   function UpdateGivenAnswers(question, newAnswer, array) {
-    // TODO: What happens after you send the data
-    console.log(`QUESTION: ${question.prompt} \n ANSWER GIVEN: ${newAnswer} \n ARRAY WAS: ${array}`);
+    // This object will be modified with the new answer given
+    let newAnswerData = answerData;
+
+    // find index to modify
+    const objIndex = answerData.questions.findIndex(
+      (obj) => obj.prompt === question.prompt
+    );
+
+    // set the value of the array answers were printed in
+    newAnswerData.questions[objIndex].answer = newAnswer;
+    newAnswerData.questions[objIndex].array = array;
+
+    verifyAllAnswered();
+    // save new data
+    setAnswerData(newAnswerData);
   }
 
   return (
     <SafeAreaView style={localStyles.container}>
       <ScrollView>
         <Text style={styles.pageTitle}>SAMPLE TEST</Text>
-
         {/* Render Question */}
+
         {SampleTestData.questions.map((question, index) => {
           return (
             <View style={localStyles.card} key={index}>
@@ -43,10 +79,14 @@ export const AnsweringScreen = () => {
       {/* Submit Button */}
       <View style={localStyles.footer}>
         <BigButton
+          disabled={notAllQuestionsAnswered}
           buttonColor={colors.green}
           textColor={colors.black}
           content={'Submit'}
-          onPress={() => {}}
+          onPress={() => {
+            // TODO: send to next page
+            console.log(answerData);
+          }}
         />
       </View>
     </SafeAreaView>

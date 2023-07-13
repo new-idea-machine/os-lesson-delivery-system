@@ -7,16 +7,15 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [orderedOptions, setOrderedOptions] = useState([]);
 
   useEffect(() => {
-    let randomizedOptions = CombineArrays(
+    let randomizedOptions = ShuffleOptions(
       question.options.Correct,
       question.options.Incorrect
     );
-    console.log('order is:', randomizedOptions);
     setOrderedOptions(randomizedOptions);
   }, []);
 
   // Combine two arrays into one to be rendered to frontend
-  function CombineArrays(array1, array2) {
+  function ShuffleOptions(array1, array2) {
     // populate with values to shuffle
     let shuffledArray = [];
     shuffledArray.push(...array2);
