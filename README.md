@@ -8,8 +8,7 @@ Please note that, at present time, Expo can only be run in an emulator on the sa
 
 #### First-time user? Check out the Setup Information Section below to get started.
 
-*Please note that an API token is required to prompt ChatGPT for solutions. You can get your own token after creating an account on the OpenAI website.*
-
+_Please note that an API token is required to prompt ChatGPT for solutions. You can get your own token after creating an account on the OpenAI website._
 
 **Running the Frontend Server**
 
@@ -24,7 +23,7 @@ To start the FastAPI server, navigate to the project's root directory and use th
 Note that two .env files are required for the operation of this repo at present time.
 
 1. The first one will be in apps/Learning-Buddy, with the four following fields: IP, SUPABASEURL, SUPABASEKEY_PUBLIC and SUPABASEKEY_SECRET. The IP field should be automatically populated with your IPv4 address upon your first time running the frontend with `npm run start:app`.
-2. The second one can be found in backend, and has the following fields: API-TOKEN and DATABASE_URL. The API-TOKEN field is required to prompt OpenAI's API and can be created through creating your own account on their website.
+2. The second one can be found in backend, and has the following fields: API-TOKEN and DATABASE_URL, SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT, SUPABASE_ALG. The API-TOKEN field is required to prompt OpenAI's API and can be created through creating your own account on their website. Except API-TOKEN, the rest of the fields are required to connect to the Supabase database. You can find the values for these fields by creating your own account on Supabase and navigating to the Settings tab.
 
 ### Backend Setup:
 
@@ -41,12 +40,13 @@ Note that two .env files are required for the operation of this repo at present 
 
 #### PostgreSQL Setup (pre-prod)
 
-1. [Install PostgreSQL](https://www.postgresql.org/download/). For setup instructions, please refer to [this video](https://youtu.be/qw--VYLpxG4?t=863). 
+1. [Install PostgreSQL](https://www.postgresql.org/download/). For setup instructions, please refer to [this video](https://youtu.be/qw--VYLpxG4?t=863).
 2. If you run into errors including `psql: command not found` or an incorrect name prompt (e.g. defaults to your username instead of postgres), you can update your environment variables to address this. Ask Google or Maggie for assistance.
 3. Create a database called "test" and connect to it. (In PSQL, `CREATE DATABASE test ;`)
 4. In **backend/.env**, be sure to add your database connection string in the following format: `DATABASE_URL= "postgresql+psycopg2://[user]:[pword]@localhost:5432/test"`
-5. You can test your connection by starting up the backend (`npm run start:backend`) and then heading to 
-http://127.0.0.1:8000/docs and testing one of the "default" methods.
+5. You can test your connection by starting up the backend (`npm run start:backend`) and then heading to
+   http://127.0.0.1:8000/docs and testing one of the "default" methods.
+
 ### Frontend:
 
 Ensure that you use a separate terminal from the one used for the backend server.
