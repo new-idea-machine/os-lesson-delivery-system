@@ -36,6 +36,18 @@ export const SignUpScreen = ({ navigation }) => {
       return false;
     }
 
+    if (!password) {
+      setPasswordError(true);
+      Alert.alert('Missing password field');
+      return false;
+    }
+
+    if (!password2) {
+      setPassword2Error(true);
+      Alert.alert('Missing password field');
+      return false;
+    }
+
     if (password !== password2) {
       setPasswordError(true);
       setPassword2Error(true);
@@ -50,6 +62,8 @@ export const SignUpScreen = ({ navigation }) => {
 
     setNameError(false);
     setEmailError(false);
+    setPasswordError(false);
+    setPassword2Error(false);
 
     const returnVal = {
       name,
@@ -62,9 +76,9 @@ export const SignUpScreen = ({ navigation }) => {
   };
 
   const handleSubmitSignUp = async () => {
-    const verifiedForm = formVerify();
+    try {
+      const verifiedForm = formVerify();
 
-    if (verifiedForm) {
       const status = await signUpWithEmail(
         verifiedForm.email,
         verifiedForm.password,
@@ -73,10 +87,12 @@ export const SignUpScreen = ({ navigation }) => {
       );
 
       if (status === 'SignedUp') {
-        Alert.alert('Success! You Are Signed Up!');
+        Alert.alert('Success! You are signed up!');
       } else {
         Alert.alert(status);
       }
+    } catch (error) {
+      Alert.alert(error.message);
     }
   };
 
