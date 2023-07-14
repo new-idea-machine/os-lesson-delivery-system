@@ -22,9 +22,13 @@ export const LoginScreen = ({ navigation }) => {
         email,
         password
       };
-
+      setEmailError(false);
+      setPasswordError(false);
       return returnVal;
-    } else Alert.alert('Missing a required field');
+    } else {
+      Alert.alert('Missing a required field');
+      return null;
+    }
   };
 
   const handleSubmitLogin = async () => {
@@ -40,11 +44,13 @@ export const LoginScreen = ({ navigation }) => {
       return;
     }
 
-    if (formVerify()) {
-      const status = await signInWithEmail(email, password);
+    const verified = formVerify();
+    if (verified) {
+      const status = await signInWithEmail(verified.email, verified.password);
       if (status === 'SignedIn') {
+        // Handle successful sign-in
       } else {
-        // Alert.alert(status);
+        Alert.alert(status);
       }
     }
   };
