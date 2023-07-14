@@ -16,30 +16,62 @@ export const SignUpScreen = ({ navigation }) => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState();
   const [password2, setPassword2] = useState();
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [password2Error, setPassword2Error] = useState(false);
   const styles = useContext(StyleSheetContext);
   const auth = useContext(AuthContext);
   const { signUpWithEmail } = auth;
 
   const formVerify = () => {
-    if (name && email && password && password2) {
-      if (password === password2) {
-        if (checked) {
-          const returnVal = {
-            name,
-            email,
-            password,
-            ...(phone && { phone })
-          };
+    if (!name) {
+      setNameError(true);
+      Alert.alert('Missing name field');
+      return false;
+    }
+    if (!email) {
+      setEmailError(true);
+      Alert.alert('Missing email field');
+      return false;
+    }
 
-          return returnVal;
-        } else Alert.alert('Please accept our Terms of Service');
-      } else Alert.alert(`Passwords don't match`);
-    } else Alert.alert('Missing a required field');
+    if (password !== password2) {
+      setPasswordError(true);
+      setPassword2Error(true);
+      Alert.alert(`Passwords don't match`);
+      return false;
+    }
+
+    if (!checked) {
+      Alert.alert('Please accept our Terms of Service');
+      return false;
+    }
+
+    setNameError(false);
+    setEmailError(false);
+
+    const returnVal = {
+      name,
+      email,
+      password,
+      ...(phone && { phone })
+    };
+
+    return returnVal;
   };
 
   const handleSubmitSignUp = async () => {
-    if (formVerify()) {
-      const status = await signUpWithEmail(email, password, name, phone);
+    const verifiedForm = formVerify();
+
+    if (verifiedForm) {
+      const status = await signUpWithEmail(
+        verifiedForm.email,
+        verifiedForm.password,
+        verifiedForm.name,
+        verifiedForm.phone
+      );
+
       if (status === 'SignedUp') {
         Alert.alert('Success! You Are Signed Up!');
       } else {
@@ -65,6 +97,7 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='false'
             setter={setName}
+            error={nameError}
           />
           <MenuInput
             placeholder='Your Email'
@@ -76,6 +109,7 @@ export const SignUpScreen = ({ navigation }) => {
             autoCompleteType='email'
             textContentType='emailAddress'
             keyboardType='email-address'
+            error={emailError}
           />
           <MenuInput
             placeholder='Your Phone Number'
@@ -92,6 +126,7 @@ export const SignUpScreen = ({ navigation }) => {
             hidden='true'
             setter={setPassword}
             right
+            error={passwordError}
           />
           <MenuInput
             placeholder='Re-enter Password'
@@ -100,6 +135,7 @@ export const SignUpScreen = ({ navigation }) => {
             hidden='true'
             setter={setPassword2}
             right
+            error={password2Error}
           />
         </View>
         <BigButton

@@ -13,6 +13,8 @@ export const LoginScreen = ({ navigation }) => {
   const { signInWithEmail } = auth;
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const formVerify = () => {
     if (email && password) {
@@ -26,12 +28,23 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmitLogin = async () => {
+    if (!email) {
+      setEmailError(true);
+      Alert.alert('Email is required');
+      return;
+    }
+
+    if (!password) {
+      setPasswordError(true);
+      Alert.alert('Password is required');
+      return;
+    }
+
     if (formVerify()) {
       const status = await signInWithEmail(email, password);
       if (status === 'SignedIn') {
-        // Alert.alert('Success! You Are Signed In!');
       } else {
-        Alert.alert(status);
+        // Alert.alert(status);
       }
     }
   };
@@ -56,6 +69,7 @@ export const LoginScreen = ({ navigation }) => {
           autoCompleteType='email'
           textContentType='emailAddress'
           keyboardType='email-address'
+          error={emailError}
         />
         <MenuInput
           placeholder='Password'
@@ -63,6 +77,7 @@ export const LoginScreen = ({ navigation }) => {
           hidden='true'
           setter={setPassword}
           right
+          error={passwordError}
         />
       </View>
       <Pressable
@@ -73,7 +88,6 @@ export const LoginScreen = ({ navigation }) => {
       >
         <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
       </Pressable>
-      {/* This button will need to pass values to auth process in future iterations */}
       <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
