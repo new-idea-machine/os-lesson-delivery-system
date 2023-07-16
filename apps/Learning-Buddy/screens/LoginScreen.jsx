@@ -22,8 +22,6 @@ export const LoginScreen = ({ navigation }) => {
         email,
         password
       };
-      setEmailError(false);
-      setPasswordError(false);
       return returnVal;
     } else {
       Alert.alert('Missing a required field');
@@ -32,15 +30,16 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmitLogin = async () => {
+    setEmailError(false);
+    setPasswordError(false);
+
     if (!email) {
       setEmailError(true);
-      Alert.alert('Email is required');
       return;
     }
 
     if (!password) {
       setPasswordError(true);
-      Alert.alert('Password is required');
       return;
     }
 
@@ -77,6 +76,16 @@ export const LoginScreen = ({ navigation }) => {
           keyboardType='email-address'
           error={emailError}
         />
+        {emailError && (
+          <Text
+            style={{
+              color: colors.red,
+              textAlign: 'left'
+            }}
+          >
+            Invalid email
+          </Text>
+        )}
         <MenuInput
           placeholder='Password'
           symbol='lock-outline'
@@ -85,6 +94,17 @@ export const LoginScreen = ({ navigation }) => {
           right
           error={passwordError}
         />
+
+        {passwordError && (
+          <Text
+            style={{
+              color: colors.red,
+              textAlign: 'left'
+            }}
+          >
+            Invalid password
+          </Text>
+        )}
       </View>
       <Pressable
         style={{ display: 'flex', alignSelf: 'flex-start', marginLeft: 53 }}
@@ -99,7 +119,7 @@ export const LoginScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'next'}
         onPress={handleSubmitLogin}
-        uppercase={true}
+        uppercase='true'
       />
     </View>
   );
