@@ -30,9 +30,14 @@ export const SignUpScreen = ({ navigation }) => {
       Alert.alert('Missing name field');
       return false;
     }
+
     if (!email) {
       setEmailError(true);
       Alert.alert('Missing email field');
+      return false;
+    } else if (!isValidEmail(email)) {
+      setEmailError(true);
+      Alert.alert('Invalid email address');
       return false;
     }
 
@@ -41,7 +46,6 @@ export const SignUpScreen = ({ navigation }) => {
       Alert.alert('Missing password field');
       return false;
     }
-
     if (!password2) {
       setPassword2Error(true);
       Alert.alert('Missing password field');
@@ -49,51 +53,47 @@ export const SignUpScreen = ({ navigation }) => {
     }
 
     if (password !== password2) {
-        if (isValidEmail(email)) {
-        setPasswordError(true);
+      setPasswordError(true);
       setPassword2Error(true);
       Alert.alert(`Passwords don't match`);
       return false;
     }
 
     if (!checked) {
-        Alert.alert('Please accept our Terms of Service');
+      Alert.alert('Please accept our Terms of Service');
       return false;
     }
 
+    const returnVal = {
+      name,
+      email,
+      password,
+      ...(phone && { phone })
+    };
+    return returnVal;
+  };
+
+  const handleSubmitSignUp = async () => {
     setNameError(false);
     setEmailError(false);
     setPasswordError(false);
     setPassword2Error(false);
-
-    const returnVal = {
-        name,
-        email,
-        password,
-        ...(phone && { phone })
-      };
-
-          return returnVal;
-        } else Alert.alert('Please accept our Terms of Service');
-      } else Alert.alert(`Passwords don't match`);
-    } else Alert.alert('Missing a required field');
-  };
-
-  const handleSubmitSignUp = async () => {
     try {
       const verifiedForm = formVerify();
 
-      const status = await signUpWithEmail(
-        verifiedForm.email,
-        verifiedForm.password,
-        verifiedForm.name,
-        verifiedForm.phone
-      );
+      if (verifiedForm) {
+        const status = await signUpWithEmail(
+          verifiedForm.email,
+          verifiedForm.password,
+          verifiedForm.name,
+          verifiedForm.phone
+        );
 
-      if (status === 'SignedUp') {
-        Alert.alert('Success! You are signed up!');
-      } else {
-        Alert.alert(status);
+        if (status === 'SignedUp') {
+          Alert.alert('Success! You are signed up!');
+        } else {
+          Alert.alert(status);
+        }
       }
     } catch (error) {
       Alert.alert(error.message);
