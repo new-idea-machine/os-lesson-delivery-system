@@ -17,35 +17,31 @@ export const LoginScreen = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState(false);
 
   const formVerify = () => {
-    if (email && password) {
-      if (isValidEmail(email)) {
-        const returnVal = {
-          email,
-          password
-        };
-
-        return returnVal;
-      } else {
-        Alert.alert('Invalid email address');
-      }
-    } else {
-      Alert.alert('Missing a required field');
+    if (!email && !password) {
+      setEmailError(true);
+      setPasswordError(true);
     }
+
+    if (!email || !isValidEmail(email)) {
+      setEmailError(true);
+      return false;
+    }
+
+    if (!password) {
+      setPasswordError(true);
+      return false;
+    }
+
+    const returnVal = {
+      email,
+      password
+    };
+    return returnVal;
   };
 
   const handleSubmitLogin = async () => {
     setEmailError(false);
     setPasswordError(false);
-
-    if (!email) {
-      setEmailError(true);
-      return;
-    }
-
-    if (!password) {
-      setPasswordError(true);
-      return;
-    }
 
     const verified = formVerify();
     if (verified) {
@@ -86,14 +82,7 @@ export const LoginScreen = ({ navigation }) => {
           error={emailError}
         />
         {emailError && (
-          <Text
-            style={{
-              color: colors.red,
-              textAlign: 'left'
-            }}
-          >
-            Invalid email
-          </Text>
+          <Text style={localStyles.passwordError}>Invalid email</Text>
         )}
         <MenuInput
           placeholder='Password'
@@ -105,14 +94,7 @@ export const LoginScreen = ({ navigation }) => {
         />
 
         {passwordError && (
-          <Text
-            style={{
-              color: colors.red,
-              textAlign: 'left'
-            }}
-          >
-            Invalid password
-          </Text>
+          <Text style={localStyles.passwordError}>Invalid password</Text>
         )}
       </View>
       <Pressable
@@ -153,5 +135,9 @@ const localStyles = StyleSheet.create({
     marginBottom: 30,
     letterSpacing: 1,
     textTransform: 'capitalize'
+  },
+  passwordError: {
+    color: colors.red,
+    textAlign: 'left'
   }
 });
