@@ -49,14 +49,15 @@ export const SignUpScreen = ({ navigation }) => {
     }
 
     if (password !== password2) {
-      setPasswordError(true);
+        if (isValidEmail(email)) {
+        setPasswordError(true);
       setPassword2Error(true);
       Alert.alert(`Passwords don't match`);
       return false;
     }
 
     if (!checked) {
-      Alert.alert('Please accept our Terms of Service');
+        Alert.alert('Please accept our Terms of Service');
       return false;
     }
 
@@ -66,13 +67,16 @@ export const SignUpScreen = ({ navigation }) => {
     setPassword2Error(false);
 
     const returnVal = {
-      name,
-      email,
-      password,
-      ...(phone && { phone })
-    };
+        name,
+        email,
+        password,
+        ...(phone && { phone })
+      };
 
-    return returnVal;
+          return returnVal;
+        } else Alert.alert('Please accept our Terms of Service');
+      } else Alert.alert(`Passwords don't match`);
+    } else Alert.alert('Missing a required field');
   };
 
   const handleSubmitSignUp = async () => {
@@ -94,6 +98,11 @@ export const SignUpScreen = ({ navigation }) => {
     } catch (error) {
       Alert.alert(error.message);
     }
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
