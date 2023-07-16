@@ -25,37 +25,35 @@ export const SignUpScreen = ({ navigation }) => {
   const { signUpWithEmail } = auth;
 
   const formVerify = () => {
+    if (!name && !email && !password && !password2) {
+      setNameError(true);
+      setEmailError(true);
+      setPasswordError(true);
+      setPassword2Error(true);
+    }
+
     if (!name) {
       setNameError(true);
-      Alert.alert('Missing name field');
       return false;
     }
 
-    if (!email) {
+    if (!email || !isValidEmail(email)) {
       setEmailError(true);
-      Alert.alert('Missing email field');
-      return false;
-    } else if (!isValidEmail(email)) {
-      setEmailError(true);
-      Alert.alert('Invalid email address');
       return false;
     }
 
     if (!password) {
       setPasswordError(true);
-      Alert.alert('Missing password field');
       return false;
     }
     if (!password2) {
       setPassword2Error(true);
-      Alert.alert('Missing password field');
       return false;
     }
 
     if (password !== password2) {
       setPasswordError(true);
       setPassword2Error(true);
-      Alert.alert(`Passwords don't match`);
       return false;
     }
 
@@ -124,6 +122,9 @@ export const SignUpScreen = ({ navigation }) => {
             setter={setName}
             error={nameError}
           />
+          {nameError && (
+            <Text style={localStyles.passwordError}>Invalid name</Text>
+          )}
           <MenuInput
             placeholder='Your Email'
             symbol='email-outline'
@@ -136,6 +137,9 @@ export const SignUpScreen = ({ navigation }) => {
             keyboardType='email-address'
             error={emailError}
           />
+          {emailError && (
+            <Text style={localStyles.passwordError}>Invalid email</Text>
+          )}
           <MenuInput
             placeholder='Your Phone Number'
             symbol='phone-outline'
@@ -153,6 +157,9 @@ export const SignUpScreen = ({ navigation }) => {
             right
             error={passwordError}
           />
+          {passwordError && (
+            <Text style={localStyles.passwordError}>Invalid password</Text>
+          )}
           <MenuInput
             placeholder='Re-enter Password'
             symbol='lock-outline'
@@ -162,6 +169,9 @@ export const SignUpScreen = ({ navigation }) => {
             right
             error={password2Error}
           />
+          {password2Error && (
+            <Text style={localStyles.passwordError}>Invalid password</Text>
+          )}
         </View>
         <BigButton
           buttonColor={colors.green}
@@ -255,5 +265,10 @@ const localStyles = StyleSheet.create({
     lineHeight: 15,
     letterSpacing: 1,
     textDecorationLine: 'underline'
+  },
+  passwordError: {
+    fontSize: 10,
+    color: colors.red,
+    textAlign: 'left'
   }
 });

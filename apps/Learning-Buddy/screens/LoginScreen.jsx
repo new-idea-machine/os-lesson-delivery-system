@@ -137,6 +137,7 @@ const localStyles = StyleSheet.create({
     textTransform: 'capitalize'
   },
   passwordError: {
+    fontSize: 10,
     color: colors.red,
     textAlign: 'left'
   }
