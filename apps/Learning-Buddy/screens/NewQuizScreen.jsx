@@ -16,25 +16,43 @@ import { colors } from '../config/colors';
 
 export const NewQuizScreen = () => {
   const ip = Constants.expoConfig.extra.IP;
-
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-
   const [text, setText] = useState('');
-  // const [numLines, changeNumLines] = useState(1);
+  const [numQuestions, setNumQuestions] = useState(0);
+  const [maxQuestions, setMaxQuestions] = useState(0);
+  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+  const [response, setResponse] = useState('');
+  const [upDisabled, setUpDisabled] = useState(true);
+  const [downDisabled, setDownDisabled] = useState(true);
+  const [displayMessage, setDisplayMessage] = useState(false);
 
-  // useEffect(() => {
-  //   const charLen = text.length;
-  //   const suggestLines = Math.ceil(charLen / 50);
-  //   suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
-  // }, [text]);
+  useEffect(() => {
+    const charLen = text.length;
+    const max = Math.floor(charLen / 50);
+    setMaxQuestions(max);
+    numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
+    text && numQuestions == 1 ? setDownDisabled(true): setDownDisabled(false);
+    text && charLen < 50 ? setDisplayMessage(true) : setDisplayMessage(false);
+    charLen >=50 && numQuestions == 0 ? setNumQuestions(1) : null;
+    numQuestions > max? setNumQuestions(max) : null;
+    if (!text || charLen < 50) {
+      setDownDisabled(true);
+      setUpDisabled(true);
+      setNumQuestions(0)
+    }
+  }, [text]);
 
-  const [numQuestions, setNumQuestions] = useState(1);
+  useEffect(() => {
+    text && numQuestions < maxQuestions ? setUpDisabled(false) : setUpDisabled(true);
+    text && numQuestions > 1 ? setDownDisabled(false): setDownDisabled(true);
+  },[numQuestions])
+
 
   const handleIncrement = () => {
-    if (numQuestions < 6) {
+    if (numQuestions < maxQuestions) {
       setNumQuestions(numQuestions + 1);
-    }
+    } 
   };
 
   const handleDecrement = () => {
@@ -43,7 +61,6 @@ export const NewQuizScreen = () => {
     }
   };
 
-  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
 
   const handleQuestionTypePress = (questionTypeContent) => {
     setSelectedQuestionType(questionTypeContent);
@@ -55,7 +72,6 @@ export const NewQuizScreen = () => {
     setSelectedDifficulty(difficultyContent);
   };
 
-  const [response, setResponse] = useState('');
 
   const getQuestions = async () => {
     setResponse(null);
@@ -119,6 +135,8 @@ export const NewQuizScreen = () => {
               numberOfLines={30}
               // numberOfLines={numLines}
             />
+            {displayMessage ? <Text>Please enter at least 50 characters to continue</Text> : null}
+            {!text ? <Text>Please enter some content to get started</Text>:null}
             {/* <View style={localStyles.buttonContainer}>
               <BigButton
                 buttonColor={colors.grey}
@@ -134,6 +152,7 @@ export const NewQuizScreen = () => {
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
             <View style={localStyles.container}>
+            {maxQuestions && upDisabled? <Text>Add more content to request more questions!</Text> : null}
               <IconButton
                 icon='chevron-up'
                 size={34}
@@ -142,6 +161,7 @@ export const NewQuizScreen = () => {
                 style={localStyles.iconButton}
                 containerColor={colors.aqua}
                 onPress={handleIncrement}
+                disabled={upDisabled}
               />
               <TextInput
                 editable={false}
@@ -172,6 +192,7 @@ export const NewQuizScreen = () => {
                 style={localStyles.iconButton}
                 containerColor={colors.aqua}
                 onPress={handleDecrement}
+                disabled={downDisabled}
               />
             </View>
           </View>
