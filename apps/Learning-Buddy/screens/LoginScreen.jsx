@@ -17,16 +17,15 @@ export const LoginScreen = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState(false);
 
   const formVerify = () => {
-    if (!email) {
+    setEmailError(false);
+    setPasswordError(false);
+
+    if (!email || !isValidEmail(email)) {
       setEmailError(true);
-    } else if (!isValidEmail(email)) {
-      setEmailError(true);
-      return false;
     }
 
     if (!password) {
       setPasswordError(true);
-      return false;
     }
 
     const returnVal = {
@@ -38,9 +37,6 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmitLogin = async () => {
-    setEmailError(false);
-    setPasswordError(false);
-
     const verified = formVerify();
     if (verified) {
       const status = await signInWithEmail(verified.email, verified.password);

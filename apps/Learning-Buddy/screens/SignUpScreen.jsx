@@ -25,8 +25,14 @@ export const SignUpScreen = ({ navigation }) => {
   const { signUpWithEmail } = auth;
 
   const formVerify = () => {
+    setNameError(false);
+    setEmailError(false);
+    setPasswordError(false);
+    setPassword2Error(false);
+
     if (!name) setNameError(true);
-    if (!email) setEmailError(true);
+    if (!email || !isValidEmail(email)) setEmailError(true);
+
     if (!password) setPasswordError(true);
     if (!password2) setPassword2Error(true);
 
@@ -52,10 +58,6 @@ export const SignUpScreen = ({ navigation }) => {
   };
 
   const handleSubmitSignUp = async () => {
-    setNameError(false);
-    setEmailError(false);
-    setPasswordError(false);
-    setPassword2Error(false);
     try {
       const verifiedForm = formVerify();
 
