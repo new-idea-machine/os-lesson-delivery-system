@@ -17,12 +17,9 @@ export const LoginScreen = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState(false);
 
   const formVerify = () => {
-    if (!email && !password) {
+    if (!email) {
       setEmailError(true);
-      setPasswordError(true);
-    }
-
-    if (!email || !isValidEmail(email)) {
+    } else if (!isValidEmail(email)) {
       setEmailError(true);
       return false;
     }
@@ -36,6 +33,7 @@ export const LoginScreen = ({ navigation }) => {
       email,
       password
     };
+
     return returnVal;
   };
 
