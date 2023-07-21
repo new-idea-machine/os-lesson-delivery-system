@@ -25,36 +25,14 @@ export const SignUpScreen = ({ navigation }) => {
   const { signUpWithEmail } = auth;
 
   const formVerify = () => {
-    if (!name && !email && !password && !password2) {
-      setNameError(true);
-      setEmailError(true);
-      setPasswordError(true);
-      setPassword2Error(true);
-    }
-
-    if (!name) {
-      setNameError(true);
-      return false;
-    }
-
-    if (!email || !isValidEmail(email)) {
-      setEmailError(true);
-      return false;
-    }
-
-    if (!password) {
-      setPasswordError(true);
-      return false;
-    }
-    if (!password2) {
-      setPassword2Error(true);
-      return false;
-    }
+    if (!name) setNameError(true);
+    if (!email) setEmailError(true);
+    if (!password) setPasswordError(true);
+    if (!password2) setPassword2Error(true);
 
     if (password !== password2) {
       setPasswordError(true);
       setPassword2Error(true);
-      return false;
     }
 
     if (!checked) {
@@ -62,13 +40,15 @@ export const SignUpScreen = ({ navigation }) => {
       return false;
     }
 
-    const returnVal = {
+    if (nameError || emailError || passwordError || password2Error)
+      return false;
+
+    return {
       name,
       email,
       password,
-      ...(phone && { phone })
+      phone
     };
-    return returnVal;
   };
 
   const handleSubmitSignUp = async () => {
