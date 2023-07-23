@@ -1,26 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { colors } from '../config/colors';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import BigButton from '../components/BigButton';
-import SampleTestData from '../data/SampleTestData.json';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
 
-export const AnsweringScreen = () => {
+export const AnsweringScreen = ({route}) => {
   const styles = useContext(StyleSheetContext);
 
   // boolean indicating all questions have been answered
   const [notAllQuestionsAnswered, setNotAllQuestionsAnswered] = useState(true);
 
   // final data to send to the next page
-  const [answerData, setAnswerData] = useState(SampleTestData);
+  const [answerData, setAnswerData] = useState([]);
 
   // check if all questions have been answered in the test allowing submission
   function verifyAllAnswered() {
     let check = false;
 
-    answerData.questions.map((question) => {
-      if (question.answer === '') {
+    answerData.map((question) => {
+      if (question.chosenAnswer === '' || question.chosenAnswer === undefined) {
         // a question has not been answered return true
         check = true;
         return;
@@ -40,26 +39,31 @@ export const AnsweringScreen = () => {
     let newAnswerData = answerData;
 
     // find index to modify
-    const objIndex = answerData.questions.findIndex(
+    const objIndex = answerData.findIndex(
       (obj) => obj.prompt === question.prompt
     );
 
     // set the value of the array answers were printed in
-    newAnswerData.questions[objIndex].answer = newAnswer;
-    newAnswerData.questions[objIndex].array = array;
+    newAnswerData[objIndex].chosenAnswer = newAnswer;
+    newAnswerData[objIndex].shuffledArray = array;
 
     verifyAllAnswered();
     // save new data
     setAnswerData(newAnswerData);
   }
 
+  useEffect(() => {
+    // question list on load
+    setAnswerData(route.params.questions || [])
+  }, [])
+  
+
   return (
     <SafeAreaView style={localStyles.container}>
       <ScrollView>
         <Text style={styles.pageTitle}>SAMPLE TEST</Text>
         {/* Render Question */}
-
-        {SampleTestData.questions.map((question, index) => {
+        {answerData.map((question, index) => {
           return (
             <View style={localStyles.card} key={index}>
               {/* Question Prompt */}

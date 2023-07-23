@@ -10,7 +10,6 @@ import {
   TextInput
 } from 'react-native-paper';
 import Constants from 'expo-constants';
-
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
@@ -60,7 +59,7 @@ export const NewQuizScreen = () => {
   const getQuestions = async () => {
     setResponse(null);
     const reqQuestion = `Ask me ${numQuestions} questions, multiple choice with four different potential answers, based only on this information: 
-    ${text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {"questions": [{"question1": "", "options": {"Correct": "", "Incorrect": ["", "", ""]}},...]}`;
+    ${text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {"questions": [{"prompt": "", "options": {"Correct": "", "Incorrect": ["", "", ""]}},...]}`;
     let source = { id: 1, question: reqQuestion };
     source = JSON.stringify(source);
 
@@ -87,7 +86,7 @@ export const NewQuizScreen = () => {
   // When question is pass to the next screen
   const onPressHandler = async () => {
     const passingQuestions = await getQuestions();
-    navigation.navigate('Home Screen');
+    navigation.navigate('Answering Screen', passingQuestions);
   };
 
   return (

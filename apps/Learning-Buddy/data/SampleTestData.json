@@ -1,8 +1,6 @@
 {
   "questions": [
     {
-      "answer": "",
-      "array": [],
       "prompt": "An earthquake that measures 8 on the Richter Scale would be how many times stronger than one that measures 4 on the same scale?",
       "options": {
         "Correct": "10,000 x Stronger",
@@ -14,8 +12,6 @@
       }
     },
     {
-      "answer": "",
-      "array": [],
       "prompt": "How many sides does a pentagon have?",
       "options": {
         "Correct": "5",
@@ -23,8 +19,6 @@
       }
     },
     {
-      "answer": "",
-      "array": [],
       "prompt": "Who was Joe’s co-creator for the character of Superman?",
       "options": {
         "Correct": "Jerry Siegel",
