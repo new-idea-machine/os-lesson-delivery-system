@@ -7,7 +7,8 @@
 	],
 	"scripts": {
 		"start:app": "node findIP && npm run start --workspace=learning-buddy",
-		"start:backend": "python3 backend/main.py",
+		"start:backend": "python backend/main.py",
+		"start:backend:mac": "python3 backend/main.py",
 		"start:app:cache": "node findIP && npm run start:cache --workspace=learning-buddy"
 	}
 }
