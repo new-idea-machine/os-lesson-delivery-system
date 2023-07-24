@@ -9,6 +9,7 @@ import { colors } from '../config/colors';
 
 export const QuizResultScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   const [progress, setProgress] = React.useState(Math.random());
 
@@ -33,7 +34,6 @@ export const QuizResultScreen = () => {
           <View>
             <Text
               style={{
-                // marginVertical: 10,
                 color: colors.lightOrange,
                 fontFamily: 'Poppins',
                 fontWeight: '900',
@@ -43,7 +43,13 @@ export const QuizResultScreen = () => {
               66/100
             </Text>
           </View>
-          <View style={{ marginVertical: 20 }}>
+          <View
+            style={{
+              marginVertical: 20,
+              flexDirection: 'column',
+              alignItems: 'flex-start'
+            }}
+          >
             <Text
               style={{
                 fontFamily: 'Poppins',
@@ -55,22 +61,34 @@ export const QuizResultScreen = () => {
             </Text>
             <View
               style={{
+                flex: 1,
+                marginVertical: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
-                marginVertical: 10
+                alignContent: 'space-between'
               }}
             >
-              <ProgressBar
-                progress={progress}
-                color={colors.lightOrange}
+              <View
                 style={{
-                  borderRadius: 25,
-                  height: 10,
-                  maxWidth: '95%'
+                  flex: 1
                 }}
-              />
-              <Text style={{ marginLeft: 10, maxWidth: '100%' }}>65%</Text>
+              >
+                <ProgressBar
+                  progress={progress}
+                  color={colors.lightOrange}
+                  style={{
+                    borderRadius: 25,
+                    height: 10
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  marginLeft: 10
+                }}
+              >
+                <Text>{Math.round(progress * 100)}%</Text>
+              </View>
             </View>
           </View>
 
@@ -102,12 +120,13 @@ export const QuizResultScreen = () => {
               textColor={colors.black}
               content={'Retake this quiz'}
               onPress={onPressHandler}
+              disabled={true}
             />
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}
-              content={'Go to my content'}
-              onPress={onPressHandler}
+              content={'Go to home screen'}
+              onPress={() => navigation.navigate('Home Screen')}
             />
           </View>
         </View>
