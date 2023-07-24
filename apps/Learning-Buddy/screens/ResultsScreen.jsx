@@ -20,7 +20,7 @@ export const ResultsScreen = ({ route }) => {
     return (
       <>
         <Text>{`You got ${correctCount} correct`}</Text>
-        <Text>{`You got ${incorrectCount} correct`}</Text>
+        <Text>{`You got ${incorrectCount} incorrect`}</Text>
         <Text>
           {`You got ${correctCount} / ${total}. or ${Math.round(
             (correctCount / total) * 100
