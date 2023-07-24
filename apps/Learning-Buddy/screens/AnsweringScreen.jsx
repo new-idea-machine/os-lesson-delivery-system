@@ -4,9 +4,12 @@ import { colors } from '../config/colors';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import BigButton from '../components/BigButton';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
+import { useNavigation } from '@react-navigation/native';
+
 
 export const AnsweringScreen = ({route}) => {
   const styles = useContext(StyleSheetContext);
+  const navigation = useNavigation();
 
   // boolean indicating all questions have been answered
   const [notAllQuestionsAnswered, setNotAllQuestionsAnswered] = useState(true);
@@ -52,6 +55,10 @@ export const AnsweringScreen = ({route}) => {
     setAnswerData(newAnswerData);
   }
 
+  function SubmitTest() {
+    navigation.navigate('Results Screen', answerData);
+  }
+
   useEffect(() => {
     // question list on load
     setAnswerData(route.params.questions || [])
@@ -88,8 +95,7 @@ export const AnsweringScreen = ({route}) => {
           textColor={colors.black}
           content={'Submit'}
           onPress={() => {
-            // TODO: send to next page
-            console.log(answerData);
+            SubmitTest()
           }}
         />
       </View>

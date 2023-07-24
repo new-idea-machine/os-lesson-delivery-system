@@ -85,7 +85,8 @@ export const NewQuizScreen = () => {
 
   // When question is pass to the next screen
   const onPressHandler = async () => {
-    const passingQuestions = await getQuestions();
+    let passingQuestions = await getQuestions();
+    passingQuestions = JSON.parse(passingQuestions);
     navigation.navigate('Answering Screen', passingQuestions);
   };
 
