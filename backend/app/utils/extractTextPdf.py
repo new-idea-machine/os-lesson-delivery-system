@@ -3,10 +3,11 @@ from PyPDF2 import PdfReader
 def extract_text_pdf(pdf): 
     pdfreader = PdfReader(pdf.file)
     x = len(pdfreader.pages)
-    texts = ""
+    extracted_text  = ""
+
     # Loop through all pages
     for i in range(x):
         pageobj = pdfreader.pages[i]
-        texts += pageobj.extract_text()
+        extracted_text  += pageobj.extract_text()
     
-    return {"text": texts}
+    return {"text": extracted_text }

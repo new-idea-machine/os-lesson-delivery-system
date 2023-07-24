@@ -9,5 +9,6 @@ sqlalchemy
 psycopg2
 PyPDF2
 pytesseract
-Pillow
-cv2
+opencv-python
+python-docx
+pillow
