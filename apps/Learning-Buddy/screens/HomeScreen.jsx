@@ -38,6 +38,12 @@ export const HomeScreen = () => {
         onPress={() => navigation.navigate('Quiz Result Screen')}
       />
       <BigButton
+        buttonColor={colors.lightBlue}
+        textColor={colors.black}
+        content={'Quiz Result Detail'}
+        onPress={() => navigation.navigate('Quiz Result Detail Screen')}
+      />
+      <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'Sign Out'}
