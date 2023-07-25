@@ -3,12 +3,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
+  Button,
   Card,
   IconButton,
   Divider,
   Paragraph,
   TextInput
 } from 'react-native-paper';
+import * as DocumentPicker from 'expo-document-picker';
 import Constants from 'expo-constants';
 
 import BigButton from '../components/BigButton';
@@ -28,6 +30,22 @@ export const NewQuizScreen = () => {
   //   const suggestLines = Math.ceil(charLen / 50);
   //   suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
   // }, [text]);
+
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+        copyToCacheDirectory: false
+      });
+
+      if (result.type === 'success') {
+        // handle the file upload here
+        console.log(result.uri);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [numQuestions, setNumQuestions] = useState(1);
 
@@ -73,10 +91,18 @@ export const NewQuizScreen = () => {
       });
       const json = await response.json();
       const questions = json.response.choices[0].text;
+
       console.log(
-        '🚀 ~ file: NewQuizScreen.jsx:78 ~ getQuestions ~ questions:',
+        '🪵 ---------------------------------------------------------------------🪵'
+      );
+      console.log(
+        '🪵 ~ file: NewQuizScreen.jsx:77 ~ getQuestions ~ questions:',
         questions
       );
+      console.log(
+        '🪵 ---------------------------------------------------------------------🪵'
+      );
+
       return questions;
     } catch (error) {
       console.error(error);
@@ -128,6 +154,12 @@ export const NewQuizScreen = () => {
               />
             </View> */}
           </View>
+          <BigButton
+            buttonColor={colors.white}
+            textColor={colors.black}
+            content={'Upload File'}
+            onPress={pickDocument}
+          />
           <View style={localStyles.divider}>
             <Divider />
           </View>
@@ -175,7 +207,6 @@ export const NewQuizScreen = () => {
               />
             </View>
           </View>
-
           {/* <View>
             <Text style={localStyles.title}>Question Types</Text>
             <View style={localStyles.container}>
