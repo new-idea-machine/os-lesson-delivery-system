@@ -93,19 +93,31 @@ export const QuizResultScreen = () => {
           </View>
 
           <View style={{ marginVertical: 10 }}>
-            <Card onPress={() => {}} mode='elevated'>
+            <Card
+              onPress={() => {}}
+              mode='elevated'
+              style={{ borderRadius: 1 }}
+            >
               <Card.Title title='1. in which year did germany...' />
               <Card.Content>
                 <Text style={{ color: colors.red }}>A. 1937</Text>
               </Card.Content>
             </Card>
-            <Card onPress={() => {}} mode='elevated'>
+            <Card
+              onPress={() => {}}
+              mode='elevated'
+              style={{ borderRadius: 1 }}
+            >
               <Card.Title title='2. how long did it take germans...' />
               <Card.Content>
                 <Text style={{ color: colors.lightBlue }}>B. 35 Days</Text>
               </Card.Content>
             </Card>
-            <Card onPress={() => {}} mode='elevated'>
+            <Card
+              onPress={() => {}}
+              mode='elevated'
+              style={{ borderRadius: 1 }}
+            >
               <Card.Title title='3. what is the full name of...' />
               <Card.Content>
                 <Text style={{ color: colors.lightBlue }}>
@@ -118,14 +130,14 @@ export const QuizResultScreen = () => {
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}
-              content={'Retake this quiz'}
+              content={'RETAKE THIS QUIZ'}
               onPress={onPressHandler}
               disabled={true}
             />
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}
-              content={'Go to home screen'}
+              content={'GO TO HOME SCREEN'}
               onPress={() => navigation.navigate('Home Screen')}
             />
           </View>
