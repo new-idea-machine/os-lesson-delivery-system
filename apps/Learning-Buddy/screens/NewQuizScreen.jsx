@@ -32,18 +32,27 @@ export const NewQuizScreen = () => {
   // }, [text]);
 
   const pickDocument = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: '*/*',
-        copyToCacheDirectory: false
-      });
+    let result = await DocumentPicker.getDocumentAsync({});
 
-      if (result.type === 'success') {
-        // handle the file upload here
-        console.log(result.uri);
+    if (result.type === 'success') {
+      let file = {
+        name: result.name,
+        uri: result.uri,
+        type: result.mimeType
+      };
+
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await fetch(`http://${ip}:8000/extract/file`, {
+          method: 'POST',
+          body: formData
+        });
+        const text = await response.text();
+        console.log(text);
+      } catch (err) {
+        console.log(err);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
