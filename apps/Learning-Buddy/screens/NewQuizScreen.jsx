@@ -23,6 +23,7 @@ export const NewQuizScreen = () => {
   const navigation = useNavigation();
 
   const [text, setText] = useState('');
+
   // const [numLines, changeNumLines] = useState(1);
 
   // useEffect(() => {
@@ -48,7 +49,8 @@ export const NewQuizScreen = () => {
           method: 'POST',
           body: formData
         });
-        const text = await response.text();
+        const data = await response.json();
+        setText(data.text);
         console.log(text);
       } catch (err) {
         console.log(err);
