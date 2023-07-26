@@ -50,7 +50,7 @@ export const NewQuizScreen = () => {
           body: formData
         });
         const data = await response.json();
-        setText(data);
+        setText(data.text);
         console.log(text);
       } catch (err) {
         console.log(err);
