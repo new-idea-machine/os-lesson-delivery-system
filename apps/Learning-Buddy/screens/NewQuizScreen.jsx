@@ -16,23 +16,50 @@ import { colors } from '../config/colors';
 
 export const NewQuizScreen = () => {
   const ip = Constants.expoConfig.extra.IP;
-
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-
   const [text, setText] = useState('');
-  // const [numLines, changeNumLines] = useState(1);
+  const [numQuestions, setNumQuestions] = useState(0);
+  const [maxQuestions, setMaxQuestions] = useState(0);
+  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+  const [response, setResponse] = useState('');
+  const [upDisabled, setUpDisabled] = useState(true);
+  const [downDisabled, setDownDisabled] = useState(true);
+  const [characters, setCharacters] = useState('0');
+  const [remaining, setRemaining] = useState(0);
 
-  // useEffect(() => {
-  //   const charLen = text.length;
-  //   const suggestLines = Math.ceil(charLen / 50);
-  //   suggestLines > 0 ? changeNumLines(suggestLines) : changeNumLines(1);
-  // }, [text]);
+  useEffect(() => {
+    const charLen = text.length;
+    const max = Math.floor(charLen / 50);
+    setMaxQuestions(max);
+    setRemaining(50-(charLen%50))
+    const stringedCharacters = charLen.toString();
+    numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
+    text && numQuestions == 1 ? setDownDisabled(true) : setDownDisabled(false);
+    charLen >= 50 && numQuestions == 0 ? setNumQuestions(1) : null;
+    numQuestions > max ? setNumQuestions(max) : null;
+    if (!text || charLen < 50) {
+      setDownDisabled(true);
+      setUpDisabled(true);
+      setNumQuestions(0);
+    }
 
-  const [numQuestions, setNumQuestions] = useState(1);
+    if (charLen < 50) {
+      setCharacters(`${stringedCharacters}/50`);
+    } else {
+      setCharacters(stringedCharacters);
+    }
+  }, [text]);
+
+  useEffect(() => {
+    text && numQuestions < maxQuestions
+      ? setUpDisabled(false)
+      : setUpDisabled(true);
+    text && numQuestions > 1 ? setDownDisabled(false) : setDownDisabled(true);
+  }, [numQuestions]);
 
   const handleIncrement = () => {
-    if (numQuestions < 6) {
+    if (numQuestions < maxQuestions) {
       setNumQuestions(numQuestions + 1);
     }
   };
@@ -43,8 +70,6 @@ export const NewQuizScreen = () => {
     }
   };
 
-  const [selectedQuestionType, setSelectedQuestionType] = useState(null);
-
   const handleQuestionTypePress = (questionTypeContent) => {
     setSelectedQuestionType(questionTypeContent);
   };
@@ -54,8 +79,6 @@ export const NewQuizScreen = () => {
   const handleDifficultyPress = (difficultyContent) => {
     setSelectedDifficulty(difficultyContent);
   };
-
-  const [response, setResponse] = useState('');
 
   const getQuestions = async () => {
     setResponse(null);
@@ -117,8 +140,30 @@ export const NewQuizScreen = () => {
               value={text}
               multiline
               numberOfLines={30}
-              // numberOfLines={numLines}
             />
+            <TextInput
+              mode='flat'
+              underlineColor={colors.white}
+              activeUnderlineColor={colors.white}
+              style={{
+                paddingTop: 0,
+                marginTop: -5,
+                backgroundColor: colors.lightGrey,
+                width: '100%',
+                borderBottomEndRadius: 15,
+                borderBottomStartRadius: 15,
+                height: 25,
+                textAlign: 'right',
+                fontSize: 12
+              }}
+              value={characters}
+            />
+            {text && parseInt(characters, 10) < 50 ? (
+              <Text>Please enter at least 50 characters to continue</Text>
+            ) : null}
+            {!text ? (
+              <Text>Please enter some content to get started</Text>
+            ) : null}
             {/* <View style={localStyles.buttonContainer}>
               <BigButton
                 buttonColor={colors.grey}
@@ -134,6 +179,7 @@ export const NewQuizScreen = () => {
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
             <View style={localStyles.container}>
+              
               <IconButton
                 icon='chevron-up'
                 size={34}
@@ -142,6 +188,7 @@ export const NewQuizScreen = () => {
                 style={localStyles.iconButton}
                 containerColor={colors.aqua}
                 onPress={handleIncrement}
+                disabled={upDisabled}
               />
               <TextInput
                 editable={false}
@@ -160,7 +207,7 @@ export const NewQuizScreen = () => {
                   fontSize: 20,
                   backgroundColor: colors.lightGrey
                 }}
-                value={numQuestions.toString()}
+                value={`${numQuestions.toString()} / ${maxQuestions}`}
                 onChangeText={(text) => setNumQuestions(parseInt(text))}
                 keyboardType='numeric'
               />
@@ -172,7 +219,14 @@ export const NewQuizScreen = () => {
                 style={localStyles.iconButton}
                 containerColor={colors.aqua}
                 onPress={handleDecrement}
+                disabled={downDisabled}
               />
+              {maxQuestions && upDisabled ? (
+                <Text style={{ textAlign: 'center' }}>
+                  {/* Add more content to request more questions!{'\n'}  */}
+                  {remaining} more characters required to unlock another question.
+                </Text>
+              ) : null}
             </View>
           </View>
 
@@ -371,10 +425,11 @@ const localStyles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    height: 300,
+    height: 280,
     margin: 10,
-    borderBottomEndRadius: 15,
-    borderBottomStartRadius: 15,
+    marginBottom: 0,
+    // borderBottomEndRadius: 15,
+    // borderBottomStartRadius: 15,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: colors.lightGrey
