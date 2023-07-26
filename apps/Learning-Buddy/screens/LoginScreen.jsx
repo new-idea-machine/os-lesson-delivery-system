@@ -13,29 +13,40 @@ export const LoginScreen = ({ navigation }) => {
   const { signInWithEmail } = auth;
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const formVerify = () => {
-    if (email && password) {
-      if (isValidEmail(email)) {
-        const returnVal = {
-          email,
-          password
-        };
+    setEmailError(false);
+    setPasswordError(false);
+    let isValid = true;
 
-        return returnVal;
-      } else {
-        Alert.alert('Invalid email address');
-      }
-    } else {
-      Alert.alert('Missing a required field');
+    if (!email || !isValidEmail(email)) {
+      setEmailError(true);
+      isValid = false;
     }
+
+    if (!password) {
+      setPasswordError(true);
+      isValid = false;
+    }
+
+    const returnVal = {
+      email,
+      password
+    };
+
+    if (isValid) {
+      return returnVal;
+    } else return false;
   };
 
   const handleSubmitLogin = async () => {
-    if (formVerify()) {
-      const status = await signInWithEmail(email, password);
+    const verified = formVerify();
+    if (verified) {
+      const status = await signInWithEmail(verified.email, verified.password);
       if (status === 'SignedIn') {
-        // Alert.alert('Success! You Are Signed In!');
+        // Handle successful sign-in
       } else {
         Alert.alert(status);
       }
@@ -67,14 +78,23 @@ export const LoginScreen = ({ navigation }) => {
           autoCompleteType='email'
           textContentType='emailAddress'
           keyboardType='email-address'
+          error={emailError}
         />
+        {emailError && (
+          <Text style={localStyles.passwordError}>Invalid email</Text>
+        )}
         <MenuInput
           placeholder='Password'
           symbol='lock-outline'
           hidden='true'
           setter={setPassword}
           right
+          error={passwordError}
         />
+
+        {passwordError && (
+          <Text style={localStyles.passwordError}>Invalid password</Text>
+        )}
       </View>
       <Pressable
         style={{ display: 'flex', alignSelf: 'flex-start', marginLeft: 53 }}
@@ -84,13 +104,12 @@ export const LoginScreen = ({ navigation }) => {
       >
         <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
       </Pressable>
-      {/* This button will need to pass values to auth process in future iterations */}
       <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'next'}
         onPress={handleSubmitLogin}
-        uppercase={true}
+        uppercase='true'
       />
     </View>
   );
@@ -115,5 +134,10 @@ const localStyles = StyleSheet.create({
     marginBottom: 30,
     letterSpacing: 1,
     textTransform: 'capitalize'
+  },
+  passwordError: {
+    fontSize: 10,
+    color: colors.red,
+    textAlign: 'left'
   }
 });

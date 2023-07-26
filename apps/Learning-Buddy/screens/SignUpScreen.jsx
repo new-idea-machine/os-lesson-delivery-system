@@ -16,45 +16,81 @@ export const SignUpScreen = ({ navigation }) => {
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState();
   const [password2, setPassword2] = useState();
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [password2Error, setPassword2Error] = useState(false);
   const styles = useContext(StyleSheetContext);
   const auth = useContext(AuthContext);
   const { signUpWithEmail } = auth;
 
   const formVerify = () => {
-    if (name && email && password && password2) {
-      if (password === password2) {
-        if (isValidEmail(email)) {
-          if (checked) {
-            const returnVal = {
-              name,
-              email,
-              password,
-              ...(phone && { phone })
-            };
+    setNameError(false);
+    setEmailError(false);
+    setPasswordError(false);
+    setPassword2Error(false);
+    let isValid = true;
 
-            return returnVal;
-          } else {
-            Alert.alert('Please accept our Terms of Service');
-          }
-        } else {
-          Alert.alert('Invalid email address');
-        }
-      } else {
-        Alert.alert("Passwords don't match");
-      }
-    } else {
-      Alert.alert('Missing a required field');
+    if (!name) {
+      setNameError(true);
+      isValid = false;
     }
+
+    if (!email || !isValidEmail(email)) {
+      setEmailError(true);
+      isValid = false;
+    }
+
+    if (!password) {
+      setPasswordError(true);
+      isValid = false;
+    }
+    if (!password2) {
+      setPassword2Error(true);
+      isValid = false;
+    }
+
+    if (password !== password2) {
+      setPasswordError(true);
+      setPassword2Error(true);
+      isValid = false;
+    }
+
+    if (!checked) {
+      Alert.alert('Please accept our Terms of Service');
+      return false;
+    }
+
+    if (!isValid) return false;
+
+    return {
+      name,
+      email,
+      password,
+      phone
+    };
   };
 
   const handleSubmitSignUp = async () => {
-    if (formVerify()) {
-      const status = await signUpWithEmail(email, password, name, phone);
-      if (status === 'SignedUp') {
-        Alert.alert('Success! You Are Signed Up!');
-      } else {
-        Alert.alert(status);
+    try {
+      const verifiedForm = formVerify();
+
+      if (verifiedForm) {
+        const status = await signUpWithEmail(
+          verifiedForm.email,
+          verifiedForm.password,
+          verifiedForm.name,
+          verifiedForm.phone
+        );
+
+        if (status === 'SignedUp') {
+          Alert.alert('Success! You are signed up!');
+        } else {
+          Alert.alert(status);
+        }
       }
+    } catch (error) {
+      Alert.alert(error.message);
     }
   };
 
@@ -80,7 +116,11 @@ export const SignUpScreen = ({ navigation }) => {
             required='true'
             hidden='false'
             setter={setName}
+            error={nameError}
           />
+          {nameError && (
+            <Text style={localStyles.passwordError}>Invalid name</Text>
+          )}
           <MenuInput
             placeholder='Your Email'
             symbol='email-outline'
@@ -91,7 +131,11 @@ export const SignUpScreen = ({ navigation }) => {
             autoCompleteType='email'
             textContentType='emailAddress'
             keyboardType='email-address'
+            error={emailError}
           />
+          {emailError && (
+            <Text style={localStyles.passwordError}>Invalid email</Text>
+          )}
           <MenuInput
             placeholder='Your Phone Number'
             symbol='phone-outline'
@@ -107,7 +151,11 @@ export const SignUpScreen = ({ navigation }) => {
             hidden='true'
             setter={setPassword}
             right
+            error={passwordError}
           />
+          {passwordError && (
+            <Text style={localStyles.passwordError}>Invalid password</Text>
+          )}
           <MenuInput
             placeholder='Re-enter Password'
             symbol='lock-outline'
@@ -115,7 +163,11 @@ export const SignUpScreen = ({ navigation }) => {
             hidden='true'
             setter={setPassword2}
             right
+            error={password2Error}
           />
+          {password2Error && (
+            <Text style={localStyles.passwordError}>Invalid password</Text>
+          )}
         </View>
         <BigButton
           buttonColor={colors.green}
@@ -209,5 +261,10 @@ const localStyles = StyleSheet.create({
     lineHeight: 15,
     letterSpacing: 1,
     textDecorationLine: 'underline'
+  },
+  passwordError: {
+    fontSize: 10,
+    color: colors.red,
+    textAlign: 'left'
   }
 });
