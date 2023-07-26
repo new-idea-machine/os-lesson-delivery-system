@@ -29,16 +29,31 @@ export const SignUpScreen = ({ navigation }) => {
     setEmailError(false);
     setPasswordError(false);
     setPassword2Error(false);
+    let isValid = true;
 
-    if (!name) setNameError(true);
-    if (!email || !isValidEmail(email)) setEmailError(true);
+    if (!name) {
+      setNameError(true);
+      isValid = false;
+    }
 
-    if (!password) setPasswordError(true);
-    if (!password2) setPassword2Error(true);
+    if (!email || !isValidEmail(email)) {
+      setEmailError(true);
+      isValid = false;
+    }
+
+    if (!password) {
+      setPasswordError(true);
+      isValid = false;
+    }
+    if (!password2) {
+      setPassword2Error(true);
+      isValid = false;
+    }
 
     if (password !== password2) {
       setPasswordError(true);
       setPassword2Error(true);
+      isValid = false;
     }
 
     if (!checked) {
@@ -46,8 +61,7 @@ export const SignUpScreen = ({ navigation }) => {
       return false;
     }
 
-    if (nameError || emailError || passwordError || password2Error)
-      return false;
+    if (!isValid) return false;
 
     return {
       name,

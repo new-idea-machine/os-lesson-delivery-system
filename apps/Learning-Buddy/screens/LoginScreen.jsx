@@ -19,13 +19,16 @@ export const LoginScreen = ({ navigation }) => {
   const formVerify = () => {
     setEmailError(false);
     setPasswordError(false);
+    let isValid = true;
 
     if (!email || !isValidEmail(email)) {
       setEmailError(true);
+      isValid = false;
     }
 
     if (!password) {
       setPasswordError(true);
+      isValid = false;
     }
 
     const returnVal = {
@@ -33,7 +36,9 @@ export const LoginScreen = ({ navigation }) => {
       password
     };
 
-    return returnVal;
+    if (isValid) {
+      return returnVal;
+    } else return false;
   };
 
   const handleSubmitLogin = async () => {
