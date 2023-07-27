@@ -7,7 +7,7 @@ import { Card, ProgressBar } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const QuizResultScreen = React.memo(({ route }) => {
+export const QuizResultScreen = ({ route }) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
@@ -90,7 +90,7 @@ export const QuizResultScreen = React.memo(({ route }) => {
                 }}
               >
                 <ProgressBar
-                  progress={correctCount / total}
+                  progress={Math.round(correctCount / total)}
                   color={colors.lightOrange}
                   style={{
                     borderRadius: 25,
@@ -151,7 +151,7 @@ export const QuizResultScreen = React.memo(({ route }) => {
       </ScrollView>
     </View>
   );
-});
+};
 
 const localStyles = StyleSheet.create({
   iconButton: {
