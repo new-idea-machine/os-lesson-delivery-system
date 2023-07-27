@@ -142,7 +142,7 @@ export const QuizResultDetailScreen = () => {
               buttonColor={colors.green}
               textColor={colors.black}
               content={'GO BACK'}
-              onPress={() => navigation.navigate('Quiz Result Screen')}
+              onPress={() => navigation.goBack()}
             />
           </View>
         </View>
