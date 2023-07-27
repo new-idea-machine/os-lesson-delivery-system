@@ -7,7 +7,7 @@ import { Card, ProgressBar } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const QuizResultScreen = ({ route }) => {
+export const QuizResultScreen = React.memo(({ route }) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
@@ -28,17 +28,6 @@ export const QuizResultScreen = ({ route }) => {
     return { correctCount, total };
   };
   const { correctCount, total } = quizGrade();
-
-  console.log(
-    '🪵 ---------------------------------------------------------------------🪵'
-  );
-  console.log(
-    '🪵 ~ file: QuizResultScreen.jsx:35 ~ quizGrade ~ quizGrade:',
-    quizGrade
-  );
-  console.log(
-    '🪵 ---------------------------------------------------------------------🪵'
-  );
 
   const onPressHandler = async () => {};
 
@@ -114,44 +103,34 @@ export const QuizResultScreen = ({ route }) => {
                   marginLeft: 10
                 }}
               >
-                <Text>{(correctCount / total) * 100}%</Text>
+                <Text>{Math.round((correctCount / total) * 100)}%</Text>
               </View>
             </View>
           </View>
 
           <View style={{ marginVertical: 10 }}>
-            <Card
-              onPress={() => {}}
-              mode='elevated'
-              style={{ borderRadius: 1 }}
-            >
-              <Card.Title title='1. in which year did germany...' />
-              <Card.Content>
-                <Text style={{ color: colors.red }}>A. 1937</Text>
-              </Card.Content>
-            </Card>
-            <Card
-              onPress={() => {}}
-              mode='elevated'
-              style={{ borderRadius: 1 }}
-            >
-              <Card.Title title='2. how long did it take germans...' />
-              <Card.Content>
-                <Text style={{ color: colors.lightBlue }}>B. 35 Days</Text>
-              </Card.Content>
-            </Card>
-            <Card
-              onPress={() => {}}
-              mode='elevated'
-              style={{ borderRadius: 1 }}
-            >
-              <Card.Title title='3. what is the full name of...' />
-              <Card.Content>
-                <Text style={{ color: colors.lightBlue }}>
-                  D. Republic Of Poland
-                </Text>
-              </Card.Content>
-            </Card>
+            {answerData.map((item, index) => (
+              <Card
+                onPress={() => {}}
+                mode='elevated'
+                style={{ borderRadius: 1 }}
+                key={index}
+              >
+                <Card.Title title={item.prompt} />
+                <Card.Content>
+                  <Text
+                    style={{
+                      color:
+                        item.options.Correct === item.chosenAnswer
+                          ? colors.lightBlue
+                          : colors.red
+                    }}
+                  >
+                    {item.chosenAnswer}
+                  </Text>
+                </Card.Content>
+              </Card>
+            ))}
           </View>
           <View style={{ marginVertical: 10 }}>
             <BigButton
@@ -172,7 +151,7 @@ export const QuizResultScreen = ({ route }) => {
       </ScrollView>
     </View>
   );
-};
+});
 
 const localStyles = StyleSheet.create({
   iconButton: {
