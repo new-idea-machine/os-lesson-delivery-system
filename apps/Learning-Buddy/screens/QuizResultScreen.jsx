@@ -7,11 +7,38 @@ import { Card, ProgressBar } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const QuizResultScreen = () => {
+export const QuizResultScreen = ({ route }) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const [progress, setProgress] = React.useState(Math.random());
+  const answerData = route.params;
+
+  const quizGrade = () => {
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let total = answerData.length;
+
+    answerData.map((question) => {
+      if (question.chosenAnswer === question.options.Correct) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+    });
+    return { correctCount, total };
+  };
+  const { correctCount, total } = quizGrade();
+
+  console.log(
+    '🪵 ---------------------------------------------------------------------🪵'
+  );
+  console.log(
+    '🪵 ~ file: QuizResultScreen.jsx:35 ~ quizGrade ~ quizGrade:',
+    quizGrade
+  );
+  console.log(
+    '🪵 ---------------------------------------------------------------------🪵'
+  );
 
   const onPressHandler = async () => {};
 
@@ -40,7 +67,7 @@ export const QuizResultScreen = () => {
                 fontSize: 22
               }}
             >
-              66/100
+              {correctCount}/{total}
             </Text>
           </View>
           <View
@@ -74,7 +101,7 @@ export const QuizResultScreen = () => {
                 }}
               >
                 <ProgressBar
-                  progress={progress}
+                  progress={correctCount / total}
                   color={colors.lightOrange}
                   style={{
                     borderRadius: 25,
@@ -87,7 +114,7 @@ export const QuizResultScreen = () => {
                   marginLeft: 10
                 }}
               >
-                <Text>{Math.round(progress * 100)}%</Text>
+                <Text>{(correctCount / total) * 100}%</Text>
               </View>
             </View>
           </View>
