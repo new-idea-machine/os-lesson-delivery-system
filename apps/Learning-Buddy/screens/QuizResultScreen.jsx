@@ -111,7 +111,7 @@ export const QuizResultScreen = ({ route }) => {
           <View style={{ marginVertical: 10 }}>
             {answerData.map((item, index) => (
               <Card
-                onPress={() => {}}
+                onPress={() => navigation.navigate('Quiz Result Detail Screen')}
                 mode='elevated'
                 style={{ borderRadius: 1 }}
                 key={index}
