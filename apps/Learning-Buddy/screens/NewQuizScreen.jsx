@@ -72,10 +72,7 @@ export const NewQuizScreen = () => {
       });
       const json = await response.json();
       const questions = json.response.choices[0].text;
-      console.log(
-        '🚀 ~ file: NewQuizScreen.jsx:78 ~ getQuestions ~ questions:',
-        questions
-      );
+
       return questions;
     } catch (error) {
       console.error(error);

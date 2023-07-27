@@ -6,38 +6,23 @@ import BigButton from '../components/BigButton';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
 import { useNavigation } from '@react-navigation/native';
 
-
-export const AnsweringScreen = ({route}) => {
+export const AnsweringScreen = ({ route }) => {
   const styles = useContext(StyleSheetContext);
   const navigation = useNavigation();
-
-  // boolean indicating all questions have been answered
-  const [notAllQuestionsAnswered, setNotAllQuestionsAnswered] = useState(true);
-
-  // final data to send to the next page
-  const [answerData, setAnswerData] = useState([]);
+  
+  const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
+  const [answerData, setAnswerData] = useState([]); // final data to send to the next page
 
   // check if all questions have been answered in the test allowing submission
-  function verifyAllAnswered() {
-    let check = false;
+  const verifyQuestionsAnswered = () => {
+    // function to check if all answers have not been chosen yet
+    const allQuestionsAnswered = (question) => question.chosenAnswer !== undefined;
 
-    answerData.map((question) => {
-      if (question.chosenAnswer === '' || question.chosenAnswer === undefined) {
-        // a question has not been answered return true
-        check = true;
-        return;
-      }
-    });
-
-    if (check) {
-      setNotAllQuestionsAnswered(true);
-    } else {
-      setNotAllQuestionsAnswered(false);
-    }
+    setQuestionsAnswered(answerData.every(allQuestionsAnswered));
   }
 
   // after radio button has been pressed save the answer the user chose
-  function UpdateGivenAnswers(question, newAnswer, array) {
+  const UpdateGivenAnswers = (question, newAnswer, array) => {
     // This object will be modified with the new answer given
     let newAnswerData = answerData;
 
@@ -50,20 +35,19 @@ export const AnsweringScreen = ({route}) => {
     newAnswerData[objIndex].chosenAnswer = newAnswer;
     newAnswerData[objIndex].shuffledArray = array;
 
-    verifyAllAnswered();
+    verifyQuestionsAnswered();
     // save new data
     setAnswerData(newAnswerData);
   }
 
-  function SubmitTest() {
+  const SubmitTest = () => {
     navigation.navigate('Results Screen', answerData);
   }
 
   useEffect(() => {
     // question list on load
-    setAnswerData(route.params.questions || [])
-  }, [])
-  
+    setAnswerData(route.params.questions || []);
+  }, []);
 
   return (
     <SafeAreaView style={localStyles.container}>
@@ -90,12 +74,12 @@ export const AnsweringScreen = ({route}) => {
       {/* Submit Button */}
       <View style={localStyles.footer}>
         <BigButton
-          disabled={notAllQuestionsAnswered}
+          disabled={!questionsAnswered}
           buttonColor={colors.green}
           textColor={colors.black}
           content={'Submit'}
           onPress={() => {
-            SubmitTest()
+            SubmitTest();
           }}
         />
       </View>
