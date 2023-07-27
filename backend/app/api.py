@@ -65,7 +65,7 @@ async def get_questions(question: Question) -> Response:
         model="text-davinci-003",
         prompt=question.question,
         temperature=0,
-        max_tokens=100,
+        max_tokens=300,
     )
     return {"response": response}
 
