@@ -19,7 +19,7 @@ export const HomeScreen = () => {
         content={'Create new quiz'}
         onPress={() => navigation.navigate('New Quiz Screen')}
       />
-      {/* <BigButton
+      <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'Get your questions!'}
