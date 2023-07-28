@@ -18,7 +18,7 @@ export const QuizResultScreen = ({ route }) => {
     let incorrectCount = 0;
     let total = answerData.length;
 
-    answerData.map((question) => {
+    answerData.forEach((question) => {
       if (question.chosenAnswer === question.options.Correct) {
         correctCount++;
       } else {
@@ -29,12 +29,9 @@ export const QuizResultScreen = ({ route }) => {
   };
   const { correctCount, total } = quizGrade();
 
-  const handleCardPress = (prompt, shuffledArray, chosenAnswer, correct) => {
+  const handleCardPress = () => {
     navigation.navigate('Quiz Result Detail Screen', {
-      prompt,
-      shuffledArray,
-      chosenAnswer,
-      correct
+      answerData
     });
   };
 
@@ -99,7 +96,7 @@ export const QuizResultScreen = ({ route }) => {
                 }}
               >
                 <ProgressBar
-                  progress={Math.round(correctCount / total)}
+                  progress={correctCount / total}
                   color={colors.lightOrange}
                   style={{
                     borderRadius: 25,
