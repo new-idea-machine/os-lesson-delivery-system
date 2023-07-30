@@ -16,13 +16,21 @@ import BigButton from '../components/BigButton';
 import AnswerButton from '../components/AnswerButton';
 import { colors } from '../config/colors';
 
-export const QuizResultDetailScreen = () => {
+export const QuizResultDetailScreen = ({ route }) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const [page, setPage] = React.useState(Math.random());
+  const [questionData, setQuestionData] = useState({
+    totalQuestions: 1,
+    questionNumber: 1,
+    correct: '',
+    prompt: '',
+    shuffledArray: []
+  });
 
-  const onPressHandler = async () => {};
+  useEffect(() => {
+    setQuestionData(route.params);
+  }, []);
 
   return (
     <View
@@ -46,7 +54,9 @@ export const QuizResultDetailScreen = () => {
             }}
           >
             <ProgressBar
-              progress={page}
+              progress={
+                questionData.questionNumber / questionData.totalQuestions || 1
+              }
               color={colors.grey}
               style={{
                 borderRadius: 25,
@@ -57,8 +67,7 @@ export const QuizResultDetailScreen = () => {
           <View style={{ marginVertical: 30 }}>
             <Card mode='contained' style={{ backgroundColor: 'white' }}>
               <Card.Title
-                title='Question 1'
-                subtitle='In which year did germany invaded poland? poland? poland? poland?'
+                title={`Question ${questionData.questionNumber}`}
                 titleStyle={{
                   fontFamily: 'Poppins',
                   fontSize: 16,
@@ -81,42 +90,24 @@ export const QuizResultDetailScreen = () => {
               />
               <Card.Content>
                 <View style={{ marginVertical: 20 }}>
-                  <Text>
-                    Dotted around the Hoenn region, you will find loamy soil,
-                    many of which are housing berries. Once you have picked the
-                    berries, then you have the ability to use that loamy soil to
-                    grow your own berries.
-                  </Text>
+                  <Text>{questionData.prompt}</Text>
                 </View>
-                <AnswerButton
-                  buttonColor={colors.lightGrey}
-                  textColor={colors.black}
-                  content={'Answer 1'}
-                  onPress={() => {}}
-                />
-                <AnswerButton
-                  buttonColor={colors.lightGrey}
-                  textColor={colors.black}
-                  content={'Answer 2'}
-                  onPress={() => {}}
-                />
-                <AnswerButton
-                  buttonColor={colors.lightGrey}
-                  textColor={colors.black}
-                  content={'Answer 3'}
-                  onPress={() => {}}
-                />
-                <AnswerButton
-                  buttonColor={colors.lightGrey}
-                  textColor={colors.black}
-                  content={'Answer 4'}
-                  onPress={() => {}}
-                />
+                {questionData.shuffledArray.map((item, index) => {
+                  return (
+                    <AnswerButton
+                      key={index}
+                      buttonColor={colors.lightGrey}
+                      textColor={colors.black}
+                      content={item}
+                      onPress={() => {}}
+                    />
+                  );
+                })}
               </Card.Content>
             </Card>
           </View>
           <View style={{ marginVertical: 10 }}>
-            <Pressable
+            {/* <Pressable
               style={{
                 display: 'flex',
                 alignSelf: 'flex-end',
@@ -137,7 +128,7 @@ export const QuizResultDetailScreen = () => {
                 Next
               </Text>
               <Feather name='chevron-right' size={24} color={colors.black} />
-            </Pressable>
+            </Pressable> */}
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}

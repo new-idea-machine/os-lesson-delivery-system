@@ -29,10 +29,8 @@ export const QuizResultScreen = ({ route }) => {
   };
   const { correctCount, total } = quizGrade();
 
-  const handleCardPress = () => {
-    navigation.navigate('Quiz Result Detail Screen', {
-      answerData
-    });
+  const handleCardPress = (question) => {
+    navigation.navigate('Quiz Result Detail Screen', question);
   };
 
   const onPressHandler = async () => {};
@@ -117,7 +115,15 @@ export const QuizResultScreen = ({ route }) => {
           <View style={{ marginVertical: 10 }}>
             {answerData.map((item, index) => (
               <Card
-                onPress={() => handleCardPress(item.prompt, item.shuffledArray)}
+                onPress={() =>
+                  handleCardPress({
+                    prompt: item.prompt,
+                    shuffledArray: item.shuffledArray,
+                    correct: item.options.Correct,
+                    questionNumber: index + 1, // add one since question indexes dont start from 0
+                    totalQuestions: answerData.length
+                  })
+                }
                 mode='elevated'
                 style={{ borderRadius: 1 }}
                 key={index}
