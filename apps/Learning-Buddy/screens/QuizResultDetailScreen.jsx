@@ -93,10 +93,20 @@ export const QuizResultDetailScreen = ({ route }) => {
                   <Text>{questionData.prompt}</Text>
                 </View>
                 {questionData.shuffledArray.map((item, index) => {
+                  const isUserCorrect =
+                    questionData.chosenAnswer === questionData.correct;
+                  const isChosenAnswer = item === questionData.chosenAnswer;
+
+                  let buttonColor = colors.lightGrey;
+
+                  if (isChosenAnswer) {
+                    buttonColor = isUserCorrect ? colors.lightBlue : colors.red;
+                  }
+
                   return (
                     <AnswerButton
                       key={index}
-                      buttonColor={colors.lightGrey}
+                      buttonColor={buttonColor}
                       textColor={colors.black}
                       content={item}
                       onPress={() => {}}
