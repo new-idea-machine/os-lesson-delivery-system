@@ -120,6 +120,8 @@ export const QuizResultScreen = ({ route }) => {
                     prompt: item.prompt,
                     shuffledArray: item.shuffledArray,
                     correct: item.options.Correct,
+                    incorrect: item.options.Incorrect,
+                    chosenAnswer: item.chosenAnswer,
                     questionNumber: index + 1, // add one since question indexes dont start from 0
                     totalQuestions: answerData.length
                   })
