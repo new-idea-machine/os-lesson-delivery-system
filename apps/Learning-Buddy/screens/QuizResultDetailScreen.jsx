@@ -1,19 +1,12 @@
-import {
-  Icon,
-  View,
-  Pressable,
-  Text,
-  ScrollView,
-  StyleSheet
-} from 'react-native';
+import { View, Pressable, Text, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Card, ProgressBar } from 'react-native-paper';
+import { ProgressBar } from 'react-native-paper';
 import { Feather } from '@expo/vector-icons';
 
 import BigButton from '../components/BigButton';
-import AnswerButton from '../components/AnswerButton';
+import QuestionResultCard from '../components/QuestionResultCard';
 import { colors } from '../config/colors';
 
 export const QuizResultDetailScreen = ({ route }) => {
@@ -65,56 +58,7 @@ export const QuizResultDetailScreen = ({ route }) => {
             />
           </View>
           <View style={{ marginVertical: 30 }}>
-            <Card mode='contained' style={{ backgroundColor: 'white' }}>
-              <Card.Title
-                title={`Question ${questionData.questionNumber}`}
-                titleStyle={{
-                  fontFamily: 'Poppins',
-                  fontSize: 16,
-                  letterSpacing: 1,
-                  color: colors.green,
-                  fontWeight: '600',
-                  lineHeight: 24,
-                  height: 24
-                }}
-                subtitleStyle={{
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  letterSpacing: 1,
-                  color: colors.black,
-                  fontWeight: '400',
-                  lineHeight: 18,
-                  height: 33,
-                  flexWrap: 'wrap'
-                }}
-              />
-              <Card.Content>
-                <View style={{ marginVertical: 20 }}>
-                  <Text>{questionData.prompt}</Text>
-                </View>
-                {questionData.shuffledArray.map((item, index) => {
-                  const isUserCorrect =
-                    questionData.chosenAnswer === questionData.correct;
-                  const isChosenAnswer = item === questionData.chosenAnswer;
-
-                  let buttonColor = colors.lightGrey;
-
-                  if (isChosenAnswer) {
-                    buttonColor = isUserCorrect ? colors.lightBlue : colors.red;
-                  }
-
-                  return (
-                    <AnswerButton
-                      key={index}
-                      buttonColor={buttonColor}
-                      textColor={colors.black}
-                      content={item}
-                      onPress={() => {}}
-                    />
-                  );
-                })}
-              </Card.Content>
-            </Card>
+            <QuestionResultCard questionData={questionData} />
           </View>
           <View style={{ marginVertical: 10 }}>
             {/* <Pressable
