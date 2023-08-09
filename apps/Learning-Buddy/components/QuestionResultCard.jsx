@@ -19,11 +19,14 @@ const QuestionResultCard = ({ questionData }) => {
           const isUserCorrect =
             questionData.chosenAnswer === questionData.correct;
           const isChosenAnswer = item === questionData.chosenAnswer;
+          const isCorrectAnswer = item === questionData.correct;
 
           let buttonColor = colors.lightGrey;
 
-          if (isChosenAnswer) {
-            buttonColor = isUserCorrect ? colors.lightBlue : colors.red;
+          if (isCorrectAnswer) {
+            buttonColor = colors.lightBlue;
+          } else if (isChosenAnswer && !isUserCorrect) {
+            buttonColor = colors.red;
           }
 
           return (
