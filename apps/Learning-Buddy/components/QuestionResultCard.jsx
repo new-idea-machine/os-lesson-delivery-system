@@ -5,14 +5,11 @@ import AnswerButton from './AnswerButton';
 import { colors } from '../config/colors';
 
 const QuestionResultCard = ({ questionData }) => {
-  // const isUserCorrect = questionData.chosenAnswer === questionData.correct;
-
   return (
     <Card mode='contained' style={{ backgroundColor: 'white' }}>
       <Card.Title
         title={`Question ${questionData.questionNumber}`}
         titleStyle={localStyles.titleStyle}
-        subtitleStyle={localStyles.subtitleStyle}
       />
       <Card.Content>
         <View style={{ marginVertical: 20 }}>
@@ -55,15 +52,5 @@ const localStyles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 24,
     height: 24
-  },
-  subtitleStyle: {
-    fontFamily: 'Poppins',
-    fontSize: 12,
-    letterSpacing: 1,
-    color: colors.black,
-    fontWeight: '400',
-    lineHeight: 18,
-    height: 33,
-    flexWrap: 'wrap'
   }
 });
