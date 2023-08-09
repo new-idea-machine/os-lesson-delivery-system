@@ -25,9 +25,6 @@ export const QuizResultDetailScreen = ({ route }) => {
     setQuestionData(route.params);
   }, []);
 
-  const onNextPress = () => {};
-  const onPrevPress = () => {};
-
   return (
     <View
       style={{
@@ -62,32 +59,6 @@ export const QuizResultDetailScreen = ({ route }) => {
           </View>
           <View style={{ marginVertical: 30 }}>
             <QuestionResultCard questionData={questionData} />
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Pressable
-              onPress={onPrevPress}
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-            >
-              <Text>
-                <Feather name='chevron-left' size={15} color={colors.black} />
-                Previous
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={onNextPress}
-              style={{ flexDirection: 'row', alignItems: 'center' }}
-            >
-              <Text>
-                Next
-                <Feather name='chevron-right' size={15} color={colors.black} />
-              </Text>
-            </Pressable>
           </View>
           <View style={{ marginVertical: 10 }}>
             <BigButton
