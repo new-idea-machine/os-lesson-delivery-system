@@ -25,6 +25,9 @@ export const QuizResultDetailScreen = ({ route }) => {
     setQuestionData(route.params);
   }, []);
 
+  const onNextPress = () => {};
+  const onPrevPress = () => {};
+
   return (
     <View
       style={{
@@ -60,29 +63,33 @@ export const QuizResultDetailScreen = ({ route }) => {
           <View style={{ marginVertical: 30 }}>
             <QuestionResultCard questionData={questionData} />
           </View>
-          <View style={{ marginVertical: 10 }}>
-            {/* <Pressable
-              style={{
-                display: 'flex',
-                alignSelf: 'flex-end',
-                marginRight: 60,
-                marginVertical: 30,
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}
-              onPress={() => {}}
+          <View
+            style={{
+              marginVertical: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Pressable
+              onPress={onPrevPress}
+              style={{ flexDirection: 'row', alignItems: 'center' }}
             >
-              <Text
-                style={{
-                  fontFamily: 'Poppins',
-                  fontWeight: '400',
-                  fontSize: 12
-                }}
-              >
-                Next
+              <Text>
+                <Feather name='chevron-left' size={15} color={colors.black} />
+                Previous
               </Text>
-              <Feather name='chevron-right' size={24} color={colors.black} />
-            </Pressable> */}
+            </Pressable>
+            <Pressable
+              onPress={onNextPress}
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+            >
+              <Text>
+                Next
+                <Feather name='chevron-right' size={15} color={colors.black} />
+              </Text>
+            </Pressable>
+          </View>
+          <View style={{ marginVertical: 10 }}>
             <BigButton
               buttonColor={colors.green}
               textColor={colors.black}
