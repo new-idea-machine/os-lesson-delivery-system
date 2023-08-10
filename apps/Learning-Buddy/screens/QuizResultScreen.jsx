@@ -126,11 +126,11 @@ export const QuizResultScreen = ({ route }) => {
                     totalQuestions: answerData.length
                   })
                 }
-                mode='elevated'
-                style={{ borderRadius: 1 }}
+                mode='outlined'
+                style={{ borderRadius: 5 }}
                 key={index}
               >
-                <Card.Title title={item.prompt} />
+                <Card.Title title={`${index + 1}. ${item.prompt}`} />
                 <Card.Content>
                   <Text
                     style={{
