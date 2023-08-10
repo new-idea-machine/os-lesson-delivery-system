@@ -33,6 +33,11 @@ export const QuizResultScreen = ({ route }) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
 
+  function getIndexLetter(question) {
+    const index = question.shuffledArray.indexOf(question.chosenAnswer);
+    return String.fromCharCode(65 + index);
+  }
+
   const onPressHandler = async () => {};
 
   return (
@@ -140,7 +145,7 @@ export const QuizResultScreen = ({ route }) => {
                           : colors.red
                     }}
                   >
-                    {item.chosenAnswer}
+                    {`${getIndexLetter(item)}. ${item.chosenAnswer}`}
                   </Text>
                 </Card.Content>
               </Card>
