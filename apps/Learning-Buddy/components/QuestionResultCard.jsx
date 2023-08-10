@@ -21,19 +21,24 @@ const QuestionResultCard = ({ questionData }) => {
           const isChosenAnswer = item === questionData.chosenAnswer;
           const isCorrectAnswer = item === questionData.correct;
 
-          let buttonColor = colors.lightGrey;
+          let textColor, borderColor;
 
           if (isCorrectAnswer) {
-            buttonColor = colors.lightBlue;
+            textColor = colors.lightBlue;
+            borderColor = colors.lightBlue;
           } else if (isChosenAnswer && !isUserCorrect) {
-            buttonColor = colors.red;
+            textColor = colors.red;
+            borderColor = colors.red;
+          } else {
+            textColor = colors.black;
+            borderColor = colors.black;
           }
 
           return (
             <AnswerButton
               key={index}
-              buttonColor={buttonColor}
-              textColor={colors.black}
+              textColor={textColor}
+              style={[localStyles.button, { borderColor: borderColor }]}
               content={item}
               onPress={() => {}}
             />
@@ -55,5 +60,14 @@ const localStyles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 24,
     height: 24
+  },
+  button: {
+    width: 265,
+    height: 55,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderRadius: 5,
+    marginVertical: 10
   }
 });
