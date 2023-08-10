@@ -39,7 +39,7 @@ const QuestionResultCard = ({ questionData }) => {
               key={index}
               textColor={textColor}
               style={[localStyles.button, { borderColor: borderColor }]}
-              content={`${String.fromCharCode(65 + index)} ${item}`}
+              content={`${String.fromCharCode(65 + index)}. ${item}`}
               onPress={() => {}}
             />
           );
