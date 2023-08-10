@@ -142,7 +142,8 @@ export const QuizResultScreen = ({ route }) => {
                       color:
                         item.options.Correct === item.chosenAnswer
                           ? colors.lightBlue
-                          : colors.red
+                          : colors.red,
+                      fontWeight: 'bold'
                     }}
                   >
                     {`${getIndexLetter(item)}. ${item.chosenAnswer}`}
