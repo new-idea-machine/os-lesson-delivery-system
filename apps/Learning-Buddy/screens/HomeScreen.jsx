@@ -19,12 +19,24 @@ export const HomeScreen = () => {
         content={'Create new quiz'}
         onPress={() => navigation.navigate('New Quiz Screen')}
       />
-      {/* <BigButton
-        buttonColor={colors.green}
+      <BigButton
+        buttonColor={colors.lightBlue}
         textColor={colors.black}
         content={'Get your questions!'}
         onPress={() => navigation.navigate('Question Form')}
-      /> */}
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Quiz Result'}
+        onPress={() => navigation.navigate('Quiz Result Screen')}
+      />
+      <BigButton
+        buttonColor={colors.lightBlue}
+        textColor={colors.black}
+        content={'Quiz Result Detail'}
+        onPress={() => navigation.navigate('Quiz Result Detail Screen')}
+      />
       <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
