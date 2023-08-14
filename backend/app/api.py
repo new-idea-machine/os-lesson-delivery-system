@@ -8,7 +8,7 @@ import openai
 import requests
 from . import crud, models, schemas
 from .database import SessionLocal, engine
-from .routers import chatgpt, auth
+from .routers import chatgpt, auth, sendText
 
 load_dotenv()
 models.Base.metadata.create_all(bind=engine)
@@ -17,6 +17,7 @@ openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
 app.include_router(chatgpt.router)
 app.include_router(auth.router)
+app.include_router(sendText.router)
 
 origins = ["http://localhost:3000", "localhost:3000"]
 

@@ -7,3 +7,8 @@ uvicorn==0.22.0
 python-multipart
 sqlalchemy
 psycopg2
+PyPDF2
+pytesseract
+opencv-python
+python-docx
+pillow
