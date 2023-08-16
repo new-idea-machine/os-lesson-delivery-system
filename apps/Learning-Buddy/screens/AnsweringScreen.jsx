@@ -9,17 +9,18 @@ import { useNavigation } from '@react-navigation/native';
 export const AnsweringScreen = ({ route }) => {
   const styles = useContext(StyleSheetContext);
   const navigation = useNavigation();
-  
+
   const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
   const [answerData, setAnswerData] = useState([]); // final data to send to the next page
 
   // check if all questions have been answered in the test allowing submission
   const verifyQuestionsAnswered = () => {
     // function to check if all answers have not been chosen yet
-    const allQuestionsAnswered = (question) => question.chosenAnswer !== undefined;
+    const allQuestionsAnswered = (question) =>
+      question.chosenAnswer !== undefined;
 
     setQuestionsAnswered(answerData.every(allQuestionsAnswered));
-  }
+  };
 
   // after radio button has been pressed save the answer the user chose
   const UpdateGivenAnswers = (question, newAnswer, array) => {
@@ -38,11 +39,12 @@ export const AnsweringScreen = ({ route }) => {
     verifyQuestionsAnswered();
     // save new data
     setAnswerData(newAnswerData);
-  }
+  };
 
   const SubmitTest = () => {
-    navigation.navigate('Results Screen', answerData);
-  }
+    navigation.navigate('Quiz Result Screen', answerData);
+    // navigation.navigate('Results Screen', answerData);
+  };
 
   useEffect(() => {
     // question list on load

@@ -5,7 +5,9 @@ import { QuestionForm } from '../screens/QuestionForm';
 import { HomeScreen } from '../screens/HomeScreen';
 import { AnsweringScreen } from '../screens/AnsweringScreen';
 import { NewQuizScreen } from '../screens/NewQuizScreen';
-import { ResultsScreen } from '../screens/ResultsScreen'
+import { ResultsScreen } from '../screens/ResultsScreen';
+import { QuizResultScreen } from '../screens/QuizResultScreen';
+import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,9 +22,14 @@ export const AppStack = () => {
     >
       <Stack.Screen name='Home Screen' component={HomeScreen} />
       <Stack.Screen name='Question Form' component={QuestionForm} />
-      <Stack.Screen name="Answering Screen" component={AnsweringScreen} />
+      <Stack.Screen name='Answering Screen' component={AnsweringScreen} />
       <Stack.Screen name='New Quiz Screen' component={NewQuizScreen} />
-      <Stack.Screen name="Results Screen" component={ResultsScreen} />
+      <Stack.Screen name='Results Screen' component={ResultsScreen} />
+      <Stack.Screen name='Quiz Result Screen' component={QuizResultScreen} />
+      <Stack.Screen
+        name='Quiz Result Detail Screen'
+        component={QuizResultDetailScreen}
+      />
     </Stack.Navigator>
   );
 };
