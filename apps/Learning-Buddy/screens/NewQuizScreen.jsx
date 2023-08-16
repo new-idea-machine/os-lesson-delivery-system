@@ -29,6 +29,32 @@ export const NewQuizScreen = () => {
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
 
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+
+    if (result.type === 'success') {
+      let file = {
+        name: result.name,
+        uri: result.uri,
+        type: result.mimeType
+      };
+
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await fetch(`http://${ip}:8000/extract/file`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+        setText(data.text);
+        console.log(text);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   useEffect(() => {
     const charLen = text.length;
     const max = Math.floor(charLen / 50);
@@ -45,33 +71,6 @@ export const NewQuizScreen = () => {
       setNumQuestions(0);
     }
 
-    const pickDocument = async () => {
-      let result = await DocumentPicker.getDocumentAsync({});
-
-      if (result.type === 'success') {
-        let file = {
-          name: result.name,
-          uri: result.uri,
-          type: result.mimeType
-        };
-
-        const formData = new FormData();
-        formData.append('file', file);
-        try {
-          const response = await fetch(`http://${ip}:8000/extract/file`, {
-            method: 'POST',
-            body: formData
-          });
-          const data = await response.json();
-          setText(data.text);
-          console.log(text);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    };
-
-    const [numQuestions, setNumQuestions] = useState(1);
     if (charLen < 50) {
       setCharacters(`${stringedCharacters}/50`);
     } else {
