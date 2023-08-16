@@ -30,7 +30,14 @@ export const NewQuizScreen = () => {
   const [remaining, setRemaining] = useState(0);
 
   const pickDocument = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
+    let result = await DocumentPicker.getDocumentAsync({
+      type: [
+        'image/*',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ]
+    });
 
     if (result.type === 'success') {
       let file = {
@@ -47,8 +54,14 @@ export const NewQuizScreen = () => {
           body: formData
         });
         const data = await response.json();
-        setText(data.text);
-        console.log(text);
+        console.log(data);
+        if (data == null || data.text == null || data.text == '') {
+          alert(
+            'Unable to parse text from selected file.  Please try a different file.'
+          );
+        } else {
+          setText(data.text);
+        }
       } catch (err) {
         console.log(err);
       }
