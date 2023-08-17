@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -24,38 +19,26 @@ import { NewQuizScreen } from '../screens/NewQuizScreen';
 import { ResultsScreen } from '../screens/ResultsScreen';
 import { QuizResultScreen } from '../screens/QuizResultScreen';
 import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
+import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
 const Drawer = createDrawerNavigator();
 
+const DrawerMenuButton = () => {
+  const navigation = useNavigation();
+
+  return (
+    <IconButton
+      icon='menu'
+      size={30}
+      color={colors.black}
+      rippleColor={colors.white}
+      style={localStyles.DrawMenuButton}
+      onPress={() => navigation.openDrawer()}
+    />
+  );
+};
+
 const DrawerNavigator = () => {
-  const DrawerMenuButton = () => {
-    const navigation = useNavigation();
-
-    return (
-      <IconButton
-        icon='menu'
-        size={30}
-        color={colors.black}
-        rippleColor={colors.white}
-        style={localStyles.DrawMenuButton}
-        onPress={() => navigation.openDrawer()}
-      />
-    );
-  };
-
-  function CloseDrawerMenu(props) {
-    return (
-      <DrawerContentScrollView {...props}>
-        <IconButton
-          icon='close'
-          onPress={() => props.navigation.closeDrawer()}
-          style={{ alignSelf: 'flex-start' }}
-        />
-        <DrawerItemList {...props} />
-      </DrawerContentScrollView>
-    );
-  }
-
   return (
     <Drawer.Navigator
       initialRouteName='Home Screen'
@@ -74,6 +57,7 @@ const DrawerNavigator = () => {
         drawerInactiveTintColor: colors.black
       }}
       drawerContent={(props) => <CloseDrawerMenu {...props} />}
+      // drawerContent={(props) => <CloseDrawerMenu {...props} />}
     >
       <Drawer.Screen
         name='Home Screen'
