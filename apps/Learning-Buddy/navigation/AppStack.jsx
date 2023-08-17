@@ -1,9 +1,20 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { StyleSheet, View } from 'react-native';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { Octicons, AntDesign } from '@expo/vector-icons';
+import {
+  Octicons,
+  AntDesign,
+  Feather,
+  Ionicons,
+  FontAwesome5
+} from '@expo/vector-icons';
 import { IconButton } from 'react-native-paper';
 import { colors } from '../config/colors';
 import { QuestionForm } from '../screens/QuestionForm';
@@ -16,7 +27,7 @@ import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
 
 const Drawer = createDrawerNavigator();
 
-export const DrawerNavigator = () => {
+const DrawerNavigator = () => {
   const DrawerMenuButton = () => {
     const navigation = useNavigation();
 
@@ -32,23 +43,37 @@ export const DrawerNavigator = () => {
     );
   };
 
+  function CloseDrawerMenu(props) {
+    return (
+      <DrawerContentScrollView {...props}>
+        <IconButton
+          icon='close'
+          onPress={() => props.navigation.closeDrawer()}
+          style={{ alignSelf: 'flex-start' }}
+        />
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+    );
+  }
+
   return (
     <Drawer.Navigator
       initialRouteName='Home Screen'
+      drawerPosition='left'
+      drawerType='back'
       screenOptions={{
         headerShown: false,
         drawerStyle: {
           backgroundColor: colors.white,
-          height: 350,
+          height: 450,
           width: 250,
           borderRadius: 16,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center'
+          marginTop: 30
         },
         drawerActiveTintColor: colors.green,
         drawerInactiveTintColor: colors.black
       }}
+      drawerContent={(props) => <CloseDrawerMenu {...props} />}
     >
       <Drawer.Screen
         name='Home Screen'
@@ -72,6 +97,58 @@ export const DrawerNavigator = () => {
           headerTitle: '',
           drawerIcon: ({ color }) => (
             <AntDesign name='pluscircleo' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='My Content'
+        component={NewQuizScreen}
+        options={{
+          headerShown: true,
+          drawerLabel: 'My Content',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Feather name='folder' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='Saved Documents'
+        component={NewQuizScreen}
+        options={{
+          headerShown: true,
+          drawerLabel: 'Saved Documents',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Ionicons name='document-text-outline' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='My Account'
+        component={NewQuizScreen}
+        options={{
+          headerShown: true,
+          drawerLabel: 'My Account',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <FontAwesome5 name='user-circle' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='Settings'
+        component={NewQuizScreen}
+        options={{
+          headerShown: true,
+          drawerLabel: 'Settings',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Feather name='settings' size={24} color={color} />
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
