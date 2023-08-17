@@ -16,6 +16,10 @@ import { QuestionForm } from '../screens/QuestionForm';
 import { HomeScreen } from '../screens/HomeScreen';
 import { AnsweringScreen } from '../screens/AnsweringScreen';
 import { NewQuizScreen } from '../screens/NewQuizScreen';
+import { MyContentScreen } from '../screens/MyContentScreen';
+import { SaveDocumentsScreen } from '../screens/SaveDocumentsScreen';
+import { MyAccountScreen } from '../screens/MyAccountScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
 import { ResultsScreen } from '../screens/ResultsScreen';
 import { QuizResultScreen } from '../screens/QuizResultScreen';
 import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
@@ -86,7 +90,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name='My Content'
-        component={NewQuizScreen}
+        component={MyContentScreen}
         options={{
           headerShown: true,
           drawerLabel: 'My Content',
@@ -99,7 +103,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name='Saved Documents'
-        component={NewQuizScreen}
+        component={SaveDocumentsScreen}
         options={{
           headerShown: true,
           drawerLabel: 'Saved Documents',
@@ -112,7 +116,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name='My Account'
-        component={NewQuizScreen}
+        component={MyAccountScreen}
         options={{
           headerShown: true,
           drawerLabel: 'My Account',
@@ -125,7 +129,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name='Settings'
-        component={NewQuizScreen}
+        component={SettingsScreen}
         options={{
           headerShown: true,
           drawerLabel: 'Settings',
