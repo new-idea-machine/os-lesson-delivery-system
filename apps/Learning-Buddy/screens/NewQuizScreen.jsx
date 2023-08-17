@@ -3,12 +3,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
+  Button,
   Card,
   IconButton,
   Divider,
   Paragraph,
   TextInput
 } from 'react-native-paper';
+import * as DocumentPicker from 'expo-document-picker';
 import Constants from 'expo-constants';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
@@ -27,11 +29,50 @@ export const NewQuizScreen = () => {
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
 
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({
+      type: [
+        'image/*',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ]
+    });
+
+    if (result.type === 'success') {
+      let file = {
+        name: result.name,
+        uri: result.uri,
+        type: result.mimeType
+      };
+
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await fetch(`http://${ip}:8000/extract/file`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data == null || data.text == null || data.text == '') {
+          alert(
+            'Unable to parse text from selected file.  Please try a different file.'
+          );
+        } else {
+          setText(data.text);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   useEffect(() => {
     const charLen = text.length;
     const max = Math.floor(charLen / 50);
     setMaxQuestions(max);
-    setRemaining(50-(charLen%50))
+    setRemaining(50 - (charLen % 50));
     const stringedCharacters = charLen.toString();
     numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
     text && numQuestions == 1 ? setDownDisabled(true) : setDownDisabled(false);
@@ -95,6 +136,17 @@ export const NewQuizScreen = () => {
       });
       const json = await response.json();
       const questions = json.response.choices[0].text;
+
+      console.log(
+        '🪵 ---------------------------------------------------------------------🪵'
+      );
+      console.log(
+        '🪵 ~ file: NewQuizScreen.jsx:77 ~ getQuestions ~ questions:',
+        questions
+      );
+      console.log(
+        '🪵 ---------------------------------------------------------------------🪵'
+      );
 
       return questions;
     } catch (error) {
@@ -170,13 +222,18 @@ export const NewQuizScreen = () => {
               />
             </View> */}
           </View>
+          <BigButton
+            buttonColor={colors.white}
+            textColor={colors.black}
+            content={'Upload File'}
+            onPress={pickDocument}
+          />
           <View style={localStyles.divider}>
             <Divider />
           </View>
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
             <View style={localStyles.container}>
-              
               <IconButton
                 icon='chevron-up'
                 size={34}
@@ -221,12 +278,12 @@ export const NewQuizScreen = () => {
               {maxQuestions && upDisabled ? (
                 <Text style={{ textAlign: 'center' }}>
                   {/* Add more content to request more questions!{'\n'}  */}
-                  {remaining} more characters required to unlock another question.
+                  {remaining} more characters required to unlock another
+                  question.
                 </Text>
               ) : null}
             </View>
           </View>
-
           {/* <View>
             <Text style={localStyles.title}>Question Types</Text>
             <View style={localStyles.container}>
