@@ -424,8 +424,6 @@ const localStyles = StyleSheet.create({
     height: 280,
     margin: 10,
     marginBottom: 0,
-    // borderBottomEndRadius: 15,
-    // borderBottomStartRadius: 15,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: colors.lightGrey

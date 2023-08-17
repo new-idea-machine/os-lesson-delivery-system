@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -57,7 +57,6 @@ const DrawerNavigator = () => {
         drawerInactiveTintColor: colors.black
       }}
       drawerContent={(props) => <CloseDrawerMenu {...props} />}
-      // drawerContent={(props) => <CloseDrawerMenu {...props} />}
     >
       <Drawer.Screen
         name='Home Screen'
