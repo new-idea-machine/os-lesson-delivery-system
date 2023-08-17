@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../providers/AuthProvider';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const HomeScreen = () => {
-  const navigation = useNavigation();
+export const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
   const { signOut, user } = auth;
 

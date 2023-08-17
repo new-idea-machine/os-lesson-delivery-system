@@ -13,10 +13,9 @@ import Constants from 'expo-constants';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const NewQuizScreen = () => {
+export const NewQuizScreen = ({ navigation }) => {
   const ip = Constants.expoConfig.extra.IP;
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
   const [text, setText] = useState('');
   const [numQuestions, setNumQuestions] = useState(0);
   const [maxQuestions, setMaxQuestions] = useState(0);
@@ -31,7 +30,7 @@ export const NewQuizScreen = () => {
     const charLen = text.length;
     const max = Math.floor(charLen / 50);
     setMaxQuestions(max);
-    setRemaining(50-(charLen%50))
+    setRemaining(50 - (charLen % 50));
     const stringedCharacters = charLen.toString();
     numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
     text && numQuestions == 1 ? setDownDisabled(true) : setDownDisabled(false);
@@ -176,7 +175,6 @@ export const NewQuizScreen = () => {
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
             <View style={localStyles.container}>
-              
               <IconButton
                 icon='chevron-up'
                 size={34}
@@ -221,7 +219,8 @@ export const NewQuizScreen = () => {
               {maxQuestions && upDisabled ? (
                 <Text style={{ textAlign: 'center' }}>
                   {/* Add more content to request more questions!{'\n'}  */}
-                  {remaining} more characters required to unlock another question.
+                  {remaining} more characters required to unlock another
+                  question.
                 </Text>
               ) : null}
             </View>
