@@ -171,13 +171,13 @@ export const NewQuizScreen = ({ navigation }) => {
         paddingRight: insets.right
       }}
     >
-      <ScrollView>
-        <View style={{ flex: 1, marginHorizontal: 35 }}>
+      <ScrollView style={{ backgroundColor: colors.white }}>
+        <View style={localStyles.container}>
           <View>
             <Text style={localStyles.pageTitle}>Create New Quiz</Text>
           </View>
           <Text style={localStyles.title}>Source Material</Text>
-          <View style={localStyles.container}>
+          <View style={localStyles.textInputContainer}>
             <TextInput
               mode='flat'
               underlineColor={colors.white}
@@ -232,7 +232,7 @@ export const NewQuizScreen = ({ navigation }) => {
           </View>
           <View>
             <Text style={localStyles.title}>Number Of Questions</Text>
-            <View style={localStyles.container}>
+            <View style={localStyles.textInputContainer}>
               <IconButton
                 icon='chevron-up'
                 size={34}
@@ -429,13 +429,17 @@ export const NewQuizScreen = ({ navigation }) => {
 };
 
 const localStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 35
+  },
   iconButton: {
     width: 265,
     height: 55,
     borderRadius: 30,
     marginVertical: 10
   },
-  container: {
+  textInputContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
