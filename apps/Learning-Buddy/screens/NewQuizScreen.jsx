@@ -159,6 +159,7 @@ export const NewQuizScreen = ({ navigation }) => {
     let passingQuestions = await getQuestions();
     passingQuestions = JSON.parse(passingQuestions);
     navigation.navigate('Answering Screen', passingQuestions);
+    setText('');
   };
 
   return (
@@ -314,101 +315,6 @@ export const NewQuizScreen = ({ navigation }) => {
                 content={'True/False'}
                 onPress={() => handleQuestionTypePress('True/False')}
               />
-            </View>
-          </View> */}
-          {/* <View>
-            <Text style={localStyles.title}>Difficulty Level</Text>
-            <View style={localStyles.container}>
-              <BigButton
-                buttonColor={
-                  selectedDifficulty === 'Beginner'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedDifficulty === 'Beginner'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Beginner'}
-                onPress={() => handleDifficultyPress('Beginner')}
-              />
-              <BigButton
-                buttonColor={
-                  selectedDifficulty === 'Intermediate'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedDifficulty === 'Intermediate'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Intermediate'}
-                onPress={() => handleDifficultyPress('Intermediate')}
-                disabled={true}
-              />
-              <BigButton
-                buttonColor={
-                  selectedDifficulty === 'Advanced'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedDifficulty === 'Advanced'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Advanced'}
-                onPress={() => handleDifficultyPress('Advanced')}
-                disabled={true}
-              />
-            </View>
-          </View> */}
-          {/* <View>
-            <Text style={localStyles.title}>Your Goal Of Taking The Quiz</Text>
-            <View style={localStyles.container}>
-              <Card
-                onPress={() => {}}
-                mode='contained'
-                style={localStyles.card}
-              >
-                <Card.Title title='Lorem Ipsum' />
-                <Card.Content>
-                  <Paragraph variant='bodyMedium'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
-              <Card
-                onPress={() => {}}
-                mode='contained'
-                style={localStyles.card}
-              >
-                <Card.Title title='Lorem Ipsum Two' />
-                <Card.Content>
-                  <Paragraph variant='bodyMedium'>
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
-              <Card
-                onPress={() => {}}
-                mode='contained'
-                style={localStyles.card}
-              >
-                <Card.Title title='Lorem Ipsum 3' />
-                <Card.Content>
-                  <Paragraph variant='bodyMedium'>
-                    Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </Paragraph>
-                </Card.Content>
-              </Card>
             </View>
           </View> */}
           <View style={localStyles.divider}>
