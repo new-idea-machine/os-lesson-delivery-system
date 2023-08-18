@@ -1,11 +1,10 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 import openai
-from . import crud, models, schemas
+from . import models
 from .database import SessionLocal, engine
 from .routers import chatgpt, auth, file, users
 from .middleware.authHandler import JWTBearer
