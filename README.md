@@ -68,3 +68,11 @@ To extract text from the image we are using tesseract.
 # Example tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 # For macOS brew install tesseract
+
+# File Routes to handle extract and file crud
+
+-    file/extract
+-    file/all/{userId}
+-    file/create/{userId} // pass data as {name: "File Name", text: "File Text"}
+-    file/update/{id} // pass data as {name: "New File Name", text: "New File Text"}
+-    file/delete/{id}

@@ -46,7 +46,7 @@ async def send_text(file: UploadFile = File(...)):
 
 @router.get("/all/{userId}")
 async def get_all(userId: str) -> dict:
-    response = supabase.table('files').select("id, name, text").eq("userId", userId).execute()
+    response = supabase.table('files').select("id, name, text, userId").eq("userId", userId).execute()
     return response
 
 @router.post("/create/{userId}")
