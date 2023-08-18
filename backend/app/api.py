@@ -9,9 +9,16 @@ import requests
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 from .routers import chatgpt, auth, sendText
+from .middleware.authHandler import JWTBearer
+from supabase import create_client, Client
+
 
 load_dotenv()
 models.Base.metadata.create_all(bind=engine)
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(url, key)
 
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
@@ -49,9 +56,10 @@ app.add_middleware(
 )
 
 # DEV: TODO remove following two requests
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Hello World"}
+@app.get("/{id}", dependencies=[Depends(JWTBearer())], tags=["root"])
+async def read_root(id: str) -> dict:
+    response = supabase.table('profiles').select("*").eq("id", id).execute()
+    return response
 
 @app.get("/message", tags=["message"])
 async def get_message() -> dict:
