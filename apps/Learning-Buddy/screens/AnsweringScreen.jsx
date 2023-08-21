@@ -6,9 +6,8 @@ import BigButton from '../components/BigButton';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
 import { useNavigation } from '@react-navigation/native';
 
-export const AnsweringScreen = ({ route }) => {
+export const AnsweringScreen = ({ route, navigation }) => {
   const styles = useContext(StyleSheetContext);
-  const navigation = useNavigation();
 
   const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
   const [answerData, setAnswerData] = useState([]); // final data to send to the next page

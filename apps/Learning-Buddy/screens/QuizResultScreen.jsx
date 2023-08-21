@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Card, ProgressBar } from 'react-native-paper';
@@ -7,9 +6,8 @@ import { Card, ProgressBar } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const QuizResultScreen = ({ route }) => {
+export const QuizResultScreen = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
 
   const answerData = route.params;
 
