@@ -21,9 +21,6 @@ app.include_router(sendText.router)
 
 origins = ["http://localhost:3000", "localhost:3000"]
 
-# TEST: TODO remove
-message = {"message": "Success! Connected to Server"}
-header = {"Authorization": f"Bearer {openai.api_key}"}
 
 def get_db():
     db = SessionLocal()
@@ -31,8 +28,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
 
 
 app.add_middleware(
@@ -48,8 +43,5 @@ app.add_middleware(
 async def read_root() -> dict:
     return {"message": "Hello World"}
 
-
-url_getinfo = "https://api.openai.com/v1/models"
-url_getcompletion = "https://api.openai.com/v1/chat/completions"
 
 

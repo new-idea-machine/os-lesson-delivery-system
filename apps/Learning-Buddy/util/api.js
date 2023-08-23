@@ -16,17 +16,6 @@ export const getMultipleChoice = async (numQuestions, text) => {
     const json = await response.json();
     const questions = json.response.choices[0].text;
 
-    console.log(
-      '🪵 ---------------------------------------------------------------------🪵'
-    );
-    console.log(
-      '🪵 ~ file: NewQuizScreen.jsx:77 ~ getQuestions ~ questions:',
-      questions
-    );
-    console.log(
-      '🪵 ---------------------------------------------------------------------🪵'
-    );
-
     return questions;
   } catch (error) {
     console.error(error);

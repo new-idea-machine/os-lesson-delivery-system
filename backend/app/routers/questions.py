@@ -8,11 +8,6 @@ router = APIRouter(
     tags=['questions']
 )
 
-class Question(BaseModel):
-    id: int | None = None
-    name: str | None = None
-    question: str
-
 class Response(BaseModel):
     response: dict
 
@@ -20,12 +15,6 @@ class Request(BaseModel):
     text: str
     numQuestions: int
 
-
-@router.get('/list')
-def list_questions():
-    return {
-        "message": 'hello'
-    }
 
 @router.post("/mc")
 async def get_questions(question: Request) -> Response:
