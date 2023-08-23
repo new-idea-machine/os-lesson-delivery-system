@@ -17,8 +17,8 @@ class Response(BaseModel):
     response: dict
 
 class Request(BaseModel):
-    input: str
-    num_questions: int
+    text: str
+    numQuestions: int
 
 
 @router.get('/list')
@@ -27,13 +27,15 @@ def list_questions():
         "message": 'hello'
     }
 
-@router.post("/")
-async def get_questions(question: Question) -> Response:
-
-    print('test')
+@router.post("/mc")
+async def get_questions(question: Request) -> Response:
+    numQuestions = question.numQuestions
+    text = question.text
+    reqQuestion = f'Ask me {numQuestions} questions, multiple choice with four different potential answers, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"questions": [{{"prompt": "", "options": {{"Correct": "", "Incorrect": ["", "", ""]}}}},...]\}}'
+    
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=question.question,
+        prompt=reqQuestion,
         temperature=0,
         max_tokens=300,
     )
