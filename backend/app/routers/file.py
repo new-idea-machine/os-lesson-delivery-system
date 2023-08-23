@@ -4,6 +4,7 @@ from ..utils.extractTextPdf import extract_text_pdf
 from ..utils.extractTextImage import extract_text_image
 from ..utils.extractTextDocx import extract_text_docx
 from supabase import create_client, Client
+import json
 
 # Initialize Supabase client
 url: str = os.environ.get("SUPABASE_URL")
@@ -44,24 +45,40 @@ async def send_text(file: UploadFile = File(...)):
                 return {"text": text}
 
 
-@router.get("/all/{userId}")
-async def get_all(userId: str) -> dict:
-    response = supabase.table('files').select("id, name, text, userId").eq("userId", userId).execute()
+@router.get("/all")
+async def get_all(request: Request) -> dict:
+    token = request.headers.get("authorization").replace("Bearer ", "")
+    data: dict = supabase.auth.get_user(token)
+    
+    if data is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    userId = data.user.id
+    response = supabase.table('files').select("id, name, text, user_id").eq("user_id", userId).execute()
     return response
 
-@router.post("/create/{userId}")
-async def create(userId: str, request: Request) -> dict:
+@router.post("/create")
+async def create(request: Request) -> dict:
+    token = request.headers.get("authorization").replace("Bearer ", "")
+    data: dict = supabase.auth.get_user(token)
+    
+    if data is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    userId = data.user.id
+
     try:
         data = await request.json()
         name = data["name"]
         text = data["text"]
 
-        response = supabase.table('files').insert({"name": name, "text": text, "userId": userId}).execute()
+        response = supabase.table('files').insert({"name": name, "text": text, "user_id": userId}).execute()
         return response
     
     except KeyError:
         raise HTTPException(status_code=400, detail="Missing data")
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail="An error occurred during file creation")
 
 @router.put("/update/{id}")

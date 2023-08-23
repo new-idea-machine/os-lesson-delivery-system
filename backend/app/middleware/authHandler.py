@@ -31,7 +31,7 @@ class JWTBearer(HTTPBearer):
 
     def verify_jwt(self, jwtoken: str) -> bool:
         isTokenValid: bool = False
-
+        
         try:
             payload = decodeJWT(jwtoken)
         except:
