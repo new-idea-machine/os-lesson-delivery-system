@@ -38,10 +38,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Test message
-message = {"message": "Success! Connected to Server"}
-header = {"Authorization": f"Bearer {openai.api_key}"}
-
 # Database dependency
 def get_db():
     db = SessionLocal()
@@ -58,15 +54,6 @@ class Question(BaseModel):
 
 class Response(BaseModel):
     response: dict
-
-# Message route
-@app.get("/message", tags=["message"])
-async def get_message() -> dict:
-    return {"data": message}
-
-# OpenAI URLs
-url_getinfo = "https://api.openai.com/v1/models"
-url_getcompletion = "https://api.openai.com/v1/chat/completions"
 
 # Get questions using OpenAI
 @app.post("/questions", tags=["questions"])
