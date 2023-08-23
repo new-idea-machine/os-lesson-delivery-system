@@ -11,10 +11,12 @@ import {
   TextInput
 } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
-
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 import { getMultipleChoice } from '../util/api';
+import Constants from 'expo-constants';
+
+const ip = Constants.expoConfig.extra.IP;
 
 export const NewQuizScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
