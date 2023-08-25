@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Depends
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -66,3 +68,32 @@ async def get_questions(question: Question) -> Response:
     )
     return {"response": response}
 
+@app.post("/initialize-triggers-functions/")
+def initialize_triggers_functions(db: Session = Depends(get_db)):
+    create_trigger_script = """
+    create or replace function public.handle_new_user()
+    returns trigger as $$
+    begin
+    insert into public.profiles (id, fullName, avatar_url, email)
+    values (new.id, new.raw_user_meta_data->>'fullName', new.raw_user_meta_data->>'avatar_url', new.email);
+    return new;
+    end;
+    $$ language plpgsql security definer;
+
+    create or replace trigger on_auth_user_created
+    after insert on auth.users
+    for each row execute procedure public.handle_new_user();
+    """
+    # print(create_trigger_script)
+    try:
+
+        with engine.connect() as connection:
+            result = connection.execute(text(create_trigger_script))
+            print(f"result:{result}")
+            connection.commit()
+           
+    except Exception as e:
+        return {"error": f"Error initializing triggers/functions: {str(e)}"}
+
+
+    return {"message": "Triggers and functions initialized"}
