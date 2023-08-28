@@ -60,10 +60,10 @@ export const QuizResultScreen = ({ route, navigation }) => {
                 color: colors.lightOrange,
                 fontFamily: 'Poppins',
                 fontWeight: '900',
-                fontSize: 22
+                fontSize: 27
               }}
             >
-              {correctCount}/{total}
+              {Math.round((correctCount / total) * 100)} / 100
             </Text>
           </View>
           <View
@@ -98,7 +98,7 @@ export const QuizResultScreen = ({ route, navigation }) => {
               >
                 <ProgressBar
                   progress={correctCount / total}
-                  color={colors.lightOrange}
+                  color={colors.lightYellow}
                   style={{
                     borderRadius: 25,
                     height: 10
@@ -116,39 +116,53 @@ export const QuizResultScreen = ({ route, navigation }) => {
           </View>
 
           <View style={{ marginVertical: 10 }}>
-            {answerData.map((item, index) => (
-              <Card
-                onPress={() =>
-                  handleCardPress({
-                    prompt: item.prompt,
-                    shuffledArray: item.shuffledArray,
-                    correct: item.options.Correct,
-                    incorrect: item.options.Incorrect,
-                    chosenAnswer: item.chosenAnswer,
-                    questionNumber: index + 1, // add one since question indexes dont start from 0
-                    totalQuestions: answerData.length
-                  })
-                }
-                mode='outlined'
-                style={{ borderRadius: 5 }}
-                key={index}
-              >
-                <Card.Title title={`${index + 1}. ${item.prompt}`} />
-                <Card.Content>
-                  <Text
-                    style={{
-                      color:
-                        item.options.Correct === item.chosenAnswer
-                          ? colors.lightBlue
-                          : colors.red,
-                      fontWeight: 'bold'
-                    }}
-                  >
-                    {`${getIndexLetter(item)}. ${item.chosenAnswer}`}
-                  </Text>
-                </Card.Content>
-              </Card>
-            ))}
+            <Card
+              mode='contained'
+              style={{
+                borderRadius: 5,
+                borderWidth: 1,
+                backgroundColor: 'transparent',
+                letterSpacing: 1
+              }}
+            >
+              {answerData.map((item, index) => (
+                <Card
+                  onPress={() =>
+                    handleCardPress({
+                      prompt: item.prompt,
+                      shuffledArray: item.shuffledArray,
+                      correct: item.options.Correct,
+                      incorrect: item.options.Incorrect,
+                      chosenAnswer: item.chosenAnswer,
+                      questionNumber: index + 1, // add one since question indexes dont start from 0
+                      totalQuestions: answerData.length
+                    })
+                  }
+                  mode='contained'
+                  style={{
+                    borderRadius: 0,
+                    backgroundColor: 'transparent',
+                    borderBottomWidth: 1
+                  }}
+                  key={index}
+                >
+                  <Card.Title title={`${index + 1}. ${item.prompt}`} />
+                  <Card.Content>
+                    <Text
+                      style={{
+                        color:
+                          item.options.Correct === item.chosenAnswer
+                            ? colors.lightBlue
+                            : colors.red,
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      {`${getIndexLetter(item)}. ${item.chosenAnswer}`}
+                    </Text>
+                  </Card.Content>
+                </Card>
+              ))}
+            </Card>
           </View>
           <View style={{ marginVertical: 10 }}>
             <BigButton
