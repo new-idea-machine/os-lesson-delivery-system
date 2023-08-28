@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -20,12 +21,19 @@ import { MyContentScreen } from '../screens/MyContentScreen';
 import { SaveDocumentsScreen } from '../screens/SaveDocumentsScreen';
 import { MyAccountScreen } from '../screens/MyAccountScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
-import { ResultsScreen } from '../screens/ResultsScreen';
 import { QuizResultScreen } from '../screens/QuizResultScreen';
 import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
+import { ProgressScreen } from '../screens/ProgressScreen';
+import { ReviewScreen } from '../screens/ReviewScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
+const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+const AccountStack = createStackNavigator();
+const ContentStack = createStackNavigator();
+const QuizStack = createStackNavigator();
+const IndividualStack = createStackNavigator();
 
 const DrawerMenuButton = () => {
   const navigation = useNavigation();
@@ -37,132 +45,256 @@ const DrawerMenuButton = () => {
       color={colors.black}
       rippleColor={colors.white}
       style={localStyles.DrawMenuButton}
-      onPress={() => navigation.openDrawer()}
+      // onPress={() => navigation.openDrawer()}
     />
   );
 };
 
-const DrawerNavigator = () => {
+// export const DrawerNavigator = () => {
+//   return (
+//     <Drawer.Navigator
+//       initialRouteName='Home Screen2'
+//       drawerPosition='left'
+//       drawerType='back'
+//       screenOptions={{
+//         headerShown: true,
+//         drawerStyle: {
+//           backgroundColor: colors.white,
+//           height: 450,
+//           width: 250,
+//           borderRadius: 16,
+//           marginTop: 30
+//         },
+//         drawerActiveTintColor: colors.green,
+//         drawerInactiveTintColor: colors.black
+//       }}
+//       drawerContent={(props) => <CloseDrawerMenu {...props} />}
+//     >
+//       <Drawer.Screen
+//         name='Home Screen2'
+//         component={BottomTab}
+//         options={{
+//           drawerLabel: 'Home',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <Octicons name='home' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//       <Drawer.Screen
+//         name='New Quiz Screen2'
+//         component={BottomTab}
+//         options={{
+//           drawerLabel: 'Create New Quiz',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <AntDesign name='pluscircleo' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//       <Drawer.Screen
+//         name='My Content Screen2'
+//         component={IndividualStackNavi}
+//         options={{
+//           drawerLabel: 'My Content',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <Feather name='folder' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//       <Drawer.Screen
+//         name='SaveDocumentsScreen'
+//         component={IndividualStackNavi}
+//         options={{
+//           drawerLabel: 'Saved Documents',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <Ionicons name='document-text-outline' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//       <Drawer.Screen
+//         name='MyAccount'
+//         component={BottomTab}
+//         options={{
+//           drawerLabel: 'My Account',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <FontAwesome5 name='user-circle' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//       <Drawer.Screen
+//         name='SettingsScreen'
+//         component={IndividualStackNavi}
+//         options={{
+//           drawerLabel: 'Settings',
+//           headerTitle: '',
+//           drawerIcon: ({ color }) => (
+//             <Feather name='settings' size={24} color={color} />
+//           ),
+//           headerLeft: () => <DrawerMenuButton />
+//         }}
+//       />
+//     </Drawer.Navigator>
+//   );
+// };
+
+export const BottomTab = () => {
+  const bottonIconColor = '#979797';
   return (
-    <Drawer.Navigator
+    <Tab.Navigator
       initialRouteName='Home Screen'
-      drawerPosition='left'
-      drawerType='back'
-      screenOptions={{
-        headerShown: false,
-        drawerStyle: {
-          backgroundColor: colors.white,
-          height: 450,
-          width: 250,
-          borderRadius: 16,
-          marginTop: 30
-        },
-        drawerActiveTintColor: colors.green,
-        drawerInactiveTintColor: colors.black
-      }}
-      drawerContent={(props) => <CloseDrawerMenu {...props} />}
+      activeColor={colors.green}
+      inactiveColor={bottonIconColor}
+      barStyle={{ backgroundColor: '#F4F4F4' }}
+      labeled={true}
+      sceneAnimationEnabled={true}
     >
-      <Drawer.Screen
+      <Tab.Screen
+        name='Progress Screen2'
+        component={ProgressScreen}
+        options={{
+          tabBarLabel: 'Progress',
+          tabBarIcon: ({ color }) => (
+            <Octicons name='graph' color={color} size={26} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name='New Quiz Screen1'
+        component={MyQuizStack}
+        options={{
+          tabBarLabel: 'New Quiz',
+          tabBarIcon: ({ color }) => (
+            <AntDesign name='pluscircleo' color={color} size={26} />
+          )
+        }}
+      />
+      <Tab.Screen
         name='Home Screen'
         component={HomeScreen}
         options={{
-          headerShown: true,
-          drawerLabel: 'Home',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <Octicons name='home' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Octicons name='home' color={color} size={26} />
+          )
         }}
       />
-      <Drawer.Screen
-        name='New Quiz Screen'
-        component={NewQuizScreen}
+      <Tab.Screen
+        name='Review'
+        component={MyContentStack}
         options={{
-          headerShown: true,
-          drawerLabel: 'Create New Quiz',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <AntDesign name='pluscircleo' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
+          tabBarLabel: 'Review',
+          tabBarIcon: ({ color }) => (
+            <Feather name='book-open' color={color} size={26} />
+          )
         }}
+        initialParams={{ screen: 'My Review Screen' }}
       />
-      <Drawer.Screen
-        name='My Content'
-        component={MyContentScreen}
+      <Tab.Screen
+        name='Account'
+        component={MyAccountStack}
         options={{
-          headerShown: true,
-          drawerLabel: 'My Content',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <Feather name='folder' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name='user' color={color} size={26} />
+          )
         }}
+        initialParams={{ screen: 'MyAccountScreen' }}
       />
-      <Drawer.Screen
-        name='Saved Documents'
-        component={SaveDocumentsScreen}
-        options={{
-          headerShown: true,
-          drawerLabel: 'Saved Documents',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <Ionicons name='document-text-outline' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
-        }}
-      />
-      <Drawer.Screen
-        name='My Account'
-        component={MyAccountScreen}
-        options={{
-          headerShown: true,
-          drawerLabel: 'My Account',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <FontAwesome5 name='user-circle' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
-        }}
-      />
-      <Drawer.Screen
-        name='Settings'
-        component={SettingsScreen}
-        options={{
-          headerShown: true,
-          drawerLabel: 'Settings',
-          headerTitle: '',
-          drawerIcon: ({ color }) => (
-            <Feather name='settings' size={24} color={color} />
-          ),
-          headerLeft: () => <DrawerMenuButton />
-        }}
-      />
-    </Drawer.Navigator>
+    </Tab.Navigator>
   );
 };
 
-const Stack = createStackNavigator();
+const MyAccountStack = ({ route }) => {
+  const initialScreen = route.params?.screen || 'My Settings Screen';
+  return (
+    <AccountStack.Navigator
+      initialRouteName={initialScreen}
+      screenOptions={{
+        headerShown: true,
+        headerTitle: '',
+        cardStyle: { backgroundColor: colors.white },
+        headerLeft: () => <DrawerMenuButton />
+      }}
+    >
+      <AccountStack.Screen
+        name='My Settings Screen'
+        component={SettingsScreen}
+      />
+      <AccountStack.Screen name='MyAccountScreen' component={MyAccountScreen} />
+    </AccountStack.Navigator>
+  );
+};
+
+const MyContentStack = ({ route }) => {
+  const initialScreen = route.params?.screen || 'My Content Screen';
+  return (
+    <ContentStack.Navigator
+      initialRouteName={initialScreen}
+      screenOptions={{
+        headerShown: true,
+        headerTitle: '',
+        cardStyle: { backgroundColor: colors.white },
+        headerLeft: () => <DrawerMenuButton />
+      }}
+    >
+      <ContentStack.Screen name='My Review Screen' component={ReviewScreen} />
+      <ContentStack.Screen
+        name='My Content Screen'
+        component={MyContentScreen}
+      />
+      <ContentStack.Screen
+        name='My Save Documents'
+        component={SaveDocumentsScreen}
+      />
+    </ContentStack.Navigator>
+  );
+};
+
+const MyQuizStack = () => {
+  return (
+    <QuizStack.Navigator
+      initialRouteName='New Quiz Screen'
+      screenOptions={{
+        headerShown: true,
+        headerTitle: '',
+        cardStyle: { backgroundColor: colors.white },
+        headerLeft: () => <DrawerMenuButton />
+      }}
+    >
+      <QuizStack.Screen name='New Quiz Screen' component={NewQuizScreen} />
+      <QuizStack.Screen name='Question Form' component={QuestionForm} />
+      <QuizStack.Screen name='Answering Screen' component={AnsweringScreen} />
+      <QuizStack.Screen
+        name='Quiz Result Screen'
+        component={QuizResultScreen}
+      />
+      <QuizStack.Screen
+        name='QuizResultDetailScreen'
+        component={QuizResultDetailScreen}
+      />
+    </QuizStack.Navigator>
+  );
+};
 
 export const AppStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerMode: 'screen',
         headerShown: false,
         cardStyle: { backgroundColor: colors.white }
       }}
     >
-      <Stack.Screen name='Drawer Menu' component={DrawerNavigator} />
-      <Stack.Screen name='Question Form' component={QuestionForm} />
-      <Stack.Screen name='Answering Screen' component={AnsweringScreen} />
-      <Stack.Screen name='Results Screen' component={ResultsScreen} />
-      <Stack.Screen name='Quiz Result Screen' component={QuizResultScreen} />
-      <Stack.Screen
-        name='Quiz Result Detail Screen'
-        component={QuizResultDetailScreen}
-      />
+      <Stack.Screen name='Bottom Tab Bar' component={BottomTab} />
     </Stack.Navigator>
   );
 };
