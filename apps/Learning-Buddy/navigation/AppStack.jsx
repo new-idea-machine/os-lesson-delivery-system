@@ -14,19 +14,16 @@ import {
 import { IconButton } from 'react-native-paper';
 import { colors } from '../config/colors';
 import { HomeScreen } from '../screens/HomeScreen';
-import { MyContentScreen } from '../screens/MyContentScreen';
-import { SaveDocumentsScreen } from '../screens/SaveDocumentsScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
-import { ReviewScreen } from '../screens/ReviewScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
 import { MyQuizStack } from './MyQuizStack';
 import { MyAccountStack } from './MyAccountStack';
+import { MyContentStack } from './MyContentStack';
 
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const ContentStack = createStackNavigator();
 
 export const DrawerMenuButton = () => {
   const navigation = useNavigation();
@@ -203,31 +200,6 @@ export const BottomTab = () => {
         initialParams={{ screen: 'MyAccountScreen' }}
       />
     </Tab.Navigator>
-  );
-};
-
-const MyContentStack = ({ route }) => {
-  const initialScreen = route.params?.screen || 'My Content Screen';
-  return (
-    <ContentStack.Navigator
-      initialRouteName={initialScreen}
-      screenOptions={{
-        headerShown: true,
-        headerTitle: '',
-        cardStyle: { backgroundColor: colors.white },
-        headerLeft: () => <DrawerMenuButton />
-      }}
-    >
-      <ContentStack.Screen name='My Review Screen' component={ReviewScreen} />
-      <ContentStack.Screen
-        name='My Content Screen'
-        component={MyContentScreen}
-      />
-      <ContentStack.Screen
-        name='My Save Documents'
-        component={SaveDocumentsScreen}
-      />
-    </ContentStack.Navigator>
   );
 };
 
