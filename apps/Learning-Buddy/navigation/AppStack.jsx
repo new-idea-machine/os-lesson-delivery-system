@@ -16,18 +16,16 @@ import { colors } from '../config/colors';
 import { HomeScreen } from '../screens/HomeScreen';
 import { MyContentScreen } from '../screens/MyContentScreen';
 import { SaveDocumentsScreen } from '../screens/SaveDocumentsScreen';
-import { MyAccountScreen } from '../screens/MyAccountScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
 import { ReviewScreen } from '../screens/ReviewScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
 import { MyQuizStack } from './MyQuizStack';
+import { MyAccountStack } from './MyAccountStack';
 
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const AccountStack = createStackNavigator();
 const ContentStack = createStackNavigator();
 
 export const DrawerMenuButton = () => {
@@ -205,27 +203,6 @@ export const BottomTab = () => {
         initialParams={{ screen: 'MyAccountScreen' }}
       />
     </Tab.Navigator>
-  );
-};
-
-const MyAccountStack = ({ route }) => {
-  const initialScreen = route.params?.screen || 'My Settings Screen';
-  return (
-    <AccountStack.Navigator
-      initialRouteName={initialScreen}
-      screenOptions={{
-        headerShown: true,
-        headerTitle: '',
-        cardStyle: { backgroundColor: colors.white },
-        headerLeft: () => <DrawerMenuButton />
-      }}
-    >
-      <AccountStack.Screen
-        name='My Settings Screen'
-        component={SettingsScreen}
-      />
-      <AccountStack.Screen name='MyAccountScreen' component={MyAccountScreen} />
-    </AccountStack.Navigator>
   );
 };
 
