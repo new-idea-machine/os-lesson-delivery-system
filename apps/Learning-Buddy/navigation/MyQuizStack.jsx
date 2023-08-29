@@ -6,12 +6,17 @@ import { QuizResultScreen } from '../screens/QuizResultScreen';
 import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
 import { QuestionForm } from '../screens/QuestionForm';
 
+// Create a stack navigator
 const QuizStack = createStackNavigator();
 
-export const MyQuizStack = () => {
+// Define a component for the quiz stack
+export const MyQuizStack = ({ route }) => {
+  // Set the initial screen based on the route parameter, default to 'New Quiz Screen'
+  const initialScreen = route.params?.screen || 'New Quiz Screen';
+  // Return the navigator component
   return (
     <QuizStack.Navigator
-      initialRouteName='New Quiz Screen'
+      initialRouteName={initialScreen}
       screenOptions={{
         headerShown: true,
         headerTitle: '',
