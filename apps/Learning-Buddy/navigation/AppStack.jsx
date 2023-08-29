@@ -13,29 +13,24 @@ import {
 } from '@expo/vector-icons';
 import { IconButton } from 'react-native-paper';
 import { colors } from '../config/colors';
-import { QuestionForm } from '../screens/QuestionForm';
 import { HomeScreen } from '../screens/HomeScreen';
-import { AnsweringScreen } from '../screens/AnsweringScreen';
-import { NewQuizScreen } from '../screens/NewQuizScreen';
 import { MyContentScreen } from '../screens/MyContentScreen';
 import { SaveDocumentsScreen } from '../screens/SaveDocumentsScreen';
 import { MyAccountScreen } from '../screens/MyAccountScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
-import { QuizResultScreen } from '../screens/QuizResultScreen';
-import { QuizResultDetailScreen } from '../screens/QuizResultDetailScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
 import { ReviewScreen } from '../screens/ReviewScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
+
+import { MyQuizStack } from './MyQuizStack';
 
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const AccountStack = createStackNavigator();
 const ContentStack = createStackNavigator();
-const QuizStack = createStackNavigator();
-const IndividualStack = createStackNavigator();
 
-const DrawerMenuButton = () => {
+export const DrawerMenuButton = () => {
   const navigation = useNavigation();
 
   return (
@@ -256,32 +251,6 @@ const MyContentStack = ({ route }) => {
         component={SaveDocumentsScreen}
       />
     </ContentStack.Navigator>
-  );
-};
-
-const MyQuizStack = () => {
-  return (
-    <QuizStack.Navigator
-      initialRouteName='New Quiz Screen'
-      screenOptions={{
-        headerShown: true,
-        headerTitle: '',
-        cardStyle: { backgroundColor: colors.white },
-        headerLeft: () => <DrawerMenuButton />
-      }}
-    >
-      <QuizStack.Screen name='New Quiz Screen' component={NewQuizScreen} />
-      <QuizStack.Screen name='Question Form' component={QuestionForm} />
-      <QuizStack.Screen name='Answering Screen' component={AnsweringScreen} />
-      <QuizStack.Screen
-        name='Quiz Result Screen'
-        component={QuizResultScreen}
-      />
-      <QuizStack.Screen
-        name='QuizResultDetailScreen'
-        component={QuizResultDetailScreen}
-      />
-    </QuizStack.Navigator>
   );
 };
 
