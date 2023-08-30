@@ -20,7 +20,6 @@ export const MyAccountStack = ({ route }) => {
         headerShown: true,
         headerTitle: '',
         cardStyle: { backgroundColor: colors.white }
-        // headerLeft: () => <DrawerMenuButton />
       }}
     >
       <AccountStack.Screen

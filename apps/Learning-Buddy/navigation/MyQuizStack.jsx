@@ -21,7 +21,6 @@ export const MyQuizStack = ({ route }) => {
         headerShown: true,
         headerTitle: '',
         cardStyle: { backgroundColor: colors.white }
-        // headerLeft: () => <DrawerMenuButton />
       }}
     >
       <QuizStack.Screen name='New Quiz Screen' component={NewQuizScreen} />

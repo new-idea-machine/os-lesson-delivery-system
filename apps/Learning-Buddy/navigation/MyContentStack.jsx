@@ -20,7 +20,6 @@ export const MyContentStack = ({ route }) => {
         headerShown: true,
         headerTitle: '',
         cardStyle: { backgroundColor: colors.white }
-        // headerLeft: () => <DrawerMenuButton />
       }}
     >
       <ContentStack.Screen name='My Review Screen' component={ReviewScreen} />
