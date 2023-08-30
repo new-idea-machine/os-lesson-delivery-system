@@ -86,7 +86,7 @@ export const DrawerNavigator = () => {
         initialParams={{ screen: 'New Quiz Stack' }}
       />
       <Drawer.Screen
-        name='My Content Screen2'
+        name='My Content'
         component={BottomTab}
         options={{
           drawerLabel: 'My Content',
@@ -96,9 +96,13 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
+        initialParams={{
+          screen: 'Review',
+          params: { screen: 'My Content Screen' }
+        }}
       />
       <Drawer.Screen
-        name='SaveDocumentsScreen'
+        name='Save Documents'
         component={BottomTab}
         options={{
           drawerLabel: 'Saved Documents',
@@ -108,9 +112,13 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
+        initialParams={{
+          screen: 'Review',
+          params: { screen: 'My Save Documents' }
+        }}
       />
       <Drawer.Screen
-        name='MyAccount'
+        name='My Account'
         component={BottomTab}
         options={{
           drawerLabel: 'My Account',
