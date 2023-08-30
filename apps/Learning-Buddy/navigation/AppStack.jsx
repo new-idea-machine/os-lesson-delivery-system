@@ -21,10 +21,12 @@ import { MyQuizStack } from './MyQuizStack';
 import { MyAccountStack } from './MyAccountStack';
 import { MyContentStack } from './MyContentStack';
 
+// Create tab, drawer, and stack navigators
 const Tab = createMaterialBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+// Custom drawer menu button component
 export const DrawerMenuButton = () => {
   const navigation = useNavigation();
 
@@ -40,6 +42,7 @@ export const DrawerMenuButton = () => {
   );
 };
 
+// Drawer navigator containing main app screens
 export const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
@@ -150,6 +153,7 @@ export const DrawerNavigator = () => {
   );
 };
 
+// Bottom tab navigator for each drawer screen
 export const BottomTab = ({ route }) => {
   const bottonIconColor = '#979797';
   const initialTab = route.params?.screen || 'Home Screen';
@@ -218,6 +222,7 @@ export const BottomTab = ({ route }) => {
   );
 };
 
+// Top level app stack with drawer
 export const AppStack = () => {
   return (
     <Stack.Navigator
