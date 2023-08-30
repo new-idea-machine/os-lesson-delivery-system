@@ -120,6 +120,7 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
+        initialParams={{ screen: 'Account Stack' }}
       />
       <Drawer.Screen
         name='SettingsScreen'
@@ -132,16 +133,21 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
+        initialParams={{
+          screen: 'Account Stack',
+          params: { screen: 'My Settings Screen' }
+        }}
       />
     </Drawer.Navigator>
   );
 };
 
-export const BottomTab = () => {
+export const BottomTab = ({ route }) => {
   const bottonIconColor = '#979797';
+  const initialTab = route.params?.screen || 'Home Screen';
   return (
     <Tab.Navigator
-      initialRouteName='Home Screen'
+      initialRouteName={initialTab}
       activeColor={colors.green}
       inactiveColor={bottonIconColor}
       barStyle={{ backgroundColor: '#F4F4F4' }}
