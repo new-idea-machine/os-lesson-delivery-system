@@ -27,7 +27,10 @@ export const MyAccountStack = ({ route }) => {
         name='My Settings Screen'
         component={SettingsScreen}
       />
-      <AccountStack.Screen name='MyAccountScreen' component={MyAccountScreen} />
+      <AccountStack.Screen
+        name='My Account Screen'
+        component={MyAccountScreen}
+      />
     </AccountStack.Navigator>
   );
 };

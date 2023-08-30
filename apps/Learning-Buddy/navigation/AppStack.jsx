@@ -190,7 +190,7 @@ export const BottomTab = () => {
         initialParams={{ screen: 'My Review Screen' }}
       />
       <Tab.Screen
-        name='Account'
+        name='Account Stack'
         component={MyAccountStack}
         options={{
           tabBarLabel: 'Account',
@@ -198,7 +198,7 @@ export const BottomTab = () => {
             <FontAwesome5 name='user' color={color} size={26} />
           )
         }}
-        initialParams={{ screen: 'MyAccountScreen' }}
+        initialParams={('Account', { screen: 'My Account Screen' })}
       />
     </Tab.Navigator>
   );
