@@ -8,7 +8,7 @@ import os
 import openai
 from . import models
 from .database import SessionLocal, engine
-from .routers import chatgpt, auth, file, users
+from .routers import chatgpt, file, users
 from .middleware.authHandler import JWTBearer
 
 
@@ -26,7 +26,6 @@ app = FastAPI()
 
 # Include routers
 app.include_router(chatgpt.router)
-app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(file.router, dependencies=[Depends(JWTBearer())])
 
