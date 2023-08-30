@@ -35,106 +35,107 @@ export const DrawerMenuButton = () => {
       color={colors.black}
       rippleColor={colors.white}
       style={localStyles.DrawMenuButton}
-      // onPress={() => navigation.openDrawer()}
+      onPress={() => navigation.openDrawer()}
     />
   );
 };
 
-// export const DrawerNavigator = () => {
-//   return (
-//     <Drawer.Navigator
-//       initialRouteName='Home Screen2'
-//       drawerPosition='left'
-//       drawerType='back'
-//       screenOptions={{
-//         headerShown: true,
-//         drawerStyle: {
-//           backgroundColor: colors.white,
-//           height: 450,
-//           width: 250,
-//           borderRadius: 16,
-//           marginTop: 30
-//         },
-//         drawerActiveTintColor: colors.green,
-//         drawerInactiveTintColor: colors.black
-//       }}
-//       drawerContent={(props) => <CloseDrawerMenu {...props} />}
-//     >
-//       <Drawer.Screen
-//         name='Home Screen2'
-//         component={BottomTab}
-//         options={{
-//           drawerLabel: 'Home',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <Octicons name='home' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//       <Drawer.Screen
-//         name='New Quiz Screen2'
-//         component={BottomTab}
-//         options={{
-//           drawerLabel: 'Create New Quiz',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <AntDesign name='pluscircleo' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//       <Drawer.Screen
-//         name='My Content Screen2'
-//         component={IndividualStackNavi}
-//         options={{
-//           drawerLabel: 'My Content',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <Feather name='folder' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//       <Drawer.Screen
-//         name='SaveDocumentsScreen'
-//         component={IndividualStackNavi}
-//         options={{
-//           drawerLabel: 'Saved Documents',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <Ionicons name='document-text-outline' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//       <Drawer.Screen
-//         name='MyAccount'
-//         component={BottomTab}
-//         options={{
-//           drawerLabel: 'My Account',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <FontAwesome5 name='user-circle' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//       <Drawer.Screen
-//         name='SettingsScreen'
-//         component={IndividualStackNavi}
-//         options={{
-//           drawerLabel: 'Settings',
-//           headerTitle: '',
-//           drawerIcon: ({ color }) => (
-//             <Feather name='settings' size={24} color={color} />
-//           ),
-//           headerLeft: () => <DrawerMenuButton />
-//         }}
-//       />
-//     </Drawer.Navigator>
-//   );
-// };
+export const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator
+      initialRouteName='Home Screen2'
+      drawerPosition='left'
+      drawerType='back'
+      screenOptions={{
+        headerShown: true,
+        drawerStyle: {
+          backgroundColor: colors.white,
+          height: 450,
+          width: 250,
+          borderRadius: 16,
+          marginTop: 30
+        },
+        drawerActiveTintColor: colors.green,
+        drawerInactiveTintColor: colors.black
+      }}
+      drawerContent={(props) => <CloseDrawerMenu {...props} />}
+    >
+      <Drawer.Screen
+        name='Home Screen2'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'Home',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Octicons name='home' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='New Quiz Screen2'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'Create New Quiz',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <AntDesign name='pluscircleo' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+        initialParams={{ screen: 'New Quiz Stack' }}
+      />
+      <Drawer.Screen
+        name='My Content Screen2'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'My Content',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Feather name='folder' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='SaveDocumentsScreen'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'Saved Documents',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Ionicons name='document-text-outline' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='MyAccount'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'My Account',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <FontAwesome5 name='user-circle' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+      <Drawer.Screen
+        name='SettingsScreen'
+        component={BottomTab}
+        options={{
+          drawerLabel: 'Settings',
+          headerTitle: '',
+          drawerIcon: ({ color }) => (
+            <Feather name='settings' size={24} color={color} />
+          ),
+          headerLeft: () => <DrawerMenuButton />
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
 
 export const BottomTab = () => {
   const bottonIconColor = '#979797';
@@ -158,7 +159,7 @@ export const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name='New Quiz Screen1'
+        name='New Quiz Stack'
         component={MyQuizStack}
         options={{
           tabBarLabel: 'New Quiz',
@@ -212,7 +213,7 @@ export const AppStack = () => {
         cardStyle: { backgroundColor: colors.white }
       }}
     >
-      <Stack.Screen name='Bottom Tab Bar' component={BottomTab} />
+      <Stack.Screen name='Drawer Menu' component={DrawerNavigator} />
     </Stack.Navigator>
   );
 };
