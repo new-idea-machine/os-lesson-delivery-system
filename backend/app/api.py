@@ -1,18 +1,24 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Depends
+from sqlalchemy import text
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 import openai
-import requests
-from . import crud, models, schemas
+from . import models
 from .database import SessionLocal, engine
-from .routers import chatgpt, auth, sendText, quizeQuestions
+from .routers import questions, file, users, quizeQuestions
+from .middleware.authHandler import JWTBearer
 
+
+# Load environment variables
 load_dotenv()
+
+# Create database tables if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
+# Set OpenAI API key
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
 app.include_router(chatgpt.router)
@@ -21,26 +27,19 @@ app.include_router(sendText.router)
 app.include_router(quizeQuestions.router)
 
 
+# Initialize FastAPI app
+app = FastAPI()
+
+# Include routers
+
+app.include_router(users.router)
+app.include_router(file.router, dependencies=[Depends(JWTBearer())])
+app.include_router(questions.router)
+
+
+# Configure CORS middleware
 origins = ["http://localhost:3000", "localhost:3000"]
 
-# TEST: TODO remove
-message = {"message": "Success! Connected to Server"}
-header = {"Authorization": f"Bearer {openai.api_key}"}
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-class Question(BaseModel):
-    id: int | None = None
-    name: str | None = None
-    question: str
-
-class Response(BaseModel):
-    response: dict
 
 app.add_middleware(
     CORSMiddleware,
@@ -50,58 +49,70 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# DEV: TODO remove following two requests
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Hello World"}
-
-@app.get("/message", tags=["message"])
-async def get_message() -> dict:
-    return {"data": message}
-
-url_getinfo = "https://api.openai.com/v1/models"
-url_getcompletion = "https://api.openai.com/v1/chat/completions"
-
-@app.post("/questions", tags=["questions"])
-async def get_questions(question: Question) -> Response:
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=question.question,
-        temperature=0,
-        max_tokens=300,
-    )
-    return {"response": response}
-
-@app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    return crud.create_user(db=db, user=user)
+# Database dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-@app.get("/users/", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
+
+@app.post("/initialize-triggers-functions/")
+def initialize_triggers_functions(db: Session = Depends(get_db)):
+    create_trigger_script = """
+    -- Create a table  for public profiles
+    create table if not exists profiles (
+    id uuid references auth.users on delete cascade not null primary key,
+    updated_at timestamp with time zone,
+    email text,
+    fullName text,
+    avatar_url text,
+    phoneNumber text
+    );
+    -- Set up Row Level Security (RLS)
+    -- See https://supabase.com/docs/guides/auth/row-level-security for more details.
+    alter table profiles
+    enable row level security;
+
+    drop policy "Public profiles are viewable by everyone." on profiles;
+    create policy "Public profiles are viewable by everyone." on profiles
+    for select using (true);
+
+    drop  policy  "Users can insert their own profile." on profiles;
+    create  policy  "Users can insert their own profile." on profiles
+    for insert with check (auth.uid() = id);
+
+    drop  policy "Users can update own profile." on profiles;
+    create  policy "Users can update own profile." on profiles
+    for update using (auth.uid() = id);
+    
+    -- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
+    -- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
+    create or replace function public.handle_new_user()
+    returns trigger as $$
+    begin
+    insert into public.profiles (id, fullName, avatar_url, email)
+    values (new.id, new.raw_user_meta_data->>'fullName', new.raw_user_meta_data->>'avatar_url', new.email);
+    return new;
+    end;
+    $$ language plpgsql security definer;
+
+    create or replace trigger on_auth_user_created
+    after insert on auth.users
+    for each row execute procedure public.handle_new_user();
+    """
+    # print(create_trigger_script)
+    try:
+
+        with engine.connect() as connection:
+            result = connection.execute(text(create_trigger_script))
+            print(f"result:{result}")
+            connection.commit()
+           
+    except Exception as e:
+        return {"error": f"Error initializing triggers/functions: {str(e)}"}
 
 
-@app.get("/users/{user_id}", response_model=schemas.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user_id)
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_user
-
-
-@app.post("/users/{user_id}/items/", response_model=schemas.Item)
-def create_item_for_user(
-    user_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
-):
-    return crud.create_user_item(db=db, item=item, user_id=user_id)
-
-
-@app.get("/items/", response_model=list[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
+    return {"message": "Triggers and functions initialized"}

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
 import { Paragraph } from 'react-native-paper';
 import BigButton from '../components/BigButton';

@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Button } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../config/colors';
 
-export const MyContentScreen = () => {
-  const navigation = useNavigation();
+export const MyContentScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Content</Text>
