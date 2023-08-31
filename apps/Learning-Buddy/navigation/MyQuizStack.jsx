@@ -31,7 +31,7 @@ export const MyQuizStack = ({ route }) => {
         component={QuizResultScreen}
       />
       <QuizStack.Screen
-        name='QuizResultDetailScreen'
+        name='Quiz Result Detail Screen'
         component={QuizResultDetailScreen}
       />
     </QuizStack.Navigator>
