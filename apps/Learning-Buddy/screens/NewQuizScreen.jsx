@@ -10,18 +10,19 @@ import {
   TextInput
 } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
-import Constants from 'expo-constants';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
+import { getMultipleChoice } from '../util/api';
+import Constants from 'expo-constants';
+
+const ip = Constants.expoConfig.extra.IP;
 
 export const NewQuizScreen = ({ navigation }) => {
-  const ip = Constants.expoConfig.extra.IP;
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const [numQuestions, setNumQuestions] = useState(0);
   const [maxQuestions, setMaxQuestions] = useState(0);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
-  const [response, setResponse] = useState('');
   const [upDisabled, setUpDisabled] = useState(true);
   const [downDisabled, setDownDisabled] = useState(true);
   const [characters, setCharacters] = useState('0');
@@ -118,44 +119,9 @@ export const NewQuizScreen = ({ navigation }) => {
     setSelectedDifficulty(difficultyContent);
   };
 
-  const getQuestions = async () => {
-    setResponse(null);
-    const reqQuestion = `Ask me ${numQuestions} questions, multiple choice with four different potential answers, based only on this information: 
-    ${text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {"questions": [{"prompt": "", "options": {"Correct": "", "Incorrect": ["", "", ""]}},...]}`;
-    let source = { id: 1, question: reqQuestion };
-    source = JSON.stringify(source);
-
-    try {
-      const response = await fetch(`http://${ip}:8000/questions/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // mode: 'no-cors',
-        body: source
-      });
-      const json = await response.json();
-      const questions = json.response.choices[0].text;
-
-      console.log(
-        '🪵 ---------------------------------------------------------------------🪵'
-      );
-      console.log(
-        '🪵 ~ file: NewQuizScreen.jsx:77 ~ getQuestions ~ questions:',
-        questions
-      );
-      console.log(
-        '🪵 ---------------------------------------------------------------------🪵'
-      );
-
-      return questions;
-    } catch (error) {
-      console.error(error);
-      setResponse('oh no, problem');
-    }
-  };
-
   // When question is pass to the next screen
   const onPressHandler = async () => {
-    let passingQuestions = await getQuestions();
+    let passingQuestions = await getMultipleChoice(numQuestions, text);
     passingQuestions = JSON.parse(passingQuestions);
     navigation.navigate('Answering Screen', passingQuestions);
     setText('');
