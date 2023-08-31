@@ -8,7 +8,7 @@ import os
 import openai
 from . import models
 from .database import SessionLocal, engine
-from .routers import chatgpt, file, users
+from .routers import questions, file, users
 from .middleware.authHandler import JWTBearer
 
 
@@ -25,12 +25,16 @@ openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
 
 # Include routers
-app.include_router(chatgpt.router)
+
 app.include_router(users.router)
 app.include_router(file.router, dependencies=[Depends(JWTBearer())])
+app.include_router(questions.router)
+
 
 # Configure CORS middleware
 origins = ["http://localhost:3000", "localhost:3000"]
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -47,25 +51,7 @@ def get_db():
     finally:
         db.close()
 
-# Pydantic models
-class Question(BaseModel):
-    id: int | None = None
-    name: str | None = None
-    question: str
 
-class Response(BaseModel):
-    response: dict
-
-# Get questions using OpenAI
-@app.post("/questions", tags=["questions"])
-async def get_questions(question: Question) -> Response:
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=question.question,
-        temperature=0,
-        max_tokens=300,
-    )
-    return {"response": response}
 
 @app.post("/initialize-triggers-functions/")
 def initialize_triggers_functions(db: Session = Depends(get_db)):
