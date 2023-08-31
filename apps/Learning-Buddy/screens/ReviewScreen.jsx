@@ -3,10 +3,10 @@ import { Button } from 'react-native-paper';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../config/colors';
 
-export const SaveDocumentsScreen = ({ navigation }) => {
+export const ReviewScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Save Documents</Text>
+      <Text style={styles.title}>Review</Text>
       <Button
         mode='contained'
         onPress={() => navigation.navigate('Home Screen')}

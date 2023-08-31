@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
