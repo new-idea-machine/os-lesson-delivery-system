@@ -54,8 +54,13 @@ async def get_all(request: Request) -> dict:
         raise HTTPException(status_code=401, detail="Invalid token")
     
     userId = data.user.id
-    response = supabase.table('files').select("id, name, text, user_id").eq("user_id", userId).execute()
-    return response
+    try:
+        response = supabase.table('files').select("id, name,d, text, user_id").eq("user_id", userId).execute()
+        
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
+    
 
 @router.post("/create")
 async def create(request: Request) -> dict:
