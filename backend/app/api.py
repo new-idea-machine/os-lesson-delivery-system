@@ -8,7 +8,7 @@ import os
 import openai
 from . import models
 from .database import SessionLocal, engine
-from .routers import questions, file, users, quizeQuestions
+from .routers import questions, file, users, quizQuestions
 from .middleware.authHandler import JWTBearer
 
 
@@ -21,10 +21,10 @@ models.Base.metadata.create_all(bind=engine)
 # Set OpenAI API key
 openai.api_key = os.getenv("API-TOKEN")
 app = FastAPI()
-app.include_router(chatgpt.router)
-app.include_router(auth.router)
-app.include_router(sendText.router)
-app.include_router(quizeQuestions.router)
+app.include_router(questions.router)
+app.include_router(users.router)
+app.include_router(file.router)
+app.include_router(quizQuestions.router)
 
 
 # Initialize FastAPI app
@@ -35,6 +35,8 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(file.router, dependencies=[Depends(JWTBearer())])
 app.include_router(questions.router)
+app.include_router(quizQuestions.router)
+
 
 
 # Configure CORS middleware
