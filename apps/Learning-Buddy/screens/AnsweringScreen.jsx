@@ -4,10 +4,16 @@ import { colors } from '../config/colors';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import BigButton from '../components/BigButton';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
+import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+///
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ProgressBar, Button } from 'react-native-paper';
 
 export const AnsweringScreen = ({ route, navigation }) => {
   const styles = useContext(StyleSheetContext);
+  const insets = useSafeAreaInsets();
 
   const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
   const [answerData, setAnswerData] = useState([]); // final data to send to the next page
@@ -51,16 +57,23 @@ export const AnsweringScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={localStyles.container}>
-      <ScrollView>
-        <Text style={styles.pageTitle}>SAMPLE TEST</Text>
+    <SafeAreaView style={localStyles.wrapper}>
+      <View style={localStyles.container}>
+        <Text style={localStyles.questionTitle}>Sample Test ii</Text>
+        <ProgressBar
+          progress={50 / 100}
+          color={'#FFEFA8'}
+          style={localStyles.progressBar}
+        />
         {/* Render Question */}
         {answerData.map((question, index) => {
           return (
-            <View style={localStyles.card} key={index}>
+            <View key={index}>
               {/* Question Prompt */}
-              <Text>Question {index + 1}</Text>
-              <Text>{question.prompt}</Text>
+              <Text style={localStyles.questionNumber}>
+                Question {index + 1}
+              </Text>
+              <Text style={localStyles.questionPrompt}>{question.prompt}</Text>
 
               {/* Render question radio button inputs */}
               <QuestionRadioGroup
@@ -70,15 +83,19 @@ export const AnsweringScreen = ({ route, navigation }) => {
             </View>
           );
         })}
-      </ScrollView>
+        <View>
+          <Pressable>
+            <Text style={localStyles.previous}>{'<'} Previous</Text>
+          </Pressable>
+        </View>
+      </View>
 
       {/* Submit Button */}
-      <View style={localStyles.footer}>
+      <View style={{ marginVertical: 10 }}>
         <BigButton
-          disabled={!questionsAnswered}
           buttonColor={colors.green}
           textColor={colors.black}
-          content={'Submit'}
+          content={'SUBMIT'}
           onPress={() => {
             SubmitTest();
           }}
@@ -90,31 +107,42 @@ export const AnsweringScreen = ({ route, navigation }) => {
 
 const localStyles = StyleSheet.create({
   container: {
-    margin: 20,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginHorizontal: 60,
+    padding: 5
   },
-  item: {
-    minWidth: '100%',
-    borderRadius: 30,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    backgroundColor: '#d6d6d6',
-    paddingHorizontal: 10,
-    marginVertical: 5
+  questionTitle: {
+    color: '#FECE00',
+    fontFamily: 'Black',
+    letterSpacing: 3,
+    fontSize: 18
   },
-  footer: {
-    paddingTop: 20
+  questionNumber: {
+    color: '#B1B1B1',
+    fontFamily: 'SemiBold',
+    letterSpacing: 2,
+    fontSize: 16,
+    marginTop: 25,
+    marginBottom: 10
   },
-  card: {
-    display: 'flex',
-    gap: 10,
-    flexDirection: 'column',
-    alignItems: 'center',
+  questionPrompt: {
+    fontFamily: 'Poppins',
+    letterSpacing: 1,
+    fontSize: 12,
+    marginTop: 10,
     marginBottom: 20,
-    borderRadius: 20,
-    padding: 20,
-    backgroundColor: colors.lightGrey
+    marginHorizontal: 5
+  },
+  progressBar: {
+    borderRadius: 25,
+    height: 10,
+    marginVertical: 20
+  },
+  previous: {
+    fontFamily: 'Poppins',
+    letterSpacing: 1,
+    fontSize: 12,
+    marginHorizontal: 40,
+    marginTop: 5,
+    color: '#979797'
   }
 });
