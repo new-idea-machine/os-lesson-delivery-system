@@ -192,6 +192,7 @@ export const BottomTab = ({ route }) => {
             <AntDesign name='pluscircleo' color={color} size={26} />
           )
         }}
+        initialParams={('New Quiz', { screen: 'New Quiz Screen' })}
       />
       <Tab.Screen
         name='Home Screen'
@@ -202,7 +203,7 @@ export const BottomTab = ({ route }) => {
             <Octicons name='home' color={color} size={26} />
           )
         }}
-        initialParams={{ screen: 'My Home Screen' }}
+        initialParams={('Home', { screen: 'My Home Screen' })}
       />
       <Tab.Screen
         name='Review'
@@ -213,7 +214,7 @@ export const BottomTab = ({ route }) => {
             <Feather name='book-open' color={color} size={26} />
           )
         }}
-        initialParams={{ screen: 'My Review Screen' }}
+        initialParams={('Content', { screen: 'My Review Screen' })}
       />
       <Tab.Screen
         name='Account Stack'
