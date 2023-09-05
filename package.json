@@ -1,14 +1,18 @@
 {
-	"name": "monorepo",
-	"version": "1.0.0",
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
-	"scripts": {
-		"start:app": "node findIP && npm run start --workspace=learning-buddy",
-		"start:backend": "python backend/main.py",
-		"start:backend:mac": "python3 backend/main.py",
-		"start:app:cache": "node findIP && npm run start:cache --workspace=learning-buddy"
-	}
+  "name": "monorepo",
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start:app": "node findIP && npm run start --workspace=learning-buddy",
+    "start:backend": "python backend/main.py",
+    "start:backend:mac": "python3 backend/main.py",
+    "start:app:cache": "node findIP && npm run start:cache --workspace=learning-buddy"
+  },
+  "dependencies": {
+    "@react-native-picker/picker": "2.4.8",
+    "react-native": "0.72.4"
+  }
 }

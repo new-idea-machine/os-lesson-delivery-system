@@ -48,7 +48,7 @@ const AnswerButton = ({
           alignItems: 'center'
         }}
       >
-        {content}
+        <Text>{content}</Text>
         <View style={localStyles.iconContainer}>{iconComponent}</View>
       </Button>
     </View>
