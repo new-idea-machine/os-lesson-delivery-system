@@ -13,3 +13,4 @@ opencv-python
 python-docx
 pillow
 supabase
+pyjwt
