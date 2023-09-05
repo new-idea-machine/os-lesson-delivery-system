@@ -46,7 +46,7 @@ export const DrawerMenuButton = () => {
 export const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      initialRouteName='Home Screen2'
+      initialRouteName='Home'
       drawerPosition='left'
       drawerType='back'
       screenOptions={{
@@ -64,7 +64,7 @@ export const DrawerNavigator = () => {
       drawerContent={(props) => <CloseDrawerMenu {...props} />}
     >
       <Drawer.Screen
-        name='Home Screen2'
+        name='Home'
         component={BottomTab}
         options={{
           drawerLabel: 'Home',
@@ -73,6 +73,9 @@ export const DrawerNavigator = () => {
             <Octicons name='home' size={24} color={color} />
           ),
           headerLeft: () => <DrawerMenuButton />
+        }}
+        initialParams={{
+          screen: 'Home Screen'
         }}
       />
       <Drawer.Screen
