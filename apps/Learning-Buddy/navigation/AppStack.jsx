@@ -13,10 +13,10 @@ import {
 } from '@expo/vector-icons';
 import { IconButton } from 'react-native-paper';
 import { colors } from '../config/colors';
-import { HomeScreen } from '../screens/HomeScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
+import { MyHomeStack } from './MyHomeStack';
 import { MyQuizStack } from './MyQuizStack';
 import { MyAccountStack } from './MyAccountStack';
 import { MyContentStack } from './MyContentStack';
@@ -75,7 +75,8 @@ export const DrawerNavigator = () => {
           headerLeft: () => <DrawerMenuButton />
         }}
         initialParams={{
-          screen: 'Home Screen'
+          screen: 'Home Screen',
+          params: { screen: 'My Home Screen' }
         }}
       />
       <Drawer.Screen
@@ -89,7 +90,10 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
-        initialParams={{ screen: 'New Quiz Stack' }}
+        initialParams={{
+          screen: 'New Quiz Stack',
+          params: { screen: 'New Quiz Screen' }
+        }}
       />
       <Drawer.Screen
         name='My Content'
@@ -191,13 +195,14 @@ export const BottomTab = ({ route }) => {
       />
       <Tab.Screen
         name='Home Screen'
-        component={HomeScreen}
+        component={MyHomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
             <Octicons name='home' color={color} size={26} />
           )
         }}
+        initialParams={{ screen: 'My Home Screen' }}
       />
       <Tab.Screen
         name='Review'
