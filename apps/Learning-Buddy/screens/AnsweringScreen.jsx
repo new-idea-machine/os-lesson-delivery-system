@@ -17,6 +17,7 @@ export const AnsweringScreen = ({ route, navigation }) => {
 
   const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
   const [answerData, setAnswerData] = useState([]); // final data to send to the next page
+  const [qIndex, setQIndex] = useState(0);
 
   // check if all questions have been answered in the test allowing submission
   const verifyQuestionsAnswered = () => {
@@ -54,53 +55,90 @@ export const AnsweringScreen = ({ route, navigation }) => {
   useEffect(() => {
     // question list on load
     setAnswerData(route.params.questions || []);
+    console.log('route que:', route.params.questions);
   }, []);
 
   return (
     <SafeAreaView style={localStyles.wrapper}>
-      <View style={localStyles.container}>
-        <Text style={localStyles.questionTitle}>Sample Test ii</Text>
-        <ProgressBar
-          progress={50 / 100}
-          color={'#FFEFA8'}
-          style={localStyles.progressBar}
-        />
-        {/* Render Question */}
-        {answerData.map((question, index) => {
-          return (
-            <View key={index}>
+      <ScrollView>
+        <View style={localStyles.container}>
+          <Text style={localStyles.questionTitle}>Sample Test ii</Text>
+          <ProgressBar
+            progress={50 / 100}
+            color={'#FFEFA8'}
+            style={localStyles.progressBar}
+          />
+          {/* Render Question */}
+          {answerData.map((question, index) => {
+            return (
+              <View key={index}>
+                {/* Question Prompt */}
+                <Text style={localStyles.questionNumber}>
+                  Question {index + 1}
+                </Text>
+                <Text style={localStyles.questionPrompt}>
+                  {question.prompt}
+                </Text>
+
+                {/* Render question radio button inputs */}
+                <QuestionRadioGroup
+                  question={question}
+                  UpdateGivenAnswers={UpdateGivenAnswers}
+                />
+              </View>
+            );
+          })}
+          {answerData.length > 0 && (
+            <View>
+              {console.log('anwerdata', answerData.prompt)}
               {/* Question Prompt */}
-              <Text style={localStyles.questionNumber}>
-                Question {index + 1}
+              <Text style={localStyles.questionNumber}>Question {1}</Text>
+              <Text style={localStyles.questionPrompt}>
+                {answerData[qIndex].prompt}
               </Text>
-              <Text style={localStyles.questionPrompt}>{question.prompt}</Text>
 
               {/* Render question radio button inputs */}
               <QuestionRadioGroup
-                question={question}
+                question={answerData[qIndex]}
                 UpdateGivenAnswers={UpdateGivenAnswers}
               />
             </View>
-          );
-        })}
-        <View>
-          <Pressable>
-            <Text style={localStyles.previous}>{'<'} Previous</Text>
-          </Pressable>
+          )}
+          <View>
+            <Pressable>
+              <Text style={localStyles.previous}>{'<'} Previous</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
 
-      {/* Submit Button */}
-      <View style={{ marginVertical: 10 }}>
-        <BigButton
-          buttonColor={colors.green}
-          textColor={colors.black}
-          content={'SUBMIT'}
-          onPress={() => {
-            SubmitTest();
-          }}
-        />
-      </View>
+        {/* Submit Button */}
+        <View style={{ marginVertical: 10 }}>
+          <BigButton
+            buttonColor={colors.green}
+            textColor={colors.black}
+            content={'previous'}
+            onPress={() => {
+              setQIndex((previous) => previous - 1);
+            }}
+          />
+          <BigButton
+            buttonColor={colors.green}
+            textColor={colors.black}
+            content={'next'}
+            onPress={() => {
+              setQIndex((previous) => previous + 1);
+            }}
+          />
+          <BigButton
+            buttonColor={colors.green}
+            textColor={colors.black}
+            content={'SUBMIT'}
+            onPress={() => {
+              SubmitTest();
+            }}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

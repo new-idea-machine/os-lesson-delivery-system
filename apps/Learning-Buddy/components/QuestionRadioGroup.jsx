@@ -15,7 +15,7 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
       question.options.Incorrect
     );
     setOrderedOptions(randomizedOptions);
-  }, []);
+  }, [question]);
 
   // Combine two arrays into one to be rendered to frontend
   function ShuffleOptions(array1, array2) {
