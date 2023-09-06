@@ -15,7 +15,7 @@ export const MyHomeStack = ({ route }) => {
     <HomeStack.Navigator
       initialRouteName={initialScreen}
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerTitle: '',
         cardStyle: { backgroundColor: colors.white }
       }}
