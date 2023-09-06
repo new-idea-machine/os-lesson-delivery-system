@@ -1,4 +1,7 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useFocusEffect } from '@react-navigation/native';
+
 import { colors } from '../config/colors';
 import { NewQuizScreen } from '../screens/NewQuizScreen';
 import { AnsweringScreen } from '../screens/AnsweringScreen';
@@ -10,9 +13,16 @@ import { QuestionForm } from '../screens/QuestionForm';
 const QuizStack = createStackNavigator();
 
 // Define a component for the quiz stack
-export const MyQuizStack = ({ route }) => {
+export const MyQuizStack = ({ route, navigation }) => {
   // Set the initial screen based on the route parameter, default to 'New Quiz Screen'
   const initialScreen = route.params?.screen || 'New Quiz Screen';
+
+  // Use the `useFocusEffect` hook to clean up the navigation params when the screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => navigation.setParams({ screen: null }); // Reset the params
+    }, [navigation])
+  );
   // Return the navigator component
   return (
     <QuizStack.Navigator

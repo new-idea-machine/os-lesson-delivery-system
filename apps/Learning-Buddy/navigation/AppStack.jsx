@@ -75,7 +75,7 @@ export const DrawerNavigator = () => {
           headerLeft: () => <DrawerMenuButton />
         }}
         initialParams={{
-          screen: 'Home Screen',
+          screen: 'Home Stack',
           params: { screen: 'My Home Screen' }
         }}
       />
@@ -163,7 +163,7 @@ export const DrawerNavigator = () => {
 // Bottom tab navigator for each drawer screen
 export const BottomTab = ({ route }) => {
   const bottonIconColor = '#979797';
-  const initialTab = route.params?.screen || 'Home Screen';
+  const initialTab = route.params?.screen || 'Home Stack';
   return (
     <Tab.Navigator
       initialRouteName={initialTab}
@@ -192,10 +192,10 @@ export const BottomTab = ({ route }) => {
             <AntDesign name='pluscircleo' color={color} size={26} />
           )
         }}
-        initialParams={('New Quiz', { screen: 'New Quiz Screen' })}
+        // initialParams={('New Quiz', { screen: 'New Quiz Screen' })}
       />
       <Tab.Screen
-        name='Home Screen'
+        name='Home Stack'
         component={MyHomeStack}
         options={{
           tabBarLabel: 'Home',
