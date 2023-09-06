@@ -8,6 +8,7 @@ from ..models import Questions
 # Pydantic Model for Request/Response
 class QuestionBase(BaseModel):
     quiz_id: int
+    id: int
 
 class QuestionCreate(QuestionBase):
     pass
@@ -37,13 +38,13 @@ def testHello():
     }
 
 # # CRUD Operations
-# @router.post("/questions/", response_model=QuestionRead)
-# def create_question(question: QuestionCreate, db: Session = Depends(get_db)):
-#     db_question = Questions(**question.dict())
-#     db.add(db_question)
-#     db.commit()
-#     db.refresh(db_question)
-#     return db_question
+@router.post("/questions/", response_model=QuestionRead)
+def create_question(question: QuestionCreate, db: Session = Depends(get_db)):
+    db_question = Questions(**question.dict())
+    db.add(db_question)
+    db.commit()
+    db.refresh(db_question)
+    return db_question
 
 @router.get("/questions/{question_id}", response_model=QuestionRead)
 def read_question(question_id: int, db: Session = Depends(get_db)):
