@@ -17,7 +17,7 @@ export const MyAccountStack = ({ route }) => {
     <AccountStack.Navigator
       initialRouteName={initialScreen}
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerTitle: '',
         cardStyle: { backgroundColor: colors.white }
       }}
