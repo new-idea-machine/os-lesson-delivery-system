@@ -7,10 +7,8 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [orderedOptions, setOrderedOptions] = useState([]);
 
   useEffect(() => {
-    console.log('q', question);
     let randomizedOptions = [];
     if (question.qtype == 2) {
-      console.log('here');
       randomizedOptions = sortTrueFalse(
         question.options.Correct,
         question.options.Incorrect
