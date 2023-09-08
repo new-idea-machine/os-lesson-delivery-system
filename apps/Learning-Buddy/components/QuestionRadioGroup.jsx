@@ -6,20 +6,21 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [value, setValue] = useState();
   const [orderedOptions, setOrderedOptions] = useState([]);
 
+  // randomizes options for MC or sorts option for TF
   useEffect(() => {
-    let randomizedOptions = [];
+    let arrangedOptions = [];
     if (question.qtype == 2) {
-      randomizedOptions = sortTrueFalse(
+      arrangedOptions = sortTrueFalse(
         question.options.Correct,
         question.options.Incorrect
       );
     } else {
-      randomizedOptions = ShuffleOptions(
+      arrangedOptions = ShuffleOptions(
         question.options.Correct,
         question.options.Incorrect
       );
     }
-    setOrderedOptions(randomizedOptions);
+    setOrderedOptions(arrangedOptions);
   }, []);
 
   // Combine two arrays into one to be rendered to frontend
