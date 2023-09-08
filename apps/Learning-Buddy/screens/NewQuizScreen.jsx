@@ -7,8 +7,7 @@ import {
   IconButton,
   Divider,
   Paragraph,
-  TextInput,
-  RadioButton
+  TextInput
 } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
 import BigButton from '../components/BigButton';

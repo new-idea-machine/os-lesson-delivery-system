@@ -7,10 +7,20 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [orderedOptions, setOrderedOptions] = useState([]);
 
   useEffect(() => {
-    let randomizedOptions = ShuffleOptions(
-      question.options.Correct,
-      question.options.Incorrect
-    );
+    console.log('q', question);
+    let randomizedOptions = [];
+    if (question.qtype == 2) {
+      console.log('here');
+      randomizedOptions = sortTrueFalse(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    } else {
+      randomizedOptions = ShuffleOptions(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    }
     setOrderedOptions(randomizedOptions);
   }, []);
 
@@ -26,6 +36,25 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
 
     // return shuffled array
     return shuffledArray;
+  }
+
+  // Combine two arrays into one to be rendered to frontend
+  function sortTrueFalse(array1, array2) {
+    // populate with values to shuffle
+    let sortedArray = [];
+    sortedArray.push(...array2);
+    sortedArray.push(array1);
+
+    // shuffle answer array
+    sortedArray.sort((a, b) => {
+      if (a < b) {
+        return 1;
+      }
+      return -1;
+    });
+
+    // return shuffled array
+    return sortedArray;
   }
 
   return (
