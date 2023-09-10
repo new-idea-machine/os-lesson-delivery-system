@@ -13,10 +13,10 @@ import {
 } from '@expo/vector-icons';
 import { IconButton } from 'react-native-paper';
 import { colors } from '../config/colors';
-import { HomeScreen } from '../screens/HomeScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
 import { CloseDrawerMenu } from '../components/CloseDrawerMenu';
 
+import { MyHomeStack } from './MyHomeStack';
 import { MyQuizStack } from './MyQuizStack';
 import { MyAccountStack } from './MyAccountStack';
 import { MyContentStack } from './MyContentStack';
@@ -46,7 +46,7 @@ export const DrawerMenuButton = () => {
 export const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      initialRouteName='Home Screen2'
+      initialRouteName='Home'
       drawerPosition='left'
       drawerType='back'
       screenOptions={{
@@ -64,7 +64,7 @@ export const DrawerNavigator = () => {
       drawerContent={(props) => <CloseDrawerMenu {...props} />}
     >
       <Drawer.Screen
-        name='Home Screen2'
+        name='Home'
         component={BottomTab}
         options={{
           drawerLabel: 'Home',
@@ -73,6 +73,10 @@ export const DrawerNavigator = () => {
             <Octicons name='home' size={24} color={color} />
           ),
           headerLeft: () => <DrawerMenuButton />
+        }}
+        initialParams={{
+          screen: 'Home Stack',
+          params: { screen: 'My Home Screen' }
         }}
       />
       <Drawer.Screen
@@ -86,7 +90,10 @@ export const DrawerNavigator = () => {
           ),
           headerLeft: () => <DrawerMenuButton />
         }}
-        initialParams={{ screen: 'New Quiz Stack' }}
+        initialParams={{
+          screen: 'New Quiz Stack',
+          params: { screen: 'New Quiz Screen' }
+        }}
       />
       <Drawer.Screen
         name='My Content'
@@ -156,7 +163,7 @@ export const DrawerNavigator = () => {
 // Bottom tab navigator for each drawer screen
 export const BottomTab = ({ route }) => {
   const bottonIconColor = '#979797';
-  const initialTab = route.params?.screen || 'Home Screen';
+  const initialTab = route.params?.screen || 'Home Stack';
   return (
     <Tab.Navigator
       initialRouteName={initialTab}
@@ -185,16 +192,18 @@ export const BottomTab = ({ route }) => {
             <AntDesign name='pluscircleo' color={color} size={26} />
           )
         }}
+        // initialParams={('New Quiz', { screen: 'New Quiz Screen' })}
       />
       <Tab.Screen
-        name='Home Screen'
-        component={HomeScreen}
+        name='Home Stack'
+        component={MyHomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
             <Octicons name='home' color={color} size={26} />
           )
         }}
+        initialParams={('Home', { screen: 'My Home Screen' })}
       />
       <Tab.Screen
         name='Review'
@@ -205,7 +214,7 @@ export const BottomTab = ({ route }) => {
             <Feather name='book-open' color={color} size={26} />
           )
         }}
-        initialParams={{ screen: 'My Review Screen' }}
+        initialParams={('Content', { screen: 'My Review Screen' })}
       />
       <Tab.Screen
         name='Account Stack'
