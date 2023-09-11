@@ -3,22 +3,28 @@ import React, { useState, useEffect } from 'react';
 import { RadioButton } from 'react-native-paper';
 import { colors } from '../config/colors';
 
-export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
+export default function QuestionRadioGroup({ question, UpdateGivenAnswers, FindCurrentChosenAnswer }) {
   const [value, setValue] = useState();
   const [orderedOptions, setOrderedOptions] = useState([]);
   const [currentRadio, setCurrentRadio] = useState('');
   const letterValue = ['A', 'B', 'C', 'D'];
 
   useEffect(() => {
+    // shuffle all question options
     let randomizedOptions = ShuffleOptions(
       question.options.Correct,
       question.options.Incorrect
     );
+
+    // randomize options when question changes
     setOrderedOptions(randomizedOptions);
+
+    // when user moves back to question preselected previous answer
+    setCurrentRadio(FindCurrentChosenAnswer(question.prompt)); 
   }, [question]);
 
   // Combine two arrays into one to be rendered to frontend
-  function ShuffleOptions(array1, array2) {
+  const  ShuffleOptions = (array1, array2) => {
     // populate with values to shuffle
     let shuffledArray = [];
     shuffledArray.push(...array2);
