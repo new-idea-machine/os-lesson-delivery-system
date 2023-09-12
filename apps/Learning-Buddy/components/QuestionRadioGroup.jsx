@@ -29,7 +29,7 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers, FindC
 
     // when user moves back to question preselected previous answer
     setCurrentRadio(FindCurrentChosenAnswer(question.prompt));
-  }, []);
+  }, [question]);
 
   // Combine two arrays into one to be rendered to frontend
   const  ShuffleOptions = (array1, array2) => {
