@@ -55,7 +55,7 @@ async def get_all(request: Request) -> dict:
     
     userId = data.user.id
     try:
-        response = supabase.table('files').select("id, name,d, text, user_id").eq("user_id", userId).execute()
+        response = supabase.table('files').select("id, name, text, user_id").eq("user_id", userId).execute()
         
         return response
     except Exception as e:
