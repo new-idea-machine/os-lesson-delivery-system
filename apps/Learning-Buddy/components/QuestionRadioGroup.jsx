@@ -9,19 +9,27 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers, FindC
   const [currentRadio, setCurrentRadio] = useState('');
   const letterValue = ['A', 'B', 'C', 'D'];
 
+  // randomizes options for MC or sorts option for TF
   useEffect(() => {
-    // shuffle all question options
-    let randomizedOptions = ShuffleOptions(
-      question.options.Correct,
-      question.options.Incorrect
-    );
+    let arrangedOptions = [];
+    if (question.qtype == 2) {
+      arrangedOptions = sortTrueFalse(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    } else {
+      arrangedOptions = ShuffleOptions(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    }
 
-    // randomize options when question changes
-    setOrderedOptions(randomizedOptions);
+    // set final question ordering
+    setOrderedOptions(arrangedOptions);
 
     // when user moves back to question preselected previous answer
-    setCurrentRadio(FindCurrentChosenAnswer(question.prompt)); 
-  }, [question]);
+    setCurrentRadio(FindCurrentChosenAnswer(question.prompt));
+  }, []);
 
   // Combine two arrays into one to be rendered to frontend
   const  ShuffleOptions = (array1, array2) => {
@@ -35,6 +43,25 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers, FindC
 
     // return shuffled array
     return shuffledArray;
+  }
+
+  // Combine two arrays into one to be rendered to frontend
+  function sortTrueFalse(array1, array2) {
+    // populate with values to shuffle
+    let sortedArray = [];
+    sortedArray.push(...array2);
+    sortedArray.push(array1);
+
+    // shuffle answer array
+    sortedArray.sort((a, b) => {
+      if (a < b) {
+        return 1;
+      }
+      return -1;
+    });
+
+    // return shuffled array
+    return sortedArray;
   }
 
   return (

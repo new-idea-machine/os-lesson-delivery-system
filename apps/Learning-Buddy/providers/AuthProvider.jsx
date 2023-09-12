@@ -50,6 +50,7 @@ const AuthProvider = (props) => {
     });
 
     if (error) {
+      console.log(error);
       return error.message;
     } else return 'SignedIn';
   };
