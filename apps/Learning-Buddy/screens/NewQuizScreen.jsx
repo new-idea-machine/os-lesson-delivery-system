@@ -14,8 +14,13 @@ import * as DocumentPicker from 'expo-document-picker';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
-import { getMultipleChoice, getMixed, getTrueFalse } from '../util/api';
+import {
+  getMultipleChoice,
+  getMixed,
+  getTrueFalse
+} from '../util/quizGenerateAPI';
 import Constants from 'expo-constants';
+import { extractText } from '../util/filesAPI';
 
 const ip = Constants.expoConfig.extra.IP;
 
@@ -53,13 +58,7 @@ export const NewQuizScreen = ({ navigation }) => {
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const response = await fetch(`http://${ip}:8000/file/extract`, {
-          method: 'POST',
-          body: formData,
-          headers: { Authorization: `Bearer ${session.access_token}` }
-        });
-        const data = await response.json();
-        console.log(data);
+        const data = await extractText(formData, session);
         if (data == null || data.text == null || data.text == '') {
           alert(
             'Unable to parse text from selected file.  Please try a different file.'
