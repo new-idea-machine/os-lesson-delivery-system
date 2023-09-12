@@ -1,5 +1,6 @@
 import os
 from fastapi import UploadFile, APIRouter, File, Request, HTTPException
+from pydantic import BaseModel
 from ..utils.extractTextPdf import extract_text_pdf
 from ..utils.extractTextImage import extract_text_image
 from ..utils.extractTextDocx import extract_text_docx
@@ -15,6 +16,11 @@ router = APIRouter(
     prefix='/file',
     tags=['file']
 )
+
+
+class CreateFileBody(BaseModel):
+    text: str
+    name: str
 
 # File Routes 
 @router.post('/extract')
@@ -60,10 +66,9 @@ async def get_all(request: Request) -> dict:
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
-    
 
-@router.post("/create")
-async def create(request: Request) -> dict:
+@router.get("/filebyid/{fileId}")
+async def get_all(request: Request, fileId:int) -> dict:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)
     
@@ -71,11 +76,27 @@ async def create(request: Request) -> dict:
         raise HTTPException(status_code=401, detail="Invalid token")
     
     userId = data.user.id
+    try:
+        response = supabase.table('files').select("id, name, text, user_id").eq("id", fileId).single().execute()
+        
+        return response.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
+
+@router.post("/create")
+async def create(request_body: CreateFileBody, request: Request) -> dict:
+    token = request.headers.get("authorization").replace("Bearer ", "")
+    authData: dict = supabase.auth.get_user(token)
+    
+    if authData is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    userId = authData.user.id
 
     try:
-        data = await request.json()
-        name = data["name"]
-        text = data["text"]
+    
+        name = request_body.name
+        text = request_body.text
 
         response = supabase.table('files').insert({"name": name, "text": text, "user_id": userId}).execute()
         return response
