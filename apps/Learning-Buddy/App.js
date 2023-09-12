@@ -10,7 +10,8 @@ export default function App() {
     Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
     SemiBold: require('./assets/fonts/Poppins-SemiBold.ttf'),
     Medium: require('./assets/fonts/Poppins-Medium.ttf'),
-    Bold: require('./assets/fonts/Poppins-Bold.ttf')
+    Bold: require('./assets/fonts/Poppins-Bold.ttf'),
+    Black: require('./assets/fonts/Poppins-Black.ttf')
   });
   if (!fontsLoaded) {
     return (
