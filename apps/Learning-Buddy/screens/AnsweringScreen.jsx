@@ -1,16 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { colors } from '../config/colors';
-import { StyleSheetContext } from '../providers/StyleSheetProvider';
+import { Pressable } from 'react-native';
+import { ProgressBar } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import QuestionRadioGroup from '../components/QuestionRadioGroup';
-import { useNavigation } from '@react-navigation/native';
 
 export const AnsweringScreen = ({ route, navigation }) => {
-  const styles = useContext(StyleSheetContext);
-
   const [questionsAnswered, setQuestionsAnswered] = useState(false); // boolean indicating all questions have been answered
   const [answerData, setAnswerData] = useState([]); // final data to send to the next page
+  const [qIndex, setQIndex] = useState(0);
 
   // check if all questions have been answered in the test allowing submission
   const verifyQuestionsAnswered = () => {
@@ -19,6 +18,16 @@ export const AnsweringScreen = ({ route, navigation }) => {
       question.chosenAnswer !== undefined;
 
     setQuestionsAnswered(answerData.every(allQuestionsAnswered));
+  };
+
+  // Simple function that finds current selected answer for current question
+  const FindCurrentChosenAnswer = (findPrompt) => {
+    // find index to modify
+    const objIndex = answerData.findIndex(
+      (obj) => obj.prompt === findPrompt
+    );
+
+    return answerData[objIndex].chosenAnswer;
   };
 
   // after radio button has been pressed save the answer the user chose
@@ -51,70 +60,117 @@ export const AnsweringScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={localStyles.container}>
+    <SafeAreaView style={localStyles.wrapper}>
       <ScrollView>
-        <Text style={styles.pageTitle}>SAMPLE TEST</Text>
-        {/* Render Question */}
-        {answerData.map((question, index) => {
-          return (
-            <View style={localStyles.card} key={index}>
+        <View style={localStyles.container}>
+          <Text style={localStyles.questionTitle}>Sample Test ii</Text>
+          <ProgressBar
+            progress={
+              answerData.length !== 0
+                ? (qIndex + 1) / answerData.length
+                : qIndex
+            }
+            color={colors.lightYellow}
+            style={localStyles.progressBar}
+          />
+
+          {answerData.length > 0 && (
+            <View>
               {/* Question Prompt */}
-              <Text>Question {index + 1}</Text>
-              <Text>{question.prompt}</Text>
+              <Text style={localStyles.questionNumber}>
+                Question {qIndex + 1}
+              </Text>
+              <Text style={localStyles.questionPrompt}>
+                {answerData[qIndex].prompt}
+              </Text>
 
               {/* Render question radio button inputs */}
               <QuestionRadioGroup
-                question={question}
+                question={answerData[qIndex]}
                 UpdateGivenAnswers={UpdateGivenAnswers}
+                FindCurrentChosenAnswer={FindCurrentChosenAnswer}
               />
             </View>
-          );
-        })}
-      </ScrollView>
+          )}
+          <View>
+            <Pressable
+              onPress={() => {
+                if (qIndex !== 0) {
+                  setQIndex((previous) => previous - 1);
+                }
+              }}
+            >
+              <Text style={localStyles.previous}>{'<'} Previous</Text>
+            </Pressable>
+          </View>
+        </View>
 
-      {/* Submit Button */}
-      <View style={localStyles.footer}>
-        <BigButton
-          disabled={!questionsAnswered}
-          buttonColor={colors.green}
-          textColor={colors.black}
-          content={'Submit'}
-          onPress={() => {
-            SubmitTest();
-          }}
-        />
-      </View>
+        {/* Submit Button */}
+        <View style={{ marginVertical: 10 }}>
+          {qIndex !== answerData.length - 1 ? (
+            <BigButton
+              buttonColor={colors.green}
+              textColor={colors.black}
+              content={'NEXT'}
+              onPress={() => {
+                setQIndex((previous) => previous + 1);
+              }}
+            />
+          ) : (
+            <BigButton
+              disabled={!questionsAnswered}
+              buttonColor={colors.green}
+              textColor={colors.black}
+              content={'SUBMIT'}
+              onPress={() => {
+                SubmitTest();
+              }}
+            />
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const localStyles = StyleSheet.create({
   container: {
-    margin: 20,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginHorizontal: 60,
+    padding: 5
   },
-  item: {
-    minWidth: '100%',
-    borderRadius: 30,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    backgroundColor: '#d6d6d6',
-    paddingHorizontal: 10,
-    marginVertical: 5
+  questionTitle: {
+    color: colors.yellow,
+    fontFamily: 'Black',
+    letterSpacing: 3,
+    fontSize: 18
   },
-  footer: {
-    paddingTop: 20
+  questionNumber: {
+    color: '#B1B1B1',
+    fontFamily: 'SemiBold',
+    letterSpacing: 2,
+    fontSize: 16,
+    marginTop: 25,
+    marginBottom: 10
   },
-  card: {
-    display: 'flex',
-    gap: 10,
-    flexDirection: 'column',
-    alignItems: 'center',
+  questionPrompt: {
+    fontFamily: 'Poppins',
+    letterSpacing: 1,
+    fontSize: 12,
+    marginTop: 10,
     marginBottom: 20,
-    borderRadius: 20,
-    padding: 20,
-    backgroundColor: colors.lightGrey
+    marginHorizontal: 5
+  },
+  progressBar: {
+    borderRadius: 25,
+    height: 10,
+    marginVertical: 20
+  },
+  previous: {
+    fontFamily: 'Poppins',
+    letterSpacing: 1,
+    fontSize: 12,
+    marginHorizontal: 40,
+    marginTop: 5,
+    color: colors.grey
   }
 });
