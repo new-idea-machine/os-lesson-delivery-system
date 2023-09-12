@@ -6,12 +6,21 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
   const [value, setValue] = useState();
   const [orderedOptions, setOrderedOptions] = useState([]);
 
+  // randomizes options for MC or sorts option for TF
   useEffect(() => {
-    let randomizedOptions = ShuffleOptions(
-      question.options.Correct,
-      question.options.Incorrect
-    );
-    setOrderedOptions(randomizedOptions);
+    let arrangedOptions = [];
+    if (question.qtype == 2) {
+      arrangedOptions = sortTrueFalse(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    } else {
+      arrangedOptions = ShuffleOptions(
+        question.options.Correct,
+        question.options.Incorrect
+      );
+    }
+    setOrderedOptions(arrangedOptions);
   }, []);
 
   // Combine two arrays into one to be rendered to frontend
@@ -26,6 +35,25 @@ export default function QuestionRadioGroup({ question, UpdateGivenAnswers }) {
 
     // return shuffled array
     return shuffledArray;
+  }
+
+  // Combine two arrays into one to be rendered to frontend
+  function sortTrueFalse(array1, array2) {
+    // populate with values to shuffle
+    let sortedArray = [];
+    sortedArray.push(...array2);
+    sortedArray.push(array1);
+
+    // shuffle answer array
+    sortedArray.sort((a, b) => {
+      if (a < b) {
+        return 1;
+      }
+      return -1;
+    });
+
+    // return shuffled array
+    return sortedArray;
   }
 
   return (
