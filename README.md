@@ -38,14 +38,10 @@ Note that two .env files are required for the operation of this repo at present 
 7. Testing: to confirm server functionality, run `python main.py` from the same folder. Point your browser to `http://localhost:8000/docs` to ensure it is working.
 8. See [Swagger documentation](https://swagger.io/tools/swaggerhub/hosted-api-documentation/?utm_source=aw&utm_medium=ppcg&utm_campaign=SEM_SwaggerHub_PR_NA_ENG_EXT_Prospecting&utm_term=swagger%20documentation&utm_content=511173019836&gclid=CjwKCAjwyeujBhA5EiwA5WD7_X2UbJaNbXlf7NY1KCjj-ntQi4hFAhlAZKhr4f80x9AiYo_HQRhN3hoCMVQQAvD_BwE&gclsrc=aw.ds) for API endpoints.
 
-#### PostgreSQL Setup (pre-prod)
+#### PostgreSQL Setup (supabase)
 
-1. [Install PostgreSQL](https://www.postgresql.org/download/). For setup instructions, please refer to [this video](https://youtu.be/qw--VYLpxG4?t=863).
-2. If you run into errors including `psql: command not found` or an incorrect name prompt (e.g. defaults to your username instead of postgres), you can update your environment variables to address this. Ask Google or Maggie for assistance.
-3. Create a database called "test" and connect to it. (In PSQL, `CREATE DATABASE test ;`)
-4. In **backend/.env**, be sure to add your database connection string in the following format: `DATABASE_URL= "postgresql+psycopg2://[user]:[pword]@localhost:5432/test"`
-5. You can test your connection by starting up the backend (`npm run start:backend`) and then heading to
-   http://127.0.0.1:8000/docs and testing one of the "default" methods.
+1. Obtain the URI connection string for `DATABASE_URL` in the **backend/.env** file. If you are using your own supabase account/project you can find the connection string under "Project Setting -> Database -> Connections string" and pick URI as the type, copy to .env and replace [YOUR-PASSWORD] with your password.
+2. If you you are connecting to your database for the first time you will need to start your backend server and run the endpoint '/initialize-triggers-functions/'. This will initalize user profile table and create triggers to add new users to profile table as they sign up in your application.
 
 ### Frontend:
 
@@ -68,3 +64,11 @@ To extract text from the image we are using tesseract.
 # Example tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 # For macOS brew install tesseract
+
+# File Routes to handle extract and file crud
+
+- file/extract
+- file/all/{userId}
+- file/create/{userId} // pass data as {name: "File Name", text: "File Text"}
+- file/update/{id} // pass data as {name: "New File Name", text: "New File Text"}
+- file/delete/{id}
