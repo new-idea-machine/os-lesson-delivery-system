@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Button,
@@ -12,6 +13,7 @@ import {
 import * as DocumentPicker from 'expo-document-picker';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
+import { AuthContext } from '../providers/AuthProvider';
 import { getMultipleChoice, getMixed, getTrueFalse } from '../util/api';
 import Constants from 'expo-constants';
 
@@ -28,6 +30,9 @@ export const NewQuizScreen = ({ navigation }) => {
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
 
+  const auth = useContext(AuthContext);
+  const { session } = auth;
+  console.log('token:', session.access_token);
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: [
@@ -48,9 +53,10 @@ export const NewQuizScreen = ({ navigation }) => {
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const response = await fetch(`http://${ip}:8000/extract/file`, {
+        const response = await fetch(`http://${ip}:8000/file/extract`, {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: { Authorization: `Bearer ${session.access_token}` }
         });
         const data = await response.json();
         console.log(data);
