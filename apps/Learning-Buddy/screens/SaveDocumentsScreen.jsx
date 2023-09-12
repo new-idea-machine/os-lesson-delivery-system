@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Modal, Pressable, View, ScrollView, StyleSheet } from 'react-native';
-import { Button, Card, IconButton, Text } from 'react-native-paper';
+import { IconButton, Text } from 'react-native-paper';
+import FileCard from '../components/FileCard';
+
 import BigButton from '../components/BigButton';
 
 import { colors } from '../config/colors';
@@ -62,7 +64,6 @@ export const SaveDocumentsScreen = ({ navigation }) => {
               <Text
                 style={{
                   marginBottom: 15,
-                  // textAlign: 'center',
                   fontWeight: 'bold',
                   fontSize: 20
                 }}
@@ -72,7 +73,6 @@ export const SaveDocumentsScreen = ({ navigation }) => {
               <Text
                 style={{
                   marginBottom: 5,
-                  textAlign: 'center',
                   color: colors.grey
                 }}
               >
@@ -81,7 +81,6 @@ export const SaveDocumentsScreen = ({ navigation }) => {
               <Text
                 style={{
                   marginBottom: 5,
-                  textAlign: 'center',
                   color: colors.grey
                 }}
               >
@@ -90,7 +89,6 @@ export const SaveDocumentsScreen = ({ navigation }) => {
               <Text
                 style={{
                   marginBottom: 5,
-                  textAlign: 'center',
                   color: colors.grey
                 }}
               >
@@ -142,62 +140,56 @@ export const SaveDocumentsScreen = ({ navigation }) => {
             <Text style={localStyles.pageTitle}>Save Documents</Text>
           </View>
           <View style={localStyles.cardContainer}>
-            <Card mode='outlined' style={localStyles.card}>
-              <Card.Title
-                title='filename1.txt'
-                subtitle='# of days left'
-                titleStyle={localStyles.title}
-                subtitleStyle={localStyles.subtitle}
-                right={() => (
-                  <IconButton
-                    icon='dots-vertical'
-                    onPress={() => setModalVisible(true)}
-                  />
-                )}
-              />
-            </Card>
-            <Card mode='outlined' style={localStyles.card}>
-              <Card.Title
-                title='filename2.txt'
-                subtitle='# of days left'
-                titleStyle={localStyles.title}
-                subtitleStyle={localStyles.subtitle}
-                right={() => (
-                  <IconButton
-                    icon='dots-vertical'
-                    onPress={() => setModalVisible(true)}
-                  />
-                )}
-              />
-            </Card>
-            <Card mode='outlined' style={localStyles.card}>
-              <Card.Title
-                title='filename3.txt'
-                subtitle='# of days left'
-                titleStyle={localStyles.title}
-                subtitleStyle={localStyles.subtitle}
-                right={() => (
-                  <IconButton
-                    icon='dots-vertical'
-                    onPress={() => setModalVisible(true)}
-                  />
-                )}
-              />
-            </Card>
-            <Card mode='outlined' style={localStyles.card}>
-              <Card.Title
-                title='filename4.txt'
-                subtitle='# of days left'
-                titleStyle={localStyles.title}
-                subtitleStyle={localStyles.subtitle}
-                right={() => (
-                  <IconButton
-                    icon='dots-vertical'
-                    onPress={() => setModalVisible(true)}
-                  />
-                )}
-              />
-            </Card>
+            <FileCard
+              title='filename101.txt'
+              subtitle='# of days left'
+              right={() => (
+                <IconButton
+                  icon='dots-vertical'
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+            />
+            <FileCard
+              title='filename102.txt'
+              subtitle='# of days left'
+              right={() => (
+                <IconButton
+                  icon='dots-vertical'
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+            />
+            <FileCard
+              title='filename103.txt'
+              subtitle='# of days left'
+              right={() => (
+                <IconButton
+                  icon='dots-vertical'
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+            />
+            <FileCard
+              title='filename104.txt'
+              subtitle='# of days left'
+              right={() => (
+                <IconButton
+                  icon='dots-vertical'
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+            />
+            <FileCard
+              title='filename105.txt'
+              subtitle='# of days left'
+              right={() => (
+                <IconButton
+                  icon='dots-vertical'
+                  onPress={() => setModalVisible(true)}
+                />
+              )}
+            />
           </View>
         </View>
       </ScrollView>
