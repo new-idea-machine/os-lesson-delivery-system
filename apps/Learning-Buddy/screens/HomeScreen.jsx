@@ -4,10 +4,11 @@ import { AuthContext } from '../providers/AuthProvider';
 import { Paragraph } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
+import { listAllFiles } from '../util/filesAPI';
 
 export const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
-  const { signOut, user } = auth;
+  const { signOut, user, session } = auth;
 
   return (
     <View style={localStyles.container}>
@@ -24,6 +25,14 @@ export const HomeScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'Sign Out'}
         onPress={() => signOut()}
+      />
+
+      {/* to be removed after testing */}
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'test list files'}
+        onPress={() => listAllFiles(session)}
       />
     </View>
   );
