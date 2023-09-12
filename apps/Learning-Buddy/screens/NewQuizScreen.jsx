@@ -12,7 +12,7 @@ import {
 import * as DocumentPicker from 'expo-document-picker';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
-import { getMultipleChoice } from '../util/api';
+import { getMultipleChoice, getMixed, getTrueFalse } from '../util/api';
 import Constants from 'expo-constants';
 
 const ip = Constants.expoConfig.extra.IP;
@@ -121,7 +121,15 @@ export const NewQuizScreen = ({ navigation }) => {
 
   // When question is pass to the next screen
   const onPressHandler = async () => {
-    let passingQuestions = await getMultipleChoice(numQuestions, text);
+    let passingQuestions = {};
+
+    if (selectedQuestionType == 'Mixed') {
+      passingQuestions = await getMixed(numQuestions, text);
+    } else if (selectedQuestionType == 'True/False') {
+      passingQuestions = await getTrueFalse(numQuestions, text);
+    } else {
+      passingQuestions = await getMultipleChoice(numQuestions, text);
+    }
     passingQuestions = JSON.parse(passingQuestions);
     navigation.navigate('Answering Screen', passingQuestions);
     setText('');
@@ -249,7 +257,7 @@ export const NewQuizScreen = ({ navigation }) => {
               ) : null}
             </View>
           </View>
-          {/* <View>
+          <View>
             <Text style={localStyles.title}>Question Types</Text>
             <View style={localStyles.container}>
               <BigButton
@@ -280,8 +288,20 @@ export const NewQuizScreen = ({ navigation }) => {
                 content={'True/False'}
                 onPress={() => handleQuestionTypePress('True/False')}
               />
+              <BigButton
+                buttonColor={
+                  selectedQuestionType === 'Mixed'
+                    ? colors.grey
+                    : colors.lightGrey
+                }
+                textColor={
+                  selectedQuestionType === 'Mixed' ? colors.white : colors.black
+                }
+                content={'Mixed'}
+                onPress={() => handleQuestionTypePress('Mixed')}
+              />
             </View>
-          </View> */}
+          </View>
           <View style={localStyles.divider}>
             <Divider />
           </View>

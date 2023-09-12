@@ -21,3 +21,43 @@ export const getMultipleChoice = async (numQuestions, text) => {
     console.error(error);
   }
 };
+
+export const getTrueFalse = async (numQuestions, text) => {
+  let source = { numQuestions, text };
+  source = JSON.stringify(source);
+
+  try {
+    const response = await fetch(`http://${ip}:8000/questions/tf`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // mode: 'no-cors',
+      body: source
+    });
+    const json = await response.json();
+    const questions = json.response.choices[0].text;
+
+    return questions;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMixed = async (numQuestions, text) => {
+  let source = { numQuestions, text };
+  source = JSON.stringify(source);
+
+  try {
+    const response = await fetch(`http://${ip}:8000/questions/mixed`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // mode: 'no-cors',
+      body: source
+    });
+    const json = await response.json();
+    const questions = json.response.choices[0].text;
+
+    return questions;
+  } catch (error) {
+    console.error(error);
+  }
+};
