@@ -1,11 +1,14 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Card, IconButton, Text } from 'react-native-paper';
+import { Modal, Pressable, View, ScrollView, StyleSheet } from 'react-native';
+import { Button, Card, IconButton, Text } from 'react-native-paper';
+import BigButton from '../components/BigButton';
+
 import { colors } from '../config/colors';
 
 export const SaveDocumentsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View
       style={{
@@ -16,6 +19,123 @@ export const SaveDocumentsScreen = ({ navigation }) => {
         paddingRight: insets.right
       }}
     >
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <View
+            style={{
+              // margin: 20,
+              backgroundColor: colors.white,
+              borderRadius: 15,
+              padding: 35,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 3
+            }}
+          >
+            <View style={{ alignItems: 'flex-end' }}>
+              <IconButton
+                icon='close'
+                size={20}
+                onPress={() => setModalVisible(!modalVisible)}
+              />
+            </View>
+            <View style={{ alignItems: 'flex-start' }}>
+              <Text
+                style={{
+                  marginBottom: 15,
+                  // textAlign: 'center',
+                  fontWeight: 'bold',
+                  fontSize: 20
+                }}
+              >
+                filename1.txt
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  textAlign: 'center',
+                  color: colors.grey
+                }}
+              >
+                36KB
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  textAlign: 'center',
+                  color: colors.grey
+                }}
+              >
+                2023-08-10, 6:00 PM
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  textAlign: 'center',
+                  color: colors.grey
+                }}
+              >
+                1 Day Left
+              </Text>
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginVertical: 20
+              }}
+            >
+              <BigButton
+                buttonColor={colors.green}
+                textColor={colors.black}
+                content={'Use To Create Quiz'}
+                onPress={() => {
+                  console.log('✅ Use To Create Quiz');
+                }}
+              />
+              <Pressable
+                style={[
+                  {
+                    marginTop: 20
+                  }
+                ]}
+                onPress={() => {
+                  console.log('✅ Delete Document');
+                }}
+              >
+                <Text
+                  style={{
+                    color: 'red',
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                  }}
+                >
+                  Delete Document
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <ScrollView style={{ backgroundColor: colors.white }}>
         <View style={localStyles.container}>
           <View>
@@ -29,7 +149,10 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 titleStyle={localStyles.title}
                 subtitleStyle={localStyles.subtitle}
                 right={() => (
-                  <IconButton icon='dots-vertical' onPress={() => {}} />
+                  <IconButton
+                    icon='dots-vertical'
+                    onPress={() => setModalVisible(true)}
+                  />
                 )}
               />
             </Card>
@@ -40,7 +163,10 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 titleStyle={localStyles.title}
                 subtitleStyle={localStyles.subtitle}
                 right={() => (
-                  <IconButton icon='dots-vertical' onPress={() => {}} />
+                  <IconButton
+                    icon='dots-vertical'
+                    onPress={() => setModalVisible(true)}
+                  />
                 )}
               />
             </Card>
@@ -51,7 +177,10 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 titleStyle={localStyles.title}
                 subtitleStyle={localStyles.subtitle}
                 right={() => (
-                  <IconButton icon='dots-vertical' onPress={() => {}} />
+                  <IconButton
+                    icon='dots-vertical'
+                    onPress={() => setModalVisible(true)}
+                  />
                 )}
               />
             </Card>
@@ -62,7 +191,10 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 titleStyle={localStyles.title}
                 subtitleStyle={localStyles.subtitle}
                 right={() => (
-                  <IconButton icon='dots-vertical' onPress={() => {}} />
+                  <IconButton
+                    icon='dots-vertical'
+                    onPress={() => setModalVisible(true)}
+                  />
                 )}
               />
             </Card>
