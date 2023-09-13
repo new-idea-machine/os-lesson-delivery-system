@@ -4,7 +4,7 @@ import { AuthContext } from '../providers/AuthProvider';
 import { Paragraph } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
-import { listAllFiles } from '../util/filesAPI';
+import { listAllFiles, updateFile } from '../util/filesAPI';
 
 export const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
@@ -33,6 +33,12 @@ export const HomeScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'test list files'}
         onPress={() => listAllFiles(session)}
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'update file Id3'}
+        onPress={() => updateFile(3, 'new name1', 'new text2', session)}
       />
     </View>
   );

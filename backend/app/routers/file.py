@@ -52,7 +52,7 @@ async def send_text(file: UploadFile = File(...)):
 
 
 @router.get("/all")
-async def get_all(request: Request) -> dict:
+async def get_all(request: Request) -> list:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)
     
@@ -62,8 +62,8 @@ async def get_all(request: Request) -> dict:
     userId = data.user.id
     try:
         response = supabase.table('files').select("id, name, text, user_id").eq("user_id", userId).execute()
-        
-        return response
+        print(response.data)
+        return response.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
 
@@ -107,9 +107,12 @@ async def create(request_body: CreateFileBody, request: Request) -> dict:
         print(e)
         raise HTTPException(status_code=500, detail="An error occurred during file creation")
 
+
+
 @router.put("/update/{id}")
-async def updateFile(id: str, request: Request) -> dict:
+async def updateFile(id: int, updateBody: CreateFileBody, request: Request) -> dict:
     data = await request.json()
+    print(data)
     name = data["name"]
     text = data["text"]
     try:
