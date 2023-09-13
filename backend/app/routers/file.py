@@ -83,8 +83,8 @@ async def get_all(request: Request, fileId:int) -> dict:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
 
-@router.post("/create")
-async def create(request_body: CreateFileBody, request: Request) -> dict:
+@router.post("/")
+async def create(request_body: CreateFileBody, request: Request) -> list:
     token = request.headers.get("authorization").replace("Bearer ", "")
     authData: dict = supabase.auth.get_user(token)
     
@@ -99,7 +99,7 @@ async def create(request_body: CreateFileBody, request: Request) -> dict:
         text = request_body.text
 
         response = supabase.table('files').insert({"name": name, "text": text, "user_id": userId}).execute()
-        return response
+        return response.data
     
     except KeyError:
         raise HTTPException(status_code=400, detail="Missing data")

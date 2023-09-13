@@ -5,6 +5,7 @@ import { Paragraph } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 import {
+  createFile,
   deleteFile,
   listAllFiles,
   listFileById,
@@ -56,6 +57,12 @@ export const HomeScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'get file Id4'}
         onPress={() => listFileById(4, session)}
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'create file'}
+        onPress={() => createFile('some name', 'some text', session)}
       />
     </View>
   );
