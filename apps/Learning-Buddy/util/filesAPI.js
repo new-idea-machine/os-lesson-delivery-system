@@ -52,7 +52,7 @@ export const updateFile = async (id, name, text, session) => {
   let source = { name, text };
   source = JSON.stringify(source);
   try {
-    const response = await fetch(`http://${ip}:8000/file/update/${id}`, {
+    const response = await fetch(`http://${ip}:8000/file/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export const updateFile = async (id, name, text, session) => {
 
 export const deleteFile = async (id, session) => {
   try {
-    const response = await fetch(`http://${ip}:8000/file/delete/${id}`, {
+    const response = await fetch(`http://${ip}:8000/file/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${session.access_token}`

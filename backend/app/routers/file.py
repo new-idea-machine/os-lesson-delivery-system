@@ -109,7 +109,7 @@ async def create(request_body: CreateFileBody, request: Request) -> dict:
 
 
 
-@router.put("/update/{id}")
+@router.put("/{id}")
 async def updateFile(id: int, updateBody: CreateFileBody, request: Request) -> dict:
     data = await request.json()
     print(data)
@@ -124,7 +124,7 @@ async def updateFile(id: int, updateBody: CreateFileBody, request: Request) -> d
     except Exception as e:
         raise HTTPException(status_code=500, detail="An error occurred during file creation")
 
-@router.delete("/delete/{id}")
+@router.delete("/{id}")
 async def deleteFile(id: str) -> dict:
     try:
         response = supabase.table('files').delete().eq('id', id).execute()
