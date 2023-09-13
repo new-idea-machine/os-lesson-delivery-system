@@ -53,3 +53,20 @@ export const updateFile = async (id, name, text, session) => {
     return null;
   }
 };
+
+export const deleteFile = async (id, session) => {
+  try {
+    const response = await fetch(`http://${ip}:8000/file/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${session.access_token}`
+      }
+    });
+    const data = await response.json();
+    console.log('data: ', data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
