@@ -4,7 +4,12 @@ import { AuthContext } from '../providers/AuthProvider';
 import { Paragraph } from 'react-native-paper';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
-import { deleteFile, listAllFiles, updateFile } from '../util/filesAPI';
+import {
+  deleteFile,
+  listAllFiles,
+  listFileById,
+  updateFile
+} from '../util/filesAPI';
 
 export const HomeScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
@@ -45,6 +50,12 @@ export const HomeScreen = ({ navigation }) => {
         textColor={colors.black}
         content={'delete file Id3'}
         onPress={() => deleteFile(3, session)}
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'get file Id4'}
+        onPress={() => listFileById(4, session)}
       />
     </View>
   );

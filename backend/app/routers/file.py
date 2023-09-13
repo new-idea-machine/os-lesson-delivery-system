@@ -67,7 +67,7 @@ async def get_all(request: Request) -> list:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
 
-@router.get("/filebyid/{fileId}")
+@router.get("/{fileId}")
 async def get_all(request: Request, fileId:int) -> dict:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)

@@ -33,6 +33,21 @@ export const listAllFiles = async (session) => {
   }
 };
 
+export const listFileById = async (id, session) => {
+  try {
+    const response = await fetch(`http://${ip}:8000/file/${id}`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${session.access_token}` }
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const updateFile = async (id, name, text, session) => {
   let source = { name, text };
   source = JSON.stringify(source);
