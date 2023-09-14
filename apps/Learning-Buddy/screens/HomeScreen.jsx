@@ -33,8 +33,8 @@ export const HomeScreen = ({ navigation }) => {
         onPress={() => signOut()}
       />
 
-      {/* to be removed after testing */}
-      <BigButton
+      {/*File Crud test buttons to be removed after testing */}
+      {/* <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'test list files'}
@@ -64,7 +64,7 @@ export const HomeScreen = ({ navigation }) => {
         content={'create file'}
         onPress={() => createFile('some name', 'some text', session)}
       />
-    </View>
+    </View> */}
   );
 };
 
