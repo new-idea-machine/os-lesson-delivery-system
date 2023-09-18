@@ -22,7 +22,7 @@ const localStyles = StyleSheet.create({
   },
   divider: { marginVertical: 10 },
   header: {
-    fontSize: 20,
+    fontSize: 18,
     color: 262626,
     fontWeight: '800',
   }

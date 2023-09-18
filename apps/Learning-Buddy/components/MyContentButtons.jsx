@@ -14,11 +14,7 @@ const MyContentButtons = ({ ...props }) => {
         <Button
           labelStyle={[localStyles.fontStyle, { color: textColor }]}
           mode='outlined'
-          style={[
-            localStyles.button,
-            { borderColor: borderColor },
-            localStyles.buttonContent
-          ]}
+          style={localStyles.button}
           key={key}
           {...props}
         >
@@ -36,9 +32,9 @@ const localStyles = StyleSheet.create({
     alignItems: 'start'
   },
   button: {
-    margin: 8,
+    margin: 10,
     borderRadius: 5,
-    width: '37%'
+    width: 134
   },
 
   md3FontStyles: {
@@ -46,7 +42,7 @@ const localStyles = StyleSheet.create({
   },
   fontStyles: {
     fontWeight: '800',
-    fontSize: 24
+    fontSize: 24,
   },
   fontFamily: {
     fontFamily: 'Poppins'

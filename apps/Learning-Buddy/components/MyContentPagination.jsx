@@ -29,7 +29,10 @@ const localStyles = StyleSheet.create({
     height:'7%'
   },
   text: {
+    fontWeight: '400',
+    fontSize: 12,
     color: '#979797',
+    fontFamily: 'Poppins'
   }
  
 });

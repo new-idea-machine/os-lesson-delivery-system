@@ -46,8 +46,9 @@ const localStyles = StyleSheet.create({
     height: '10%'
   },
   title: {
-    fontSize: 20,
-    fontFamily: 'Poppins'
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
   },
   button: {
     display: 'flex',
@@ -55,14 +56,15 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 8,
     marginBottom: 8,
-    borderRadius: 11,
-    width: '70%',
+    borderRadius: 10,
+    width: 266,
     height: 50
   },
   fontStyles: {
-    fontWeight: '500',
-    fontSize: 14,
-    color: '#262626'
+    fontWeight: '400',
+    fontSize: 12,
+    color: '#262626',
+    fontFamily: 'Poppins'
   },
   buttonContent: {
     display: 'flex',
