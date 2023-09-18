@@ -149,7 +149,7 @@ export const SaveDocumentsScreen = () => {
           <View style={localStyles.cardContainer}>
             <FileCard
               title='This-Is-A-Long-Filename-101.txt'
-              subtitle={`${numDaysLeft} days left`}
+              subtitle={`3 days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
@@ -163,7 +163,7 @@ export const SaveDocumentsScreen = () => {
             />
             <FileCard
               title='This-Is-A-Long-Filename-102.txt'
-              subtitle={`${numDaysLeft} days left`}
+              subtitle={`2 days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
@@ -177,7 +177,7 @@ export const SaveDocumentsScreen = () => {
             />
             <FileCard
               title='This-Is-A-Long-Filename-103.txt'
-              subtitle={`${numDaysLeft} days left`}
+              subtitle={`1 days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
@@ -191,7 +191,7 @@ export const SaveDocumentsScreen = () => {
             />
             <FileCard
               title='This-Is-A-Long-Filename-104.txt'
-              subtitle={`${numDaysLeft} days left`}
+              subtitle={`5 days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
@@ -205,7 +205,7 @@ export const SaveDocumentsScreen = () => {
             />
             <FileCard
               title='This-Is-A-Long-Filename-105.txt'
-              subtitle={`${numDaysLeft} days left`}
+              subtitle={`2 days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
