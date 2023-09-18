@@ -8,19 +8,14 @@ import BigButton from '../components/BigButton';
 
 import { colors } from '../config/colors';
 
-export const SaveDocumentsScreen = ({ navigation }) => {
+export const SaveDocumentsScreen = () => {
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
-  return (
-    <View
-      style={{
-        // Paddings to handle safe area
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right
-      }}
-    >
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [numDaysLeft, setNumDaysLeft] = useState(0);
+
+  const CardModal = () => {
+    return (
       <Modal
         animationType='slide'
         transparent={true}
@@ -39,7 +34,6 @@ export const SaveDocumentsScreen = ({ navigation }) => {
         >
           <View
             style={{
-              // margin: 20,
               backgroundColor: colors.white,
               borderRadius: 15,
               padding: 35,
@@ -68,7 +62,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                   fontSize: 20
                 }}
               >
-                filename1.txt
+                {selectedFile}
               </Text>
               <Text
                 style={{
@@ -92,7 +86,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                   color: colors.grey
                 }}
               >
-                1 Day Left
+                {numDaysLeft} Day Left
               </Text>
             </View>
             <View
@@ -134,6 +128,19 @@ export const SaveDocumentsScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+    );
+  };
+
+  return (
+    <View
+      style={{
+        // Paddings to handle safe area
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right
+      }}
+    >
       <ScrollView style={{ backgroundColor: colors.white }}>
         <View style={localStyles.container}>
           <View>
@@ -141,55 +148,76 @@ export const SaveDocumentsScreen = ({ navigation }) => {
           </View>
           <View style={localStyles.cardContainer}>
             <FileCard
-              title='filename101.txt'
-              subtitle='# of days left'
+              title='This-Is-A-Long-Filename-101.txt'
+              subtitle={`${numDaysLeft} days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedFile('This-Is-A-Long-Filename-101.txt');
+                    setNumDaysLeft(3);
+                    setModalVisible(true);
+                  }}
                 />
               )}
             />
             <FileCard
-              title='filename102.txt'
-              subtitle='# of days left'
+              title='This-Is-A-Long-Filename-102.txt'
+              subtitle={`${numDaysLeft} days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedFile('This-Is-A-Long-Filename-102.txt');
+                    setNumDaysLeft(2);
+                    setModalVisible(true);
+                  }}
                 />
               )}
             />
             <FileCard
-              title='filename103.txt'
-              subtitle='# of days left'
+              title='This-Is-A-Long-Filename-103.txt'
+              subtitle={`${numDaysLeft} days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedFile('This-Is-A-Long-Filename-103.txt');
+                    setNumDaysLeft(1);
+                    setModalVisible(true);
+                  }}
                 />
               )}
             />
             <FileCard
-              title='filename104.txt'
-              subtitle='# of days left'
+              title='This-Is-A-Long-Filename-104.txt'
+              subtitle={`${numDaysLeft} days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedFile('This-Is-A-Long-Filename-104.txt');
+                    setNumDaysLeft(5);
+                    setModalVisible(true);
+                  }}
                 />
               )}
             />
             <FileCard
-              title='filename105.txt'
-              subtitle='# of days left'
+              title='This-Is-A-Long-Filename-105.txt'
+              subtitle={`${numDaysLeft} days left`}
               right={() => (
                 <IconButton
                   icon='dots-vertical'
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedFile('This-Is-A-Long-Filename-105.txt');
+                    setNumDaysLeft(2);
+                    setModalVisible(true);
+                  }}
                 />
               )}
             />
+            {modalVisible && <CardModal />}
           </View>
         </View>
       </ScrollView>
