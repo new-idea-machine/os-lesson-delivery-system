@@ -37,14 +37,14 @@ export const SaveDocumentsScreen = () => {
               backgroundColor: colors.white,
               borderRadius: 15,
               padding: 35,
-              shadowColor: '#000',
+              shadowColor: colors.black,
               shadowOffset: {
                 width: 0,
-                height: 2
+                height: 0
               },
               shadowOpacity: 0.25,
               shadowRadius: 4,
-              elevation: 3
+              elevation: 100
             }}
           >
             <View style={{ alignItems: 'flex-end' }}>
