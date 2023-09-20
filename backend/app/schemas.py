@@ -65,10 +65,8 @@ class Category(CategoryBase):
     class Config:
         orm_mode = True
 
-# Define a Pydantic schema for Folder data
 class FolderBase(BaseModel):
     name: str
-    quizzes: List[Quiz] = []  # I assume store of Quiz objects in folders. Not sure if this is the best way to do it.
 
 class FolderCreate(FolderBase):
     pass
@@ -76,8 +74,10 @@ class FolderCreate(FolderBase):
 class Folder(FolderBase):
     id: int
     owner_id: int
+    quizzes: List[int] = []  # Assuming I'll  store quiz IDs in folders
 
     class Config:
         orm_mode = True
+
     
 
