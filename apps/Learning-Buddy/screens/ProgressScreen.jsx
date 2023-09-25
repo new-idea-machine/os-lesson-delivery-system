@@ -9,7 +9,12 @@ export const ProgressScreen = ({ navigation }) => {
       <Text style={styles.title}>Progress</Text>
       <Button
         mode='contained'
-        onPress={() => navigation.navigate('Home Screen')}
+        onPress={() =>
+          navigation.navigate('Home', {
+            screen: 'Home Stack',
+            params: { screen: 'My Home Screen' }
+          })
+        }
       >
         Back To Home Screen
       </Button>

@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
-import { Button } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet } from 'react-native';
 import { AuthContext } from '../providers/AuthProvider';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const MyAccountScreen = () => {
-  const navigation = useNavigation();
+export const MyAccountScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
   const { signOut, user } = auth;
 
@@ -18,7 +15,12 @@ export const MyAccountScreen = () => {
         buttonColor={colors.green}
         textColor={colors.black}
         content={'Back to Home Screen'}
-        onPress={() => navigation.navigate('Home Screen')}
+        onPress={() =>
+          navigation.navigate('Home', {
+            screen: 'Home Stack',
+            params: { screen: 'My Home Screen' }
+          })
+        }
       />
       <BigButton
         buttonColor={colors.green}
