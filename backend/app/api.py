@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 import os
 import openai
 from . import models
-from .database import SessionLocal, engine
-from .routers import questions, file, users
+from .database import engine, get_db
+from .routers import questions, file, users, quiz
 from .middleware.authHandler import JWTBearer
 
 
@@ -29,6 +29,7 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(file.router, dependencies=[Depends(JWTBearer())])
 app.include_router(questions.router)
+app.include_router(quiz.router, dependencies=[Depends(JWTBearer())])
 
 
 # Configure CORS middleware
@@ -43,13 +44,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Database dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
 
 
 
