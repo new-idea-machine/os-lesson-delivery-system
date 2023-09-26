@@ -1,20 +1,33 @@
-import * as React from 'react';
-import { Button } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { AuthContext } from '../providers/AuthProvider';
+import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
-export const MyAccountScreen = () => {
-  const navigation = useNavigation();
+export const MyAccountScreen = ({ navigation }) => {
+  const auth = useContext(AuthContext);
+  const { signOut, user } = auth;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Account</Text>
-      <Button
-        mode='contained'
-        onPress={() => navigation.navigate('Home Screen')}
-      >
-        Back To Home Screen
-      </Button>
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Back to Home Screen'}
+        onPress={() =>
+          navigation.navigate('Home', {
+            screen: 'Home Stack',
+            params: { screen: 'My Home Screen' }
+          })
+        }
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'Sign Out'}
+        onPress={() => signOut()}
+      />
     </View>
   );
 };

@@ -9,7 +9,12 @@ export const ReviewScreen = ({ navigation }) => {
       <Text style={styles.title}>Review</Text>
       <Button
         mode='contained'
-        onPress={() => navigation.navigate('Home Screen')}
+        onPress={() =>
+          navigation.navigate('Home', {
+            screen: 'Home Stack',
+            params: { screen: 'My Home Screen' }
+          })
+        }
       >
         Back To Home Screen
       </Button>

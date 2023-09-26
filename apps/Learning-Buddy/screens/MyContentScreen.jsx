@@ -7,7 +7,6 @@ import MyContentBodyButtons  from '../components/MyContentBodyButtons';
 import MyContentPagination from '../components/MyContentPagination';
 
 
-
 export const MyContentScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>

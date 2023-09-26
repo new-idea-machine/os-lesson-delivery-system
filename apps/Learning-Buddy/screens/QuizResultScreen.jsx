@@ -176,7 +176,12 @@ export const QuizResultScreen = ({ route, navigation }) => {
               buttonColor={colors.green}
               textColor={colors.black}
               content={'GO TO HOME SCREEN'}
-              onPress={() => navigation.navigate('Home Screen')}
+              onPress={() =>
+                navigation.navigate('Home', {
+                  screen: 'Home Stack',
+                  params: { screen: 'My Home Screen' }
+                })
+              }
             />
           </View>
         </View>

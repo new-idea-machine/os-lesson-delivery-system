@@ -1,5 +1,6 @@
 import os
 from fastapi import UploadFile, APIRouter, File, Request, HTTPException
+from pydantic import BaseModel
 from ..utils.extractTextPdf import extract_text_pdf
 from ..utils.extractTextImage import extract_text_image
 from ..utils.extractTextDocx import extract_text_docx
@@ -15,6 +16,11 @@ router = APIRouter(
     prefix='/file',
     tags=['file']
 )
+
+
+class CreateFileBody(BaseModel):
+    text: str
+    name: str
 
 # File Routes 
 @router.post('/extract')
@@ -46,7 +52,7 @@ async def send_text(file: UploadFile = File(...)):
 
 
 @router.get("/all")
-async def get_all(request: Request) -> dict:
+async def get_all(request: Request) -> list:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)
     
@@ -55,15 +61,14 @@ async def get_all(request: Request) -> dict:
     
     userId = data.user.id
     try:
-        response = supabase.table('files').select("id, name,d, text, user_id").eq("user_id", userId).execute()
-        
-        return response
+        response = supabase.table('files').select("id, name, text, user_id").eq("user_id", userId).execute()
+        print(response.data)
+        return response.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
-    
 
-@router.post("/create")
-async def create(request: Request) -> dict:
+@router.get("/{fileId}")
+async def get_all(request: Request, fileId:int) -> dict:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)
     
@@ -71,14 +76,30 @@ async def create(request: Request) -> dict:
         raise HTTPException(status_code=401, detail="Invalid token")
     
     userId = data.user.id
+    try:
+        response = supabase.table('files').select("id, name, text, user_id").eq("id", fileId).single().execute()
+        
+        return response.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
+
+@router.post("/")
+async def create(request_body: CreateFileBody, request: Request) -> list:
+    token = request.headers.get("authorization").replace("Bearer ", "")
+    authData: dict = supabase.auth.get_user(token)
+    
+    if authData is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    userId = authData.user.id
 
     try:
-        data = await request.json()
-        name = data["name"]
-        text = data["text"]
+    
+        name = request_body.name
+        text = request_body.text
 
         response = supabase.table('files').insert({"name": name, "text": text, "user_id": userId}).execute()
-        return response
+        return response.data
     
     except KeyError:
         raise HTTPException(status_code=400, detail="Missing data")
@@ -86,9 +107,12 @@ async def create(request: Request) -> dict:
         print(e)
         raise HTTPException(status_code=500, detail="An error occurred during file creation")
 
-@router.put("/update/{id}")
-async def updateFile(id: str, request: Request) -> dict:
+
+
+@router.put("/{id}")
+async def updateFile(id: int, updateBody: CreateFileBody, request: Request) -> dict:
     data = await request.json()
+    print(data)
     name = data["name"]
     text = data["text"]
     try:
@@ -100,7 +124,7 @@ async def updateFile(id: str, request: Request) -> dict:
     except Exception as e:
         raise HTTPException(status_code=500, detail="An error occurred during file creation")
 
-@router.delete("/delete/{id}")
+@router.delete("/{id}")
 async def deleteFile(id: str) -> dict:
     try:
         response = supabase.table('files').delete().eq('id', id).execute()
