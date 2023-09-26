@@ -26,7 +26,7 @@ class Item(Base):
 
     owner = relationship("User", back_populates="items")
 
-class Source(Base):
+class Files(Base):
     __tablename__ = 'files'
     id = Column(Integer, primary_key=True, index=True)
     name =Column(String)
@@ -38,7 +38,8 @@ class Quiz(Base):
     __tablename__ = "quiz"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
-    source_id = Column(Integer, ForeignKey('files.id'),nullable=False)
+    source_text = Column(String)
+    folder_id = Column(Integer, ForeignKey('folder.id'))
     quiz_type = Column(Integer)
     quiz_name = Column(String)
     create_date = Column(DateTime(timezone=True), server_default=func.now())
@@ -67,3 +68,8 @@ class TakenQuizQuestions(Base):
     question_id = Column(Integer, ForeignKey('questions.id'),nullable=False)
     user_answer = Column(String)
     correct = Column(Integer)
+
+class Folders(Base):
+    __tablename__ = "folder"
+    id = Column(Integer, primary_key=True, index=True)
+    folder_name = Column(Integer)
