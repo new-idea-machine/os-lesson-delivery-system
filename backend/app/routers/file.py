@@ -1,16 +1,9 @@
-import os
 from fastapi import UploadFile, APIRouter, File, Request, HTTPException
 from pydantic import BaseModel
 from ..utils.extractTextPdf import extract_text_pdf
 from ..utils.extractTextImage import extract_text_image
 from ..utils.extractTextDocx import extract_text_docx
-from supabase import create_client, Client
-import json
-
-# Initialize Supabase client
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+from ..supabase import supabase
 
 router = APIRouter(
     prefix='/file',
