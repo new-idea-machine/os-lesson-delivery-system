@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, func
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, func, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -30,7 +30,7 @@ class Source(Base):
     __tablename__ = 'files'
     id = Column(Integer, primary_key=True, index=True)
     name =Column(String)
-    text = Column(String, index=True)
+    text = Column(String)
     user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
     
 
@@ -40,6 +40,7 @@ class Quiz(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
     source_id = Column(Integer, ForeignKey('files.id'),nullable=False)
     quiz_type = Column(Integer)
+    quiz_name = Column(String)
     create_date = Column(DateTime(timezone=True), server_default=func.now())
     
 
@@ -47,6 +48,9 @@ class Questions(Base):
     __tablename__ = "questions"
     id = Column(Integer, primary_key=True, index=True)
     quiz_id = Column(Integer, ForeignKey('quiz.id'),nullable=False)
+    quiz_question = Column(String)
+    correct_answer = Column(String)
+    incorrect_options = Column(ARRAY(String))
 
 class TakenQuiz(Base):
     __tablename__ = "taken_quiz"
