@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from uuid import UUID
+from datetime import datetime 
 
 
 class ItemBase(BaseModel):
@@ -30,6 +32,21 @@ class User(UserBase):
     id: int
     is_active: bool
     items: list[Item] = []
+
+    class Config:
+        orm_mode = True
+
+class QuizBase(BaseModel):
+    user_id: UUID
+    source_id: int
+    quiz_type: int
+    create_date: datetime
+
+    class Config:
+        orm_mode = True
+
+class Quiz(QuizBase):
+    id: int
 
     class Config:
         orm_mode = True
