@@ -50,7 +50,28 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
- 
+
+@router.delete("/{quizId}", response_model=dict)
+async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
+    # token = request.headers.get("authorization").replace("Bearer ", "")
+    # data: dict = supabase.auth.get_user(token)
+    
+    # if data is None:
+    #     raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # userId = data.user.id
+    db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
+
+    if db_quiz is None:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    
+    try:
+        # Delete the quiz from the database
+        db.delete(db_quiz)
+        db.commit()
+        return {"message": f"Quiz with ID {quizId} deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
 @router.get("/fullquiz/{quizId}", response_model=QuizFull)
 async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
@@ -132,3 +153,28 @@ async def get_quiz(questionId: int, request: Request, db: Session = Depends(get_
                                 }
                                 
     return response
+
+@router.delete("/questionbyid/{questionId}", response_model=dict)
+async def get_quiz(questionId: int, request: Request, db: Session = Depends(get_db)):
+    # token = request.headers.get("authorization").replace("Bearer ", "")
+    # data: dict = supabase.auth.get_user(token)
+    
+    # if data is None:
+    #     raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # userId = data.user.id
+    
+    db_question =  db.query(models.Questions).filter(models.Questions.id == questionId).first()
+
+    if db_question is None:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+
+    try:
+        db.delete(db_question)
+        db.commit()
+        return {"message": f"Question with ID {questionId} deleted successfully"}
+    except Exception as e:
+        if hasattr(e, 'message'):
+            raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
+        else:
+            raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
