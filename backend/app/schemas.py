@@ -6,7 +6,7 @@ from datetime import datetime
 
 class ItemBase(BaseModel):
     title: str
-    description: str | None = None
+    description: Optional[str]
 
 
 class ItemCreate(ItemBase):
@@ -79,3 +79,7 @@ class QuizFull(QuizCreate):
 
     class Config:
         orm_mode = True
+
+class Question(QuestionsBase):
+    id: int
+    
