@@ -28,20 +28,38 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
+def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int): # Is this an attempt to create Quiz ?
     db_item = models.Item(**item.dict(), owner_id=user_id)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
 
+#Do we need to write code for CREATE for Quiz and Question?
 
-def get_quizzes_by_user(db: Session, user_id: int):
-    return db.query(models.Quiz).filter(models.Quiz.owner_id == user_id).all()
 
+#Get Quiz by ID
+def get_quiz(db: Session, quiz_id: int):
+    return db.query(models.Quiz).filter(models.Quiz.id == quiz_id).first()
+
+#Get All Quizes
+def get_all_quizzes(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Quiz).offset(skip).limit(limit).all()
+
+#Get Question by ID
+def get_question(db: Session, question_id: int):
+    return db.query(models.Questions).filter(models.Questions.id == question_id).first()
+
+#Get All Questions
+def get_questions_for_quiz(db: Session, quiz_id: int):
+    return db.query(models.Questions).filter(models.Questions.quiz_id == quiz_id).all()
+
+#Get All Folders
+def get_folders(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Folders).offset(skip).limit(limit).all()
+
+#Get All Categories
 def get_categories(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Categories).offset(skip).limit(limit).all()
 
-def get_folders(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Folders).offset(skip).limit(limit).all()
     
