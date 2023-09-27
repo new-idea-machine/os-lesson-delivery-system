@@ -67,7 +67,7 @@ class Category(CategoryBase):
         orm_mode = True
 
 
-# Define a Pydantic schema for Category data
+# Define a Pydantic schema for folder data
 class FolderBase(BaseModel):
     name: str
 
@@ -77,10 +77,58 @@ class FolderCreate(FolderBase):
 class Folder(FolderBase):
     id: int
     owner_id: int
-    quizzes: List[int] = []  # Assuming I'll  store quiz IDs in folders
+    quizzes: List[int] = []  # Assuming I'll store quiz IDs in folders
 
     class Config:
         orm_mode = True
 
-    
+# Define a Pydantic schema for questionBase data
 
+class QuestionsBase(BaseModel):
+    quiz_id: int
+    quiz_question: str
+    correct_answer: str
+    incorrect_options: List[str]
+
+class QuestionsCreate(QuestionsBase):
+    pass
+
+class Questions(QuestionsBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+# Define a Pydantic schema for takenQuizBase data
+
+class TakenQuizBase(BaseModel):
+    quiz_id: int
+    user_id: str  # Assuming UUID is represented as a string
+    correct: int
+    total_questions: int
+
+class TakenQuizCreate(TakenQuizBase):
+    pass
+
+class TakenQuiz(TakenQuizBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+# Define a Pydantic schema for takenQuizQuestions data
+
+class TakenQuizQuestionsBase(BaseModel):
+    taken_quiz_id: int
+    question_id: int
+    user_answer: str
+    correct: int
+
+class TakenQuizQuestionsCreate(TakenQuizQuestionsBase):
+    pass
+
+class TakenQuizQuestions(TakenQuizQuestionsBase):
+    id: int
+
+    class Config:
+        orm_mode = True
