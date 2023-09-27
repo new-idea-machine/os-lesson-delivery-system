@@ -41,7 +41,7 @@ async def get_questions(question: GenQuizRequest, request: Request, db: Session 
         max_tokens=300,
     )
     quiz = json.loads(response.choices[0].text)
-    create_quiz({**quiz, "user_id":userId, "quiz_type":0, "source_text":text}, db)
+    create_quiz({**quiz, "user_id":userId, "quiz_type":1, "source_text":text}, db)
 
     return {"response": response}
 
@@ -106,7 +106,7 @@ def create_quiz(quiz: QuizCreate,db: Session):
     db.refresh(db_quiz)
 
     for question in request_data.questions:
-        db_question = models.Questions(**{"quiz_question":question.prompt,"correct_answer":question.options.Correct, "incorrect_options":question.options.Incorrect, "quiz_id":db_quiz.id})
+        db_question = models.Questions(**{"quiz_question":question.prompt, "question_type":question.qtype, "correct_answer":question.options.Correct, "incorrect_options":question.options.Incorrect, "quiz_id":db_quiz.id})
         db.add(db_question)
 
     db.commit()
