@@ -51,20 +51,20 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
  
-@router.post("/")
-async def create_quiz(request: Request, db: Session = Depends(get_db)):
-    token = request.headers.get("authorization").replace("Bearer ", "")
-    data: dict = supabase.auth.get_user(token)
+# @router.post("/")
+# async def create_quiz(request: Request, db: Session = Depends(get_db)):
+#     token = request.headers.get("authorization").replace("Bearer ", "")
+#     data: dict = supabase.auth.get_user(token)
     
-    if data is None:
-        raise HTTPException(status_code=401, detail="Invalid token")
+#     if data is None:
+#         raise HTTPException(status_code=401, detail="Invalid token")
     
-    userId = data.user.id
-    try:
-        response = db.query(models.Quiz).filter(models.Quiz.user_id == userId).all()
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
+#     userId = data.user.id
+#     try:
+#         response = db.query(models.Quiz).filter(models.Quiz.user_id == userId).all()
+#         return response
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
     
 
 # def create_quiz(db: Session, user: schemas.UserCreate):
