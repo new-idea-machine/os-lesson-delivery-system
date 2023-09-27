@@ -49,6 +49,7 @@ class QuizBase(BaseModel):
 
 class Quiz(QuizBase):
     id: int
+    created_date: datetime
 
     class Config:
         orm_mode = True
@@ -74,6 +75,7 @@ class QuizCreate(QuizBase):
 
 class QuizFull(QuizCreate):
     id: int
+    created_date: datetime
 
     class Config:
         orm_mode = True
