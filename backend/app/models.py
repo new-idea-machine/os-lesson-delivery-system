@@ -10,8 +10,11 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+    fullname = Column(String)
+    avatar_url = Column(String)
+    phonenumber = Column(String)
+    
+    
 
     items = relationship("Item", back_populates="owner")
 
