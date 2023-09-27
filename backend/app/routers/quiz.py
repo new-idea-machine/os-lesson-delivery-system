@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from .. import models
 from ..supabase import supabase
-from ..schemas import Quiz, QuizBase
+from ..schemas import Quiz, QuizBase, QuizFull
 
 
 router = APIRouter(
@@ -51,26 +51,28 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
  
-# @router.post("/")
-# async def create_quiz(request: Request, db: Session = Depends(get_db)):
-#     token = request.headers.get("authorization").replace("Bearer ", "")
-#     data: dict = supabase.auth.get_user(token)
-    
-#     if data is None:
-#         raise HTTPException(status_code=401, detail="Invalid token")
-    
-#     userId = data.user.id
-#     try:
-#         response = db.query(models.Quiz).filter(models.Quiz.user_id == userId).all()
-#         return response
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
-    
 
-# def create_quiz(db: Session, user: schemas.UserCreate):
-#     fake_hashed_password = user.password + "notreallyhashed"
-#     db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
+@router.get("/fullquiz/{quizId}", response_model=QuizFull)
+async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
+    # token = request.headers.get("authorization").replace("Bearer ", "")
+    # data: dict = supabase.auth.get_user(token)
+    
+    # if data is None:
+    #     raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # userId = data.user.id
+    try:
+        db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
+
+        db_questions = db.query(models.Questions).filter(models.Questions.quiz_id == quizId).all()
+        response = db_quiz
+        response.questions=[{"prompt":question.quiz_question,
+                             "qtype":question.question_type,
+                                "options":{"Correct":question.correct_answer,
+                                "Incorrect": question.incorrect_options}
+                                }
+                                for question in db_questions
+                                ]
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e.message}")
