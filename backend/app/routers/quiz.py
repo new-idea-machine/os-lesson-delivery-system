@@ -21,7 +21,7 @@ class Response(BaseModel):
     
 
 
-@router.get("/")
+@router.get("/",response_model=list[Quiz])
 async def get_quizes(request: Request, db: Session = Depends(get_db)) -> list:
     token = request.headers.get("authorization").replace("Bearer ", "")
     data: dict = supabase.auth.get_user(token)
