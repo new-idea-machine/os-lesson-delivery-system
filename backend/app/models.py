@@ -42,7 +42,7 @@ class Quiz(Base):
     folder_id = Column(Integer, ForeignKey('folder.id'))
     quiz_type = Column(Integer)
     quiz_name = Column(String)
-    create_date = Column(DateTime(timezone=True), server_default=func.now())
+    created_date = Column(DateTime(timezone=True), server_default=func.now())
     
 
 class Questions(Base):
