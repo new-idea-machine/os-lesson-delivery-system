@@ -89,6 +89,7 @@ class TakenQuiz(Base):
 
     # Define a relationship with User model
     user = relationship("User", back_populates="taken_quizzes")
+    taken_question = relationship("TakenQuizQuestions", back_populates="taken_quiz", cascade="all, delete-orphan")
 
 class TakenQuizQuestions(Base):
     __tablename__ = "taken_quiz_questions"
@@ -97,6 +98,8 @@ class TakenQuizQuestions(Base):
     question_id = Column(Integer, ForeignKey('questions.id'),nullable=False)
     user_answer = Column(String)
     correct = Column(Integer)
+
+    taken_question = relationship("TakenQuiz", back_populates="taken_question")
 
 class Folder(Base):
     __tablename__ = "folder"
