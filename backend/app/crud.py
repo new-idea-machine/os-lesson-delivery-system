@@ -37,29 +37,57 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int): # Is 
 
 #Do we need to write code for CREATE for Quiz and Question?
 
+# A constant for the error message
+INTERNAL_SERVER_ERROR_MESSAGE = "An internal server error occurred"
 
-#Get Quiz by ID
+# Get Quiz by ID with error handling
 def get_quiz(db: Session, quiz_id: int):
-    return db.query(models.Quiz).filter(models.Quiz.id == quiz_id).first()
+    try:
+        return db.query(models.Quiz).filter(models.Quiz.id == quiz_id).first()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
 
-#Get All Quizes
+
+# Get All Quizzes with error handling
 def get_all_quizzes(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Quiz).offset(skip).limit(limit).all()
+    try:
+        return db.query(models.Quiz).offset(skip).limit(limit).all()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
 
 #Get Question by ID
 def get_question(db: Session, question_id: int):
-    return db.query(models.Questions).filter(models.Questions.id == question_id).first()
+    try:
+        return db.query(models.Questions).filter(models.Questions.id == question_id).first()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
 
 #Get All Questions
 def get_questions_for_quiz(db: Session, quiz_id: int):
-    return db.query(models.Questions).filter(models.Questions.quiz_id == quiz_id).all()
+    try:
+        return db.query(models.Questions).filter(models.Questions.quiz_id == quiz_id).all()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
 
 #Get All Folders
 def get_folders(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Folders).offset(skip).limit(limit).all()
+    try:
+        return db.query(models.Folders).offset(skip).limit(limit).all()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
 
 #Get All Categories
 def get_categories(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Categories).offset(skip).limit(limit).all()
+    try:
+        return db.query(models.Categories).offset(skip).limit(limit).all()
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=INTERNAL_SERVER_ERROR_MESSAGE)
+
 
     
