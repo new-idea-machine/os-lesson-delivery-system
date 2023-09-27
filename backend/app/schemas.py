@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-
+from typing import Optional
+from typing import List
 
 class ItemBase(BaseModel):
     title: str
@@ -65,6 +66,8 @@ class Category(CategoryBase):
     class Config:
         orm_mode = True
 
+
+# Define a Pydantic schema for Category data
 class FolderBase(BaseModel):
     name: str
 
