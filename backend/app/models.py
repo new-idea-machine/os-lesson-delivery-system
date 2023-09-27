@@ -14,8 +14,6 @@ class User(Base):
     avatar_url = Column(String)
     phonenumber = Column(String)
     
-    # Define a relationship with Item model
-    items = relationship("Item", back_populates="owner", cascade="all, delete-orphan")
 
     # Define a relationship with Files model
     files = relationship("Files", back_populates="user", cascade="all, delete-orphan")
@@ -28,17 +26,6 @@ class User(Base):
 
     # Define a relationship with folders model
     folder = relationship("Folder", back_populates="user", cascade="all, delete-orphan")
-
-
-class Item(Base):
-    __tablename__ = "items"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(UUID(as_uuid=True), ForeignKey("profiles.id"))
-
-    owner = relationship("User", back_populates="items")
 
 class Files(Base):
     __tablename__ = 'files'
