@@ -71,3 +71,9 @@ class QuizCreate(QuizBase):
 
     class Config:
         orm_mode = True
+
+class QuizFull(QuizCreate):
+    id: int
+
+    class Config:
+        orm_mode = True
