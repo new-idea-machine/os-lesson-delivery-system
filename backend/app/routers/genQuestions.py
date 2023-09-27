@@ -111,4 +111,4 @@ def create_quiz(quiz: QuizCreate,db: Session):
 
     db.commit()
     db.refresh(db_quiz)
-    return None
+    return db_quiz
