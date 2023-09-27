@@ -8,8 +8,8 @@ from .. import models
 from ..database import get_db
 
 router = APIRouter(
-    prefix='/questions',
-    tags=['questions']
+    prefix='/genquestions',
+    tags=['genquestions']
 )
 
 class Response(BaseModel):

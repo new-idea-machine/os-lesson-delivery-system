@@ -8,7 +8,7 @@ import os
 import openai
 from . import models
 from .database import engine, get_db
-from .routers import questions, file, users, quiz
+from .routers import genQuestions, file, users, quiz
 from .middleware.authHandler import JWTBearer
 
 
@@ -28,7 +28,7 @@ app = FastAPI()
 
 app.include_router(users.router)
 app.include_router(file.router, dependencies=[Depends(JWTBearer())])
-app.include_router(questions.router)
+app.include_router(genQuestions.router, dependencies=[Depends(JWTBearer())])
 app.include_router(quiz.router, dependencies=[Depends(JWTBearer())])
 
 
