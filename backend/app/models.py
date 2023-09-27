@@ -52,6 +52,7 @@ class Questions(Base):
     quiz_question = Column(String)
     correct_answer = Column(String)
     incorrect_options = Column(ARRAY(String))
+    question_type = Column(Integer)
 
 class TakenQuiz(Base):
     __tablename__ = "taken_quiz"
