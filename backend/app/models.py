@@ -86,7 +86,7 @@ class TakenQuizQuestions(Base):
     user_answer = Column(String)
     correct = Column(Integer)
 
-    taken_question = relationship("TakenQuiz", back_populates="taken_question")
+    taken_quiz = relationship("TakenQuiz", back_populates="taken_question")
 
 class Folder(Base):
     __tablename__ = "folder"
