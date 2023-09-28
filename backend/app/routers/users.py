@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from typing import Optional
 from .. import crud, schemas
 from ..database import SessionLocal
 
@@ -19,8 +20,8 @@ def get_db():
 
 # Pydantic models
 class Question(BaseModel):
-    id: int | None = None
-    name: str | None = None
+    id: Optional[int]
+    name: Optional[str]
     question: str
 
 class Response(BaseModel):
