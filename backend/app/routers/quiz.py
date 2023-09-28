@@ -82,18 +82,37 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
     #     raise HTTPException(status_code=401, detail="Invalid token")
     
     # userId = data.user.id
-    try:
-        db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
+    
+    db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
 
-        db_questions = db.query(models.Questions).filter(models.Questions.quiz_id == quizId).all()
-        response = db_quiz
-        response.questions=[{"prompt":question.quiz_question,
-                             "qtype":question.question_type,
-                                "options":{"Correct":question.correct_answer,
-                                "Incorrect": question.incorrect_options}
-                                }
-                                for question in db_questions
-                                ]
+    if db_quiz is None:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+
+    db_questions = db.query(models.Questions).filter(models.Questions.quiz_id == quizId).all()
+    
+    
+    response= {
+        "id": db_quiz.id,
+        "user_id": db_quiz.user_id,
+        "source_text": db_quiz.source_text,
+        "folder_id": db_quiz.folder_id,
+        "quiz_type": db_quiz.quiz_type,
+        "quiz_name":db_quiz.quiz_type,
+        "created_date": db_quiz.created_date,
+        "questions":[
+            {
+                "prompt":question.quiz_question,
+                "qtype":question.question_type,
+                "options":{
+                    "Correct":question.correct_answer,
+                    "Incorrect": question.incorrect_options
+                    }
+            }
+            for question in db_questions
+        ]
+    }
+
+    try:
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
