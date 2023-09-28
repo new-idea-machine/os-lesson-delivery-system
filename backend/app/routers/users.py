@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from typing import Optional
 from .. import crud, schemas
 from ..database import SessionLocal
 
@@ -19,8 +20,8 @@ def get_db():
 
 # Pydantic models
 class Question(BaseModel):
-    id: int | None = None
-    name: str | None = None
+    id: Optional[int]
+    name: Optional[str]
     question: str
 
 class Response(BaseModel):
@@ -46,8 +47,3 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-@router.post("/{user_id}/items/", response_model=schemas.Item)
-def create_item_for_user(
-    user_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
-):
-    return crud.create_user_item(db=db, item=item, user_id=user_id)
