@@ -37,14 +37,7 @@ async def get_quizes(request: Request, db: Session = Depends(get_db)) -> list:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
 @router.get("/{quizId}", response_model=Quiz)
-async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
+async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     try:
         response =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
         return response
@@ -52,14 +45,8 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
 @router.delete("/{quizId}", response_model=dict)
-async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
+async def get_quiz(quizId: int, db: Session = Depends(get_db)):
+
     db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
 
     if db_quiz is None:
@@ -74,14 +61,7 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
 @router.get("/fullquiz/{quizId}", response_model=QuizFull)
-async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
+async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     
     db_quiz =  db.query(models.Quiz).filter(models.Quiz.id == quizId).first()
 
@@ -89,7 +69,6 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
         raise HTTPException(status_code=404, detail="Quiz not found")
 
     db_questions = db.query(models.Questions).filter(models.Questions.quiz_id == quizId).all()
-    
     
     response= {
         "id": db_quiz.id,
@@ -118,14 +97,8 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
     
 @router.get("/allquestioninquiz/{quizId}", response_model=list[Question])
-async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
+async def get_quiz(quizId: int, db: Session = Depends(get_db)):
+
     try:
         db_results =  db.query(models.Questions).filter(models.Questions.quiz_id == quizId).all()
 
@@ -143,14 +116,8 @@ async def get_quiz(quizId: int, request: Request, db: Session = Depends(get_db))
     
 
 @router.get("/questionbyid/{questionId}", response_model=Question)
-async def get_quiz(questionId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
+async def get_quiz(questionId: int, db: Session = Depends(get_db)):
+
     try:
         db_results =  db.query(models.Questions).filter(models.Questions.id == questionId).first()
 
@@ -174,15 +141,8 @@ async def get_quiz(questionId: int, request: Request, db: Session = Depends(get_
     return response
 
 @router.delete("/questionbyid/{questionId}", response_model=dict)
-async def get_quiz(questionId: int, request: Request, db: Session = Depends(get_db)):
-    # token = request.headers.get("authorization").replace("Bearer ", "")
-    # data: dict = supabase.auth.get_user(token)
-    
-    # if data is None:
-    #     raise HTTPException(status_code=401, detail="Invalid token")
-    
-    # userId = data.user.id
-    
+async def get_quiz(questionId: int, db: Session = Depends(get_db)):
+
     db_question =  db.query(models.Questions).filter(models.Questions.id == questionId).first()
 
     if db_question is None:
