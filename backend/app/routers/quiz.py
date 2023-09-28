@@ -20,7 +20,7 @@ class Response(BaseModel):
 
     
 
-
+# get all of a user quizes
 @router.get("/",response_model=list[Quiz])
 async def get_quizes(request: Request, db: Session = Depends(get_db)) -> list:
     token = request.headers.get("authorization").replace("Bearer ", "")
@@ -36,6 +36,7 @@ async def get_quizes(request: Request, db: Session = Depends(get_db)) -> list:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
+#get single quiz by id
 @router.get("/{quizId}", response_model=Quiz)
 async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     try:
@@ -44,6 +45,7 @@ async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
+#delete single quiz by id
 @router.delete("/{quizId}", response_model=dict)
 async def get_quiz(quizId: int, db: Session = Depends(get_db)):
 
@@ -53,13 +55,13 @@ async def get_quiz(quizId: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Quiz not found")
     
     try:
-        # Delete the quiz from the database
         db.delete(db_quiz)
         db.commit()
         return {"message": f"Quiz with ID {quizId} deleted successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
 
+#get quiz by id with questions
 @router.get("/fullquiz/{quizId}", response_model=QuizFull)
 async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     
@@ -95,7 +97,8 @@ async def get_quiz(quizId: int, db: Session = Depends(get_db)):
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
-    
+
+#get only the questions from a quiz
 @router.get("/allquestioninquiz/{quizId}", response_model=list[Question])
 async def get_quiz(quizId: int, db: Session = Depends(get_db)):
 
@@ -114,7 +117,7 @@ async def get_quiz(quizId: int, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred trying to access db: {e}")
     
-
+#gets a single question by id
 @router.get("/questionbyid/{questionId}", response_model=Question)
 async def get_quiz(questionId: int, db: Session = Depends(get_db)):
 
@@ -140,6 +143,7 @@ async def get_quiz(questionId: int, db: Session = Depends(get_db)):
                                 
     return response
 
+#deletes a single question by id
 @router.delete("/questionbyid/{questionId}", response_model=dict)
 async def get_quiz(questionId: int, db: Session = Depends(get_db)):
 
