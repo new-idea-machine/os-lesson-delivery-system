@@ -7,15 +7,19 @@ import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
 export const QuizResultScreen = ({ route, navigation }) => {
+  // Get safe area insets
   const insets = useSafeAreaInsets();
 
+  // Extract answer data from the route params
   const answerData = route.params;
 
+  // Define a function to calculate the quiz grade
   const quizGrade = () => {
     let correctCount = 0;
     let incorrectCount = 0;
     let total = answerData.length;
 
+    // Loop through the answer data
     answerData.forEach((question) => {
       if (question.chosenAnswer === question.options.Correct) {
         correctCount++;
@@ -25,18 +29,24 @@ export const QuizResultScreen = ({ route, navigation }) => {
     });
     return { correctCount, total };
   };
+  // Calculate the quiz grade
   const { correctCount, total } = quizGrade();
 
+  // Define a function to handle card press
   const handleCardPress = (question) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
 
+  // Define a function to get the index letter for a question
   function getIndexLetter(question) {
     const index = question.shuffledArray.indexOf(question.chosenAnswer);
     return String.fromCharCode(65 + index);
   }
 
-  const onPressHandler = async () => {};
+  // Define an onPressHandler function (empty for now)
+  const onPressHandler = async () => {
+    // Retake Quiz Implementation will be added later
+  };
 
   return (
     <View
