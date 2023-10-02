@@ -1,7 +1,7 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card, ProgressBar } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';

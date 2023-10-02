@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Modal, Pressable, View, ScrollView, StyleSheet } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FileCard from '../components/FileCard';
 
 import BigButton from '../components/BigButton';
