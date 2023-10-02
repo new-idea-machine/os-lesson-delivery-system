@@ -9,21 +9,22 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    is_active = Column(Boolean, default=True)
+    fullname = Column(String)
+    avatar_url = Column(String)
+    phonenumber = Column(String)
+    
 
-    items = relationship("Item", back_populates="owner")
+    # Define a relationship with Files model
+    files = relationship("Files", back_populates="user", cascade="all, delete-orphan")
 
+    # Define a relationship with Quiz model
+    quizzes = relationship("Quiz", back_populates="user", cascade="all, delete-orphan")
 
-class Item(Base):   
-    __tablename__ = "items"
+    # Define a relationship with TakenQuiz model
+    taken_quizzes = relationship("TakenQuiz", back_populates="user", cascade="all, delete-orphan")
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(UUID(as_uuid=True), ForeignKey("profiles.id"))
-
-    owner = relationship("User", back_populates="items")
+    # Define a relationship with folders model
+    folder = relationship("Folder", back_populates="user", cascade="all, delete-orphan")
 
 class Files(Base):
     __tablename__ = 'files'
@@ -31,6 +32,9 @@ class Files(Base):
     name =Column(String)
     text = Column(String)
     user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
+
+    # Define a relationship with User model
+    user = relationship("User", back_populates="files")
     
 
 class Quiz(Base):
@@ -41,8 +45,13 @@ class Quiz(Base):
     folder_id = Column(Integer, ForeignKey('folder.id'))
     quiz_type = Column(Integer)
     quiz_name = Column(String)
-    create_date = Column(DateTime(timezone=True), server_default=func.now())
+    created_date = Column(DateTime(timezone=True), server_default=func.now())
 
+    # Define a relationship with User model
+    user = relationship("User", back_populates="quizzes")
+    
+
+    questions = relationship("Questions", back_populates="quiz", cascade="all, delete-orphan")
 
 class Questions(Base):
     __tablename__ = "questions"
@@ -51,6 +60,10 @@ class Questions(Base):
     quiz_question = Column(String)
     correct_answer = Column(String)
     incorrect_options = Column(ARRAY(String))
+    question_type = Column(Integer)
+
+    # Define a relationship with Quiz model
+    quiz = relationship("Quiz", back_populates="questions")
 
 class TakenQuiz(Base):
     __tablename__ = "taken_quiz"
@@ -61,6 +74,9 @@ class TakenQuiz(Base):
     correct = Column(Integer)
     total_questions = Column(Integer)
 
+    # Define a relationship with User model
+    user = relationship("User", back_populates="taken_quizzes")
+    taken_question = relationship("TakenQuizQuestions", back_populates="taken_quiz", cascade="all, delete-orphan")
 
 class TakenQuizQuestions(Base):
     __tablename__ = "taken_quiz_questions"
@@ -71,7 +87,12 @@ class TakenQuizQuestions(Base):
     user_answer = Column(String)
     correct = Column(Integer)
 
-class Folders(Base):
+    taken_quiz = relationship("TakenQuiz", back_populates="taken_question")
+
+class Folder(Base):
     __tablename__ = "folder"
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
     folder_name = Column(Integer)
+
+    user = relationship("User", back_populates="folder")

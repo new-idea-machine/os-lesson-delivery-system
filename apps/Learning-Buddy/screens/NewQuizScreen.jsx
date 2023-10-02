@@ -129,11 +129,11 @@ export const NewQuizScreen = ({ navigation }) => {
     let passingQuestions = {};
 
     if (selectedQuestionType == 'Mixed') {
-      passingQuestions = await getMixed(numQuestions, text);
+      passingQuestions = await getMixed(numQuestions, text, session);
     } else if (selectedQuestionType == 'True/False') {
-      passingQuestions = await getTrueFalse(numQuestions, text);
+      passingQuestions = await getTrueFalse(numQuestions, text, session);
     } else {
-      passingQuestions = await getMultipleChoice(numQuestions, text);
+      passingQuestions = await getMultipleChoice(numQuestions, text, session);
     }
     passingQuestions = JSON.parse(passingQuestions);
     navigation.navigate('Answering Screen', passingQuestions);
