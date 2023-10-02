@@ -1,8 +1,7 @@
-import { View, Pressable, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
-import { Feather } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
 import QuestionResultCard from '../components/QuestionResultCard';
