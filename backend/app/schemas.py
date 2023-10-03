@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional
-from typing import Listfrom typing import Optional
 from uuid import UUID
 from datetime import datetime 
 
