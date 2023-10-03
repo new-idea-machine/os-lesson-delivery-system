@@ -48,7 +48,8 @@ export const SaveDocumentsScreen = () => {
           style={{
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            flexDirection: 'column'
           }}
         >
           <View
@@ -63,7 +64,10 @@ export const SaveDocumentsScreen = () => {
               },
               shadowOpacity: 0.25,
               shadowRadius: 4,
-              elevation: 100
+              elevation: 100,
+
+              width: '85%',
+              maxHeight: '75%'
             }}
           >
             <View style={{ alignItems: 'flex-end' }}>
@@ -73,7 +77,12 @@ export const SaveDocumentsScreen = () => {
                 onPress={() => setModalVisible(!modalVisible)}
               />
             </View>
-            <View style={{ alignItems: 'flex-start' }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
               <Text
                 style={{
                   marginBottom: 15,
@@ -83,8 +92,10 @@ export const SaveDocumentsScreen = () => {
               >
                 {selectedFile}
               </Text>
-
-              <ScrollView style={{ maxWidth: '90%', maxHeight: '60%' }}>
+              <ScrollView
+                padding={null}
+                style={{ maxWidth: '100%', maxHeight: '65%' }}
+              >
                 <Text
                   style={{
                     marginBottom: 5,
