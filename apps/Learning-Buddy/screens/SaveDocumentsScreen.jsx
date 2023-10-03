@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,15 +6,34 @@ import FileCard from '../components/FileCard';
 
 import BigButton from '../components/BigButton';
 
+import { useFocusEffect } from '@react-navigation/native';
 import { colors } from '../config/colors';
+import { AuthContext } from '../providers/AuthProvider';
+import { deleteFile, listAllFiles } from '../util/filesAPI';
 
 export const SaveDocumentsScreen = () => {
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
+  const [fileId, setFileId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [numDaysLeft, setNumDaysLeft] = useState(0);
+  const [textContext, setTextContext] = useState(null);
+  const [allQuizFiles, setAllQuizFiles] = useState([]);
 
-  const CardModal = () => {
+  const auth = useContext(AuthContext);
+  const { session } = auth;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        const allFiles = await listAllFiles(session);
+        console.log(allFiles);
+        setAllQuizFiles(allFiles);
+      };
+      fetchData();
+    }, [])
+  );
+
+  const ShowCardModal = () => {
     return (
       <Modal
         animationType='slide'
@@ -64,30 +83,17 @@ export const SaveDocumentsScreen = () => {
               >
                 {selectedFile}
               </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                36KB
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                2023-08-10, 6:00 PM
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                {numDaysLeft} Day Left
-              </Text>
+
+              <ScrollView style={{ maxWidth: '90%', maxHeight: '60%' }}>
+                <Text
+                  style={{
+                    marginBottom: 5,
+                    color: colors.grey
+                  }}
+                >
+                  {textContext}
+                </Text>
+              </ScrollView>
             </View>
             <View
               style={{
@@ -111,7 +117,13 @@ export const SaveDocumentsScreen = () => {
                   }
                 ]}
                 onPress={() => {
-                  console.log('✅ Delete Document');
+                  deleteFile(fileId, session);
+                  const updatedFileList = allQuizFiles.filter(
+                    (file) => file.id != fileId
+                  );
+                  setAllQuizFiles(updatedFileList);
+                  setModalVisible(false);
+                  console.log('✅ Delete Document', fileId);
                 }}
               >
                 <Text
@@ -147,77 +159,25 @@ export const SaveDocumentsScreen = () => {
             <Text style={localStyles.pageTitle}>Save Documents</Text>
           </View>
           <View style={localStyles.cardContainer}>
-            <FileCard
-              title='This-Is-A-Long-Filename-101.txt'
-              subtitle={`3 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-101.txt');
-                    setNumDaysLeft(3);
-                    setModalVisible(true);
-                  }}
+            {allQuizFiles &&
+              allQuizFiles.map((file) => (
+                <FileCard
+                  key={file.id}
+                  title={file.name}
+                  right={() => (
+                    <IconButton
+                      icon='dots-vertical'
+                      onPress={() => {
+                        setFileId(file.id);
+                        setSelectedFile(file.name);
+                        setTextContext(file.text);
+                        setModalVisible(true);
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-102.txt'
-              subtitle={`2 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-102.txt');
-                    setNumDaysLeft(2);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-103.txt'
-              subtitle={`1 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-103.txt');
-                    setNumDaysLeft(1);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-104.txt'
-              subtitle={`5 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-104.txt');
-                    setNumDaysLeft(5);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-105.txt'
-              subtitle={`2 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-105.txt');
-                    setNumDaysLeft(2);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            {modalVisible && <CardModal />}
+              ))}
+            {modalVisible && <ShowCardModal />}
           </View>
         </View>
       </ScrollView>
