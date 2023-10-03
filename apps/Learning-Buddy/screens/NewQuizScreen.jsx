@@ -1,26 +1,18 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect, useContext } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  Button,
-  Card,
-  IconButton,
-  Divider,
-  Paragraph,
-  TextInput
-} from 'react-native-paper';
+import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
+import React, { useContext, useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Divider, IconButton, TextInput } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
+import { extractText } from '../util/filesAPI';
 import {
-  getMultipleChoice,
   getMixed,
+  getMultipleChoice,
   getTrueFalse
 } from '../util/quizGenerateAPI';
-import Constants from 'expo-constants';
-import { extractText } from '../util/filesAPI';
 
 const ip = Constants.expoConfig.extra.IP;
 
