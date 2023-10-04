@@ -20,7 +20,7 @@ import {
   getTrueFalse
 } from '../util/quizGenerateAPI';
 import Constants from 'expo-constants';
-import { extractText } from '../util/filesAPI';
+import { createFile, extractText } from '../util/filesAPI';
 
 const ip = Constants.expoConfig.extra.IP;
 
@@ -34,6 +34,8 @@ export const NewQuizScreen = ({ navigation }) => {
   const [downDisabled, setDownDisabled] = useState(true);
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
+  const [hasFile, setHasFile] = useState(false);
+  const [fileName, setfileName] = useState(null);
 
   const auth = useContext(AuthContext);
   const { session } = auth;
@@ -65,6 +67,8 @@ export const NewQuizScreen = ({ navigation }) => {
           );
         } else {
           setText(data.text);
+          setHasFile(true);
+          setfileName(file.name);
         }
       } catch (err) {
         console.log(err);
@@ -135,9 +139,28 @@ export const NewQuizScreen = ({ navigation }) => {
     } else {
       passingQuestions = await getMultipleChoice(numQuestions, text, session);
     }
-    passingQuestions = JSON.parse(passingQuestions);
-    navigation.navigate('Answering Screen', passingQuestions);
-    setText('');
+
+    if (hasFile && passingQuestions) {
+    }
+
+    if (passingQuestions) {
+      passingQuestions = JSON.parse(passingQuestions);
+
+      if (hasFile) {
+        createFile(fileName, text, session);
+      } else {
+        console.log('quiz name', passingQuestions.quiz_name);
+        createFile(passingQuestions.quiz_name, text, session);
+      }
+
+      navigation.navigate('Answering Screen', passingQuestions);
+      setText('');
+      setHasFile(false);
+      setfileName('');
+      setSelectedQuestionType(null);
+    } else {
+      alert('Error Generating Quiz');
+    }
   };
 
   return (
