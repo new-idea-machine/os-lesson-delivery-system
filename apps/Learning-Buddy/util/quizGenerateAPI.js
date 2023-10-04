@@ -16,12 +16,17 @@ export const getMultipleChoice = async (numQuestions, text, session) => {
       // mode: 'no-cors',
       body: source
     });
-    const json = await response.json();
-    const questions = json.response.choices[0].text;
 
-    return questions;
+    if (response.status == 200) {
+      const json = await response.json();
+      const questions = json.response.choices[0].text;
+      return questions;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
@@ -39,12 +44,17 @@ export const getTrueFalse = async (numQuestions, text, session) => {
       // mode: 'no-cors',
       body: source
     });
-    const json = await response.json();
-    const questions = json.response.choices[0].text;
 
-    return questions;
+    if (response.status == 200) {
+      const json = await response.json();
+      const questions = json.response.choices[0].text;
+      return questions;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
@@ -62,11 +72,18 @@ export const getMixed = async (numQuestions, text, session) => {
       // mode: 'no-cors',
       body: source
     });
-    const json = await response.json();
-    const questions = json.response.choices[0].text;
+
+    if (response.status == 200) {
+      const json = await response.json();
+      const questions = json.response.choices[0].text;
+      return questions;
+    } else {
+      return null;
+    }
 
     return questions;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
