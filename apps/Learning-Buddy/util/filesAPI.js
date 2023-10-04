@@ -10,7 +10,6 @@ export const extractText = async (formData, session) => {
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -25,7 +24,6 @@ export const listAllFiles = async (session) => {
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -61,7 +59,6 @@ export const createFile = async (name, text, session) => {
       body: source
     });
     const data = await response.json();
-    console.log('data: ', data);
     return data;
   } catch (error) {
     console.error(error);
@@ -82,7 +79,6 @@ export const updateFile = async (id, name, text, session) => {
       body: source
     });
     const data = await response.json();
-    console.log('data: ', data);
     return data;
   } catch (error) {
     console.error(error);
@@ -99,7 +95,6 @@ export const deleteFile = async (id, session) => {
       }
     });
     const data = await response.json();
-    console.log('data: ', data);
     return data;
   } catch (error) {
     console.error(error);
