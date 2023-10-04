@@ -141,13 +141,23 @@ export const NewQuizScreen = ({ navigation }) => {
     }
 
     if (hasFile && passingQuestions) {
-      createFile(fileName, text, session);
     }
 
     if (passingQuestions) {
       passingQuestions = JSON.parse(passingQuestions);
+
+      if (hasFile) {
+        createFile(fileName, text, session);
+      } else {
+        console.log('quiz name', passingQuestions.quiz_name);
+        createFile(passingQuestions.quiz_name, text, session);
+      }
+
       navigation.navigate('Answering Screen', passingQuestions);
       setText('');
+      setHasFile(false);
+      setfileName('');
+      setSelectedQuestionType(null);
     } else {
       alert('Error Generating Quiz');
     }
