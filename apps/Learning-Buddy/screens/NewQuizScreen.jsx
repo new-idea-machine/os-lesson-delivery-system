@@ -14,9 +14,12 @@ import {
   getTrueFalse
 } from '../util/quizGenerateAPI';
 
+// Get IP from Expo Constants
 const ip = Constants.expoConfig.extra.IP;
 
+// Define the NewQuizScreen component
 export const NewQuizScreen = ({ navigation }) => {
+  // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const [numQuestions, setNumQuestions] = useState(0);
@@ -29,9 +32,12 @@ export const NewQuizScreen = ({ navigation }) => {
   const [hasFile, setHasFile] = useState(false);
   const [fileName, setfileName] = useState(null);
 
+  // Retrieve authentication context
   const auth = useContext(AuthContext);
   const { session } = auth;
   console.log('token:', session.access_token);
+
+  // Function to handle document selection
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: [
@@ -43,21 +49,25 @@ export const NewQuizScreen = ({ navigation }) => {
     });
 
     if (result.type === 'success') {
+      // Prepare file data for processing
       let file = {
         name: result.name,
         uri: result.uri,
         type: result.mimeType
       };
 
+      // Create form data for API request
       const formData = new FormData();
       formData.append('file', file);
       try {
+        // Extract text from the selected file
         const data = await extractText(formData, session);
         if (data == null || data.text == null || data.text == '') {
           alert(
             'Unable to parse text from selected file.  Please try a different file.'
           );
         } else {
+          // Set the extracted text and update state variables
           setText(data.text);
           setHasFile(true);
           setfileName(file.name);
@@ -68,12 +78,15 @@ export const NewQuizScreen = ({ navigation }) => {
     }
   };
 
+  // useEffect hook to update state variables based on text input
   useEffect(() => {
     const charLen = text.length;
     const max = Math.floor(charLen / 50);
     setMaxQuestions(max);
     setRemaining(50 - (charLen % 50));
     const stringedCharacters = charLen.toString();
+
+    // Update state variables based on conditions
     numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
     text && numQuestions == 1 ? setDownDisabled(true) : setDownDisabled(false);
     charLen >= 50 && numQuestions == 0 ? setNumQuestions(1) : null;
@@ -91,6 +104,7 @@ export const NewQuizScreen = ({ navigation }) => {
     }
   }, [text]);
 
+  // useEffect hook to update state variables based on numQuestions
   useEffect(() => {
     text && numQuestions < maxQuestions
       ? setUpDisabled(false)
@@ -98,32 +112,38 @@ export const NewQuizScreen = ({ navigation }) => {
     text && numQuestions > 1 ? setDownDisabled(false) : setDownDisabled(true);
   }, [numQuestions]);
 
+  // Function to handle incrementing numQuestions
   const handleIncrement = () => {
     if (numQuestions < maxQuestions) {
       setNumQuestions(numQuestions + 1);
     }
   };
 
+  // Function to handle decrementing numQuestions
   const handleDecrement = () => {
     if (numQuestions > 1) {
       setNumQuestions(numQuestions - 1);
     }
   };
 
+  // Function to handle selection of question type
   const handleQuestionTypePress = (questionTypeContent) => {
     setSelectedQuestionType(questionTypeContent);
   };
 
+  // Initialize selectedDifficulty state variable
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
 
+  // Function to handle selection of difficulty
   const handleDifficultyPress = (difficultyContent) => {
     setSelectedDifficulty(difficultyContent);
   };
 
-  // When question is pass to the next screen
+  // Function to handle the submission of questions to the next screen
   const onPressHandler = async () => {
     let passingQuestions = {};
 
+    // Generate questions based on selected question type
     if (selectedQuestionType == 'Mixed') {
       passingQuestions = await getMixed(numQuestions, text, session);
     } else if (selectedQuestionType == 'True/False') {
@@ -132,12 +152,15 @@ export const NewQuizScreen = ({ navigation }) => {
       passingQuestions = await getMultipleChoice(numQuestions, text, session);
     }
 
+    // Process passingQuestions if a file is selected
     if (hasFile && passingQuestions) {
     }
 
+    // If passingQuestions is generated successfully
     if (passingQuestions) {
       passingQuestions = JSON.parse(passingQuestions);
 
+      // Create a file if a file is selected, otherwise use default name
       if (hasFile) {
         createFile(fileName, text, session);
       } else {
@@ -145,7 +168,10 @@ export const NewQuizScreen = ({ navigation }) => {
         createFile(passingQuestions.quiz_name, text, session);
       }
 
+      // Navigate to the Answering Screen with passingQuestions as parameter
       navigation.navigate('Answering Screen', passingQuestions);
+
+      // Reset state variables
       setText('');
       setHasFile(false);
       setfileName('');
