@@ -11,7 +11,9 @@ import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
 import { deleteFile, listAllFiles } from '../util/filesAPI';
 
+// Define the SaveDocumentsScreen component
 export const SaveDocumentsScreen = () => {
+  // Initialize state variables
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
   const [fileId, setFileId] = useState(null);
@@ -19,20 +21,22 @@ export const SaveDocumentsScreen = () => {
   const [textContext, setTextContext] = useState(null);
   const [allQuizFiles, setAllQuizFiles] = useState([]);
 
+  // Access the authentication context
   const auth = useContext(AuthContext);
   const { session } = auth;
 
+  // Use the useFocusEffect hook to fetch data when the component mounts
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         const allFiles = await listAllFiles(session);
-        console.log(allFiles);
         setAllQuizFiles(allFiles);
       };
       fetchData();
     }, [])
   );
 
+  // Define a function to show the modal
   const ShowCardModal = () => {
     return (
       <Modal
