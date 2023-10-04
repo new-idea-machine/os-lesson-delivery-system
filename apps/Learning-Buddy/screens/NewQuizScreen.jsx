@@ -7,14 +7,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
-import { extractText } from '../util/filesAPI';
+import { createFile, extractText } from '../util/filesAPI';
 import {
   getMixed,
   getMultipleChoice,
   getTrueFalse
 } from '../util/quizGenerateAPI';
-import Constants from 'expo-constants';
-import { createFile, extractText } from '../util/filesAPI';
 
 const ip = Constants.expoConfig.extra.IP;
 
