@@ -2,17 +2,16 @@ import * as React from 'react';
 import { Divider } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import { colors } from '../config/colors';
-import MyContentTabs from '../components/MyContetTabs';
-import MyContentBodyButtons  from '../components/MyContentBodyButtons';
 import MyContentPagination from '../components/MyContentPagination';
+import MyContentData from '../components/MyContentData';
 
 
-export const MyContentScreen = ({ navigation }) => {
+export const MyContentScreen = () => {
+
   return (
     <View style={styles.container}>
-      <MyContentTabs />
       <Divider />
-      <MyContentBodyButtons />
+      <MyContentData/>
       <MyContentPagination />
     </View>
   );
@@ -23,8 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     backgroundColor: colors.white,
-    borderColor: 'blue',
-    borderWidth: 2
+
   },
   title: {
     fontSize: 24,
@@ -34,3 +32,5 @@ const styles = StyleSheet.create({
   },
   divider: { marginVertical: 10 }
 });
+
+

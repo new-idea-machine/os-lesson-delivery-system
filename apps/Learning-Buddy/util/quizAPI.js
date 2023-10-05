@@ -9,6 +9,7 @@ export const listAllQuizes = async (session) => {
       method: 'GET',
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
+    
     const data = await response.json();
     console.log(data);
     return data;

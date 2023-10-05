@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Button } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 
-const MyContentBody = () => {
+const MyContentPagination = () => {
   return (
     <>
       <View style={localStyles.container}>
@@ -37,4 +36,4 @@ const localStyles = StyleSheet.create({
  
 });
 
-export default MyContentBody;
+export default MyContentPagination;
