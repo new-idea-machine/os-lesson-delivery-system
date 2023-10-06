@@ -6,13 +6,16 @@ import { View, StyleSheet, Text } from 'react-native';
 import { colors } from '../config/colors';
 import { Button } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
+import { Divider } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
 
 function MyContentData() {
   const [quizzes, setQuizzes] = useState([]);
+  const [activeButton, setActiveButton] = useState('');
+
   let textColor = colors.black;
   const auth = useContext(AuthContext);
   const MyContentButtonsNames = ['All Quizzes', 'Folders', 'Categories'];
-
 
   const fetchData = React.useCallback(async () => {
     if (!auth.session) {
@@ -32,22 +35,44 @@ function MyContentData() {
     }, [fetchData])
   );
 
+  const handlePress = (buttonName) => {
+    setActiveButton(buttonName);
+    fetchData();
+  };
+
   return (
-    <>
-      
+    <View>
+      <Text className='header' style={localStyles.header}>
+        My Content
+      </Text>
       <View style={localStyles.containertab}>
         {MyContentButtonsNames.map((buttonName) => (
           <Button
             labelStyle={[localStyles.fontStyletab, { color: textColor }]}
             mode='outlined'
-            style={localStyles.buttontab}
+            style={[
+              {
+                backgroundColor: activeButton === buttonName ? '#000' : '#fff'
+              },
+              localStyles.buttontab
+            ]}
             key={buttonName}
-            onPress={fetchData}  // Call the fetchData function on button press
+            onPress={() => handlePress(buttonName)}
           >
-            <Text style={localStyles.fontFamily}>{buttonName}</Text>
+            <Text
+              style={[
+                localStyles.fontFamily,
+                {
+                  color: activeButton === buttonName ? '#fff' : '#000'
+                }
+              ]}
+            >
+              {buttonName}
+            </Text>
           </Button>
         ))}
       </View>
+      <Divider style={localStyles.divider} />
       <View style={localStyles.titleContainer}>
         <Text style={localStyles.title}>All Quizzes</Text>
       </View>
@@ -63,37 +88,66 @@ function MyContentData() {
         ))}
       </View>
       <View style={localStyles.containerpagination}>
-        <AntDesign name="left" size={24} color="#979797" />
-        <Text style={localStyles.textpagination}>Last Page</Text>
-        <Text style={localStyles.textpagination}>1</Text>
-        <Text style={localStyles.textpagination}>/</Text>
-        <Text style={localStyles.textpagination}>2</Text>
-        <Text style={localStyles.textpagination}>Next Page</Text>
-        <AntDesign name="right" size={24} color="#979797" />
+        <Button style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <AntDesign
+            name='left'
+            size={24}
+            color='#979797'
+            style={{ lineHeight: 30 }}
+          />
+          <Text style={{ ...localStyles.textpagination }}>Last Page</Text>
+        </Button>
+        <View
+          style={{ flex: 0.7, justifyContent: 'center', flexDirection: 'row' }}
+        >
+          <Text style={localStyles.textpagination}>1</Text>
+          <Text style={localStyles.textpagination}>/</Text>
+          <Text style={localStyles.textpagination}>2</Text>
+        </View>
+        <Button style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={localStyles.textpagination}>Next Page</Text>
+          <AntDesign name='right' size={24} color='#979797' />
+        </Button>
       </View>
-    </>
+    </View>
   );
 }
 
 const localStyles = StyleSheet.create({
+  containertab: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'start',
+    height: '20%'
+  },
   container: {
     display: 'flex',
     alignItems: 'flex-start',
-    justifyContent: 'space-around',
-    height: '30%'
-  },
-  divider: { marginVertical: 10 },
-  header: {
-    fontSize: 18,
-    color: '#262626',
-    fontWeight: '800'
+    justifyContent: 'space-around'
+    // height: '3%',
   },
   containerbodybuttons: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '50%'
+    height: '45%'
   },
+  containerpagination: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    fontFamily: 'Poppins',
+    height: '20%'
+  },
+  divider: { marginVertical: 10 },
+  header: {
+    fontSize: 18,
+    color: '#262626',
+    fontWeight: '800',
+    marginVertical: 10
+  },
+
   titleContainer: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -128,11 +182,7 @@ const localStyles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 23
   },
-  containertab: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'start'
-  },
+  buttonpagination: {},
   buttontab: {
     margin: 10,
     borderRadius: 5,
@@ -149,20 +199,14 @@ const localStyles = StyleSheet.create({
   fontFamily: {
     fontFamily: 'Poppins'
   },
-  containerpagination: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    fontFamily: 'Poppins',
-    height:'7%'
-  },
+
   textpagination: {
     fontWeight: '400',
     fontSize: 12,
     color: '#979797',
     fontFamily: 'Poppins'
-  }
+  },
+  divider: { marginVertical: 10 }
 });
 
 export default MyContentData;
