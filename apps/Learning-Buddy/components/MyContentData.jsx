@@ -34,9 +34,7 @@ function MyContentData() {
 
   return (
     <>
-      <View style={localStyles.titleContainer}>
-        <Text style={localStyles.title}>All Quizzes</Text>
-      </View>
+      
       <View style={localStyles.containertab}>
         {MyContentButtonsNames.map((buttonName) => (
           <Button
@@ -50,6 +48,9 @@ function MyContentData() {
           </Button>
         ))}
       </View>
+      <View style={localStyles.titleContainer}>
+        <Text style={localStyles.title}>All Quizzes</Text>
+      </View>
       <View style={localStyles.containerbodybuttons}>
         {quizzes.map((quiz) => (
           <Button mode='outlined' style={localStyles.button} key={quiz.id}>
@@ -60,6 +61,15 @@ function MyContentData() {
             </View>
           </Button>
         ))}
+      </View>
+      <View style={localStyles.containerpagination}>
+        <AntDesign name="left" size={24} color="#979797" />
+        <Text style={localStyles.textpagination}>Last Page</Text>
+        <Text style={localStyles.textpagination}>1</Text>
+        <Text style={localStyles.textpagination}>/</Text>
+        <Text style={localStyles.textpagination}>2</Text>
+        <Text style={localStyles.textpagination}>Next Page</Text>
+        <AntDesign name="right" size={24} color="#979797" />
       </View>
     </>
   );
@@ -137,6 +147,20 @@ const localStyles = StyleSheet.create({
     fontSize: 24
   },
   fontFamily: {
+    fontFamily: 'Poppins'
+  },
+  containerpagination: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    fontFamily: 'Poppins',
+    height:'7%'
+  },
+  textpagination: {
+    fontWeight: '400',
+    fontSize: 12,
+    color: '#979797',
     fontFamily: 'Poppins'
   }
 });

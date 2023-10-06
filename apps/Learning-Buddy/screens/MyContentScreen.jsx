@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Divider } from 'react-native-paper';
 import { View, StyleSheet } from 'react-native';
 import { colors } from '../config/colors';
-import MyContentPagination from '../components/MyContentPagination';
 import MyContentData from '../components/MyContentData';
 
 
@@ -12,7 +11,6 @@ export const MyContentScreen = () => {
     <View style={styles.container}>
       <Divider />
       <MyContentData/>
-      <MyContentPagination />
     </View>
   );
 };
