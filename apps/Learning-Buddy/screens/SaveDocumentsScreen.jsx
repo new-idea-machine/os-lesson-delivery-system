@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -27,14 +27,23 @@ export const SaveDocumentsScreen = ({ navigation }) => {
 
   // Use the useFocusEffect hook to fetch data when the component mounts
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const fetchData = async () => {
-        const allFiles = await listAllFiles(session);
-        setAllQuizFiles(allFiles);
+        try {
+          const allFiles = await listAllFiles(session);
+          setAllQuizFiles(allFiles);
+        } catch (error) {
+          console.log('Error fetching files', error);
+        }
       };
       fetchData();
-    }, [])
+    }, [session])
   );
+
+  // Modal visibility toggle function
+  const toggleModalVisibility = () => {
+    setModalVisible((prevModalVisible) => !prevModalVisible);
+  };
 
   const SubmitTextContext = (textContext) => {
     navigation.navigate('New Quiz Screen2');
@@ -51,7 +60,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          toggleModalVisibility();
         }}
       >
         <View
@@ -84,7 +93,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
               <IconButton
                 icon='close'
                 size={20}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={toggleModalVisibility}
               />
             </View>
             <View
