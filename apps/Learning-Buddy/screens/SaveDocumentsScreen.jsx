@@ -45,6 +45,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
     setModalVisible((prevModalVisible) => !prevModalVisible);
   };
 
+  // Submit text context function
   const SubmitTextContext = (textContext) => {
     navigation.navigate('New Quiz Screen2');
     console.log('✅ Use To Create Quiz');
