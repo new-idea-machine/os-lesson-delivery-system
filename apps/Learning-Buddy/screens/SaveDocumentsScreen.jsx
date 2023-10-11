@@ -12,7 +12,7 @@ import { AuthContext } from '../providers/AuthProvider';
 import { deleteFile, listAllFiles } from '../util/filesAPI';
 
 // Define the SaveDocumentsScreen component
-export const SaveDocumentsScreen = () => {
+export const SaveDocumentsScreen = ({ navigation }) => {
   // Initialize state variables
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,6 +35,12 @@ export const SaveDocumentsScreen = () => {
       fetchData();
     }, [])
   );
+
+  const SubmitTextContext = (textContext) => {
+    navigation.navigate('New Quiz Screen2');
+    console.log('✅ Use To Create Quiz');
+    console.log(textContext);
+  };
 
   // Define a function to show the modal
   const ShowCardModal = () => {
@@ -122,7 +128,7 @@ export const SaveDocumentsScreen = () => {
                 textColor={colors.black}
                 content={'Use To Create Quiz'}
                 onPress={() => {
-                  console.log('✅ Use To Create Quiz');
+                  SubmitTextContext(textContext);
                 }}
               />
               <Pressable
