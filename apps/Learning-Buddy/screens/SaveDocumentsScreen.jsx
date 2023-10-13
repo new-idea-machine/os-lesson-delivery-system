@@ -41,15 +41,11 @@ export const SaveDocumentsScreen = ({ navigation }) => {
   );
 
   // Modal visibility toggle function
-  const toggleModalVisibility = () => {
-    setModalVisible((prevModalVisible) => !prevModalVisible);
-  };
-
+  const toggleModalVisibility = () => setModalVisible((prev) => !prev);
   // Submit text context function
   const SubmitTextContext = (textContext) => {
-    navigation.navigate('New Quiz Screen2');
+    navigation.navigate('New Quiz Screen2', textContext);
     console.log('✅ Use To Create Quiz');
-    console.log(textContext);
   };
 
   // Define a function to show the modal
