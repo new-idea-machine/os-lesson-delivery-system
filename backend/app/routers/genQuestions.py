@@ -32,18 +32,20 @@ async def get_questions(question: GenQuizRequest, request: Request, db: Session 
     userId = data.user.id
     numQuestions = question.numQuestions
     text = question.text
-    reqQuestion = f'Ask me {numQuestions} questions, multiple choice with four different potential answers, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"topic":"", "questions": [{{"prompt": "", "qtype":1, "options": {{"Correct": "", "Incorrect": ["", "", ""]}}}},...]\}}'
-    
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=reqQuestion,
-        temperature=0,
-        max_tokens=300,
-    )
-    quiz = json.loads(response.choices[0].text)
-    create_quiz({**quiz, "user_id":userId, "quiz_type":1, "source_text":text}, db)
+    reqQuestion = f'Ask me {numQuestions} questions, multiple choice with four different potential answers, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"quiz_name":"", "questions": [{{"prompt": "", "qtype":1, "options": {{"Correct": "", "Incorrect": ["", "", ""]}}}},...]\}}'
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=reqQuestion,
+            temperature=0,
+            max_tokens=300,
+        )
+        quiz = json.loads(response.choices[0].text)
+        create_quiz({**quiz, "user_id":userId, "quiz_type":1, "source_text":text}, db)
 
-    return {"response": response}
+        return {"response": response}
+    except:
+        raise HTTPException(status_code=500, detail="unable to generate quiz")
 
 @router.post("/tf")
 async def get_questions(question: GenQuizRequest, request: Request, db: Session = Depends(get_db)) -> Response:
@@ -56,18 +58,22 @@ async def get_questions(question: GenQuizRequest, request: Request, db: Session 
     userId = data.user.id
     numQuestions = question.numQuestions
     text = question.text
-    reqQuestion = f'Ask me {numQuestions} questions, true and false with two different potential answers, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"topic":"", "questions": [{{"prompt": "", "qtype":2, "options": {{"Correct": "", "Incorrect": [""]}}}},...]\}}'
+    reqQuestion = f'Ask me {numQuestions} questions, true and false with two different potential answers, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"quiz_name":"", "questions": [{{"prompt": "", "qtype":2, "options": {{"Correct": "", "Incorrect": [""]}}}},...]\}}'
     
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=reqQuestion,
-        temperature=0,
-        max_tokens=300,
-    )
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=reqQuestion,
+            temperature=0,
+            max_tokens=300,
+        )
 
-    quiz = json.loads(response.choices[0].text)
-    create_quiz({**quiz, "user_id":userId, "quiz_type":2, "source_text":text}, db)
-    return {"response": response}
+        quiz = json.loads(response.choices[0].text)
+        create_quiz({**quiz, "user_id":userId, "quiz_type":2, "source_text":text}, db)
+        return {"response": response}
+    
+    except:
+        raise HTTPException(status_code=500, detail="unable to generate quiz")
 
 
 
@@ -85,15 +91,19 @@ async def get_questions(question: GenQuizRequest, request: Request, db: Session 
     text = question.text
     reqQuestion = f'Ask me {numQuestions} questions, they are a mix of multiple choice and true/false question, based only on this information: {text}. Indicate which is the correct response, and Return your response in a JSON object, with the following format: {{"quiz_name":"", "questions": [{{"prompt": "", "qtype":, "options": {{"Correct": "", "Incorrect": ["",...]}}}},...]\}} qtype is 1 if multiple choice and qtype is 2 for true and false questions'
     
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=reqQuestion,
-        temperature=0,
-        max_tokens=300,
-    )
-    quiz = json.loads(response.choices[0].text)
-    create_quiz({**quiz, "user_id":userId, "quiz_type":0, "source_text":text}, db)
-    return {"response": response}
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=reqQuestion,
+            temperature=0,
+            max_tokens=300,
+        )
+        quiz = json.loads(response.choices[0].text)
+        create_quiz({**quiz, "user_id":userId, "quiz_type":0, "source_text":text}, db)
+        return {"response": response}
+    
+    except:
+        raise HTTPException(status_code=500, detail="unable to generate quiz")
 
 
 def create_quiz(quiz: QuizCreate,db: Session):
