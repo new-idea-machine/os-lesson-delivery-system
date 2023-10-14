@@ -45,9 +45,14 @@ export const SaveDocumentsScreen = ({ navigation }) => {
   // Submit text context function
   const SubmitTextContext = (textContext) => {
     try {
-      // ! textContext is not passing
       navigation.navigate('New Quiz Screen2', {
-        textContext
+        screen: 'New Quiz Stack',
+        params: {
+          screen: 'New Quiz Screen',
+          params: {
+            textContext: textContext
+          }
+        }
       });
       navigation.reset({
         index: 0,

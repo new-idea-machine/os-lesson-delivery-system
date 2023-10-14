@@ -21,9 +21,6 @@ const ip = Constants.expoConfig.extra.IP;
 export const NewQuizScreen = ({ route, navigation }) => {
   const { textContext } = route.params || '';
 
-  // ! passing context issue in SaveDocumentScreen
-  // TODO need to fix SubmitTextContext() navigation.navigate
-  console.log('Received context:', textContext);
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
