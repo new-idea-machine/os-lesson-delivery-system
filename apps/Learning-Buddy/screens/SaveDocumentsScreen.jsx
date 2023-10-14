@@ -44,18 +44,18 @@ export const SaveDocumentsScreen = ({ navigation }) => {
   const toggleModalVisibility = () => setModalVisible((prev) => !prev);
   // Submit text context function
   const SubmitTextContext = (textContext) => {
-    navigation.navigate('New Quiz Screen2', {
-      textContext
-    });
-
-    console.log('✅ Use To Create Quiz');
-    // console.log('🗨️ Show Context 🗨️ ', textContext);
-
-    // reset navigation state
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'My Save Documents' }]
-    });
+    try {
+      // ! textContext is not passing
+      navigation.navigate('New Quiz Screen2', {
+        textContext
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'My Save Documents' }]
+      });
+    } catch (error) {
+      console.log('Error navigating:', error);
+    }
   };
 
   // Define a function to show the modal
