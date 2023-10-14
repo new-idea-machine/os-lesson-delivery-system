@@ -18,7 +18,12 @@ import {
 const ip = Constants.expoConfig.extra.IP;
 
 // Define the NewQuizScreen component
-export const NewQuizScreen = ({ navigation }) => {
+export const NewQuizScreen = ({ route, navigation }) => {
+  const { textContext } = route.params || '';
+
+  // ! passing context issue in SaveDocumentScreen
+  // TODO need to fix SubmitTextContext() navigation.navigate
+  console.log('Received context:', textContext);
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
@@ -30,15 +35,22 @@ export const NewQuizScreen = ({ navigation }) => {
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
   const [hasFile, setHasFile] = useState(false);
-  const [fileName, setfileName] = useState(null);
+  const [fileName, setFileName] = useState(null);
 
   // Retrieve authentication context
   const auth = useContext(AuthContext);
   const { session } = auth;
-  console.log('token:', session.access_token);
+
+  useEffect(() => {
+    setText(textContext);
+  }, []);
 
   // Function to handle document selection
   const pickDocument = async () => {
+    // reset file state
+    setHasFile(false);
+    setFileName('');
+
     let result = await DocumentPicker.getDocumentAsync({
       type: [
         'image/*',
@@ -70,7 +82,7 @@ export const NewQuizScreen = ({ navigation }) => {
           // Set the extracted text and update state variables
           setText(data.text);
           setHasFile(true);
-          setfileName(file.name);
+          setFileName(file.name);
         }
       } catch (err) {
         console.log(err);
@@ -80,29 +92,54 @@ export const NewQuizScreen = ({ navigation }) => {
 
   // useEffect hook to update state variables based on text input
   useEffect(() => {
-    const charLen = text.length;
-    const max = Math.floor(charLen / 50);
-    setMaxQuestions(max);
-    setRemaining(50 - (charLen % 50));
-    const stringedCharacters = charLen.toString();
-
-    // Update state variables based on conditions
-    numQuestions < max ? setUpDisabled(false) : setUpDisabled(true);
-    text && numQuestions == 1 ? setDownDisabled(true) : setDownDisabled(false);
-    charLen >= 50 && numQuestions == 0 ? setNumQuestions(1) : null;
-    numQuestions > max ? setNumQuestions(max) : null;
-    if (!text || charLen < 50) {
+    // Check if the 'text' variable is empty
+    if (!text) {
       setDownDisabled(true);
       setUpDisabled(true);
       setNumQuestions(0);
+      setCharacters('0/50');
+      return;
+    }
+    // Calculate the length of the 'text' variable
+    const charLen = text.length;
+    const max = Math.floor(charLen / 50);
+    setMaxQuestions(max);
+
+    // Check if the length of the 'text' variable is less than 50 characters
+    if (charLen < 50) {
+      // If 'text' is less than 50 characters, update state variables accordingly
+      setRemaining(50 - charLen);
+      setCharacters(`${charLen}/50`);
+      setDownDisabled(true);
+      setUpDisabled(true);
+      return;
     }
 
-    if (charLen < 50) {
-      setCharacters(`${stringedCharacters}/50`);
-    } else {
-      setCharacters(stringedCharacters);
+    // Update state variables based on the length of 'text' variable
+    setRemaining(50 - (charLen % 50));
+    setCharacters(charLen.toString());
+
+    // Determine the state of 'upDisabled' based on the number of questions
+    if (numQuestions < max) {
+      setUpDisabled(false);
+    } else if (numQuestions === max) {
+      setUpDisabled(true);
     }
-  }, [text]);
+
+    // Determine the state of 'downDisabled' based on the number of questions
+    if (numQuestions === 1) {
+      setDownDisabled(true);
+    } else {
+      setDownDisabled(false);
+    }
+
+    // Update the number of questions based on the length of 'text' variable
+    if (numQuestions === 0 && charLen >= 50) {
+      setNumQuestions(1);
+    } else if (numQuestions > max) {
+      setNumQuestions(max);
+    }
+  }, [text, numQuestions]);
 
   // useEffect hook to update state variables based on numQuestions
   useEffect(() => {
@@ -174,7 +211,7 @@ export const NewQuizScreen = ({ navigation }) => {
       // Reset state variables
       setText('');
       setHasFile(false);
-      setfileName('');
+      setFileName('');
       setSelectedQuestionType(null);
     } else {
       alert('Error Generating Quiz');
@@ -204,8 +241,8 @@ export const NewQuizScreen = ({ navigation }) => {
               activeUnderlineColor={colors.white}
               style={localStyles.input}
               label='Enter text'
-              onChangeText={(text) => setText(text)}
               value={text}
+              onChangeText={(text) => setText(text)}
               multiline
               numberOfLines={30}
             />
