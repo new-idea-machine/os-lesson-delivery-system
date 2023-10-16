@@ -1,16 +1,19 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Card, ProgressBar } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
 export const QuizResultScreen = ({ route, navigation }) => {
+  // Get the safe area insets
   const insets = useSafeAreaInsets();
 
+  // Get the answer data from the route parameters
   const answerData = route.params;
 
+  // Define a function to calculate the quiz grade
   const quizGrade = () => {
     let correctCount = 0;
     let incorrectCount = 0;
@@ -25,17 +28,22 @@ export const QuizResultScreen = ({ route, navigation }) => {
     });
     return { correctCount, total };
   };
+
+  // Call the quizGrade function and store the results
   const { correctCount, total } = quizGrade();
 
+  // Define a function to handle the card press event
   const handleCardPress = (question) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
 
+  // Define a function to get the index letter for a question
   function getIndexLetter(question) {
     const index = question.shuffledArray.indexOf(question.chosenAnswer);
     return String.fromCharCode(65 + index);
   }
 
+  // Retake test function to be implemented later
   const onPressHandler = async () => {};
 
   return (
