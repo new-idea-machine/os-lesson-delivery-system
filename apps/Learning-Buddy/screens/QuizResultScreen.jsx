@@ -13,7 +13,6 @@ export const QuizResultScreen = ({ route, navigation }) => {
   const answerData = route.params;
 
   // Define a function to calculate the quiz grade
-  // Define a function to calculate the quiz grade
   const quizGrade = () => {
     let correctCount = 0;
     let incorrectCount = 0;
@@ -37,7 +36,6 @@ export const QuizResultScreen = ({ route, navigation }) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
 
-  // Define a function to get the index letter for a question
   // Define a function to get the index letter for a question
   function getIndexLetter(question) {
     const index = question.shuffledArray.indexOf(question.chosenAnswer);
