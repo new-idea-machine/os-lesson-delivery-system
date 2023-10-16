@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';

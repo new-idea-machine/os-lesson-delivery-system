@@ -1,6 +1,6 @@
-import { View, StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-paper';
 
 const BigButton = ({ content, onPress, ...props }) => {
   return (
