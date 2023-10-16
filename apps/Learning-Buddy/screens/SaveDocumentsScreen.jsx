@@ -75,33 +75,9 @@ export const SaveDocumentsScreen = ({ navigation }) => {
           toggleModalVisibility();
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: 15,
-              padding: 35,
-              shadowColor: colors.black,
-              shadowOffset: {
-                width: 0,
-                height: 0
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 100,
-
-              width: '85%',
-              maxHeight: '75%'
-            }}
-          >
-            <View style={{ alignItems: 'flex-end' }}>
+        <View style={localStyles.modal}>
+          <View style={localStyles.modalContent}>
+            <View style={localStyles.modalClose}>
               <IconButton
                 icon='close'
                 size={20}
@@ -114,15 +90,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 alignItems: 'center'
               }}
             >
-              <Text
-                style={{
-                  marginBottom: 15,
-                  fontWeight: 'bold',
-                  fontSize: 20
-                }}
-              >
-                {selectedFile}
-              </Text>
+              <Text style={modalTitle.localStyles}>{selectedFile}</Text>
               <ScrollView
                 padding={null}
                 style={{ maxWidth: '100%', maxHeight: '65%' }}
@@ -137,13 +105,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 </Text>
               </ScrollView>
             </View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 20
-              }}
-            >
+            <View style={modalButtonsContainer.localStyles}>
               <BigButton
                 buttonColor={colors.green}
                 textColor={colors.black}
@@ -231,7 +193,6 @@ const localStyles = StyleSheet.create({
   fontStyle: {
     fontFamily: 'Poppins',
     fontSize: 12,
-    // letterSpacing: 2,
     fontWeight: '400'
   },
   container: {
@@ -267,5 +228,36 @@ const localStyles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     color: colors.grey
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 35,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 100,
+    width: '85%',
+    maxHeight: '75%'
+  },
+  modalClose: { alignItems: 'flex-end' },
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  modalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20
   }
 });
