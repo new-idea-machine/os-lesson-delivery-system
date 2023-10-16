@@ -1,6 +1,5 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Card, ProgressBar } from 'react-native-paper';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
@@ -13,6 +12,7 @@ export const QuizResultScreen = ({ route, navigation }) => {
   // Extract answer data from the route params
   const answerData = route.params;
 
+  // Define a function to calculate the quiz grade
   // Define a function to calculate the quiz grade
   const quizGrade = () => {
     let correctCount = 0;
@@ -37,6 +37,7 @@ export const QuizResultScreen = ({ route, navigation }) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
 
+  // Define a function to get the index letter for a question
   // Define a function to get the index letter for a question
   function getIndexLetter(question) {
     const index = question.shuffledArray.indexOf(question.chosenAnswer);
