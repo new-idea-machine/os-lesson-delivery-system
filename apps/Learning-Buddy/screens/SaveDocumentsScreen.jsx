@@ -90,7 +90,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 alignItems: 'center'
               }}
             >
-              <Text style={modalTitle.localStyles}>{selectedFile}</Text>
+              <Text style={localStyles.modalTitle}>{selectedFile}</Text>
               <ScrollView
                 padding={null}
                 style={{ maxWidth: '100%', maxHeight: '65%' }}
@@ -105,7 +105,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 </Text>
               </ScrollView>
             </View>
-            <View style={modalButtonsContainer.localStyles}>
+            <View style={localStyles.modalButtonsContainer}>
               <BigButton
                 buttonColor={colors.green}
                 textColor={colors.black}
