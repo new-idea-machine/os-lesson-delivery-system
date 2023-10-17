@@ -29,6 +29,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
   const [upDisabled, setUpDisabled] = useState(true);
   const [downDisabled, setDownDisabled] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
   const [hasFile, setHasFile] = useState(false);
@@ -92,11 +93,10 @@ export const NewQuizScreen = ({ route, navigation }) => {
   useEffect(() => {
     // Check if the 'text' variable is empty
     if (!text) {
-      setDownDisabled(true);
-      setUpDisabled(true);
       setNumQuestions(0);
       setMaxQuestions(0);
       setCharacters('0/50');
+      setButtonDisabled(true);
       return;
     }
     // Calculate the length of the 'text' variable
@@ -111,7 +111,10 @@ export const NewQuizScreen = ({ route, navigation }) => {
       setCharacters(`${charLen}/50`);
       setDownDisabled(true);
       setUpDisabled(true);
+      setButtonDisabled(true);
       return;
+    } else {
+      setButtonDisabled(false);
     }
 
     // Update state variables based on the length of 'text' variable
@@ -347,6 +350,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 }
                 content={'Multiple Choice'}
                 onPress={() => handleQuestionTypePress('Multiple Choice')}
+                disabled={buttonDisabled}
               />
               <BigButton
                 buttonColor={
@@ -361,6 +365,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 }
                 content={'True/False'}
                 onPress={() => handleQuestionTypePress('True/False')}
+                disabled={buttonDisabled}
               />
               <BigButton
                 buttonColor={
@@ -373,6 +378,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 }
                 content={'Mixed'}
                 onPress={() => handleQuestionTypePress('Mixed')}
+                disabled={buttonDisabled}
               />
             </View>
           </View>
@@ -385,6 +391,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
               textColor={colors.black}
               content={'Next'}
               onPress={onPressHandler}
+              disabled={buttonDisabled}
             />
           </View>
         </View>
