@@ -19,7 +19,7 @@ const ip = Constants.expoConfig.extra.IP;
 
 // Define the NewQuizScreen component
 export const NewQuizScreen = ({ route, navigation }) => {
-  const { textContext } = route.params || '';
+  const { textParam, fileId } = route.params || '';
 
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
@@ -39,8 +39,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
   const { session } = auth;
 
   useEffect(() => {
-    setText(textContext);
-  }, []);
+    setText(textParam);
+  }, [route]);
 
   // Function to handle document selection
   const pickDocument = async () => {
@@ -95,6 +95,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
       setDownDisabled(true);
       setUpDisabled(true);
       setNumQuestions(0);
+      setMaxQuestions(0);
       setCharacters('0/50');
       return;
     }
@@ -267,14 +268,6 @@ export const NewQuizScreen = ({ route, navigation }) => {
             {!text ? (
               <Text>Please enter some content to get started</Text>
             ) : null}
-            {/* <View style={localStyles.buttonContainer}>
-              <BigButton
-                buttonColor={colors.grey}
-                textColor={colors.black}
-                content={'Paste'}
-                onPress={() => {}}
-              />
-            </View> */}
           </View>
           <BigButton
             buttonColor={colors.white}

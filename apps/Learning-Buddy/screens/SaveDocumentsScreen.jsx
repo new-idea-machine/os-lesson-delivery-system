@@ -18,7 +18,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [fileId, setFileId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [textContext, setTextContext] = useState(null);
+  const [textParam, setTextParam] = useState(null);
   const [allQuizFiles, setAllQuizFiles] = useState([]);
 
   // Access the authentication context
@@ -43,14 +43,15 @@ export const SaveDocumentsScreen = ({ navigation }) => {
   // Modal visibility toggle function
   const toggleModalVisibility = () => setModalVisible((prev) => !prev);
   // Submit text context function
-  const SubmitTextContext = (textContext) => {
+  const SubmitTextParam = () => {
     try {
       navigation.navigate('New Quiz Screen2', {
         screen: 'New Quiz Stack',
         params: {
           screen: 'New Quiz Screen',
           params: {
-            textContext: textContext
+            fileId,
+            textParam
           }
         }
       });
@@ -101,7 +102,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                     color: colors.grey
                   }}
                 >
-                  {textContext}
+                  {textParam}
                 </Text>
               </ScrollView>
             </View>
@@ -111,7 +112,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                 textColor={colors.black}
                 content={'Use To Create Quiz'}
                 onPress={() => {
-                  SubmitTextContext(textContext);
+                  SubmitTextParam();
                 }}
               />
               <Pressable
@@ -174,7 +175,7 @@ export const SaveDocumentsScreen = ({ navigation }) => {
                       onPress={() => {
                         setFileId(file.id);
                         setSelectedFile(file.name);
-                        setTextContext(file.text);
+                        setTextParam(file.text);
                         setModalVisible(true);
                       }}
                     />
