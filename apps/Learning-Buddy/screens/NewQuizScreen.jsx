@@ -20,7 +20,7 @@ import {
   getTrueFalse
 } from '../util/quizGenerateAPI';
 import Constants from 'expo-constants';
-import { createFile, extractText } from '../util/filesAPI';
+import { createFile, extractText, updateFile } from '../util/filesAPI';
 
 const ip = Constants.expoConfig.extra.IP;
 
@@ -36,10 +36,12 @@ export const NewQuizScreen = ({ navigation }) => {
   const [remaining, setRemaining] = useState(0);
   const [hasFile, setHasFile] = useState(false);
   const [fileName, setfileName] = useState(null);
+  const [isEdited, setIsEdited] = useState(false);
 
   const auth = useContext(AuthContext);
   const { session } = auth;
   console.log('token:', session.access_token);
+
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
       type: [
@@ -74,6 +76,32 @@ export const NewQuizScreen = ({ navigation }) => {
         console.log(err);
       }
     }
+  };
+
+  const saveDocument = () => {
+    try {
+      if (1) {
+        //is new
+        createFile(fileName, text, session);
+      } else {
+        // updateFile(fileId, fileName,text, session)
+      }
+      setIsEdited(false);
+    } catch (e) {}
+  };
+
+  const saveAsDocument = () => {
+    try {
+      createFile(fileName, text, session);
+      setIsEdited(false);
+    } catch (e) {}
+  };
+
+  const openDocument = () => {
+    try {
+      createFile(fileName, text, session);
+      setIsEdited(false);
+    } catch (e) {}
   };
 
   useEffect(() => {
@@ -146,13 +174,6 @@ export const NewQuizScreen = ({ navigation }) => {
     if (passingQuestions) {
       passingQuestions = JSON.parse(passingQuestions);
 
-      if (hasFile) {
-        createFile(fileName, text, session);
-      } else {
-        console.log('quiz name', passingQuestions.quiz_name);
-        createFile(passingQuestions.quiz_name, text, session);
-      }
-
       navigation.navigate('Answering Screen', passingQuestions);
       setText('');
       setHasFile(false);
@@ -186,7 +207,10 @@ export const NewQuizScreen = ({ navigation }) => {
               activeUnderlineColor={colors.white}
               style={localStyles.input}
               label='Enter text'
-              onChangeText={(text) => setText(text)}
+              onChangeText={(text) => {
+                setText(text);
+                setIsEdited(true);
+              }}
               value={text}
               multiline
               numberOfLines={30}
@@ -228,6 +252,13 @@ export const NewQuizScreen = ({ navigation }) => {
             textColor={colors.black}
             content={'Upload File'}
             onPress={pickDocument}
+          />
+          <BigButton
+            buttonColor={colors.white}
+            textColor={colors.black}
+            content={'Save Text'}
+            onPress={saveDocument}
+            disabled={!isEdited}
           />
           <View style={localStyles.divider}>
             <Divider />
