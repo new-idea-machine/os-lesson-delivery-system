@@ -50,7 +50,9 @@ export const NewQuizScreen = ({ navigation }) => {
       ]
     });
 
-    if (result.type === 'success') {
+    console.log(result);
+    if (result.assets) {
+      result = result.assets[0];
       let file = {
         name: result.name,
         uri: result.uri,
