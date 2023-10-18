@@ -1,16 +1,15 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Card, ProgressBar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
 
 export const QuizResultScreen = ({ route, navigation }) => {
-  // Get the safe area insets
+  // Get safe area insets
   const insets = useSafeAreaInsets();
 
-  // Get the answer data from the route parameters
+  // Extract answer data from the route params
   const answerData = route.params;
 
   // Define a function to calculate the quiz grade
@@ -19,6 +18,7 @@ export const QuizResultScreen = ({ route, navigation }) => {
     let incorrectCount = 0;
     let total = answerData.length;
 
+    // Loop through the answer data
     answerData.forEach((question) => {
       if (question.chosenAnswer === question.options.Correct) {
         correctCount++;
@@ -28,11 +28,10 @@ export const QuizResultScreen = ({ route, navigation }) => {
     });
     return { correctCount, total };
   };
-
-  // Call the quizGrade function and store the results
+  // Calculate the quiz grade
   const { correctCount, total } = quizGrade();
 
-  // Define a function to handle the card press event
+  // Define a function to handle card press
   const handleCardPress = (question) => {
     navigation.navigate('Quiz Result Detail Screen', question);
   };
@@ -43,8 +42,10 @@ export const QuizResultScreen = ({ route, navigation }) => {
     return String.fromCharCode(65 + index);
   }
 
-  // Retake test function to be implemented later
-  const onPressHandler = async () => {};
+  // Define an onPressHandler function (empty for now)
+  const onPressHandler = async () => {
+    // Retake Quiz Implementation will be added later
+  };
 
   return (
     <View

@@ -1,8 +1,8 @@
-import { IconButton } from 'react-native-paper';
 import {
   DrawerContentScrollView,
   DrawerItemList
 } from '@react-navigation/drawer';
+import { IconButton } from 'react-native-paper';
 
 export const CloseDrawerMenu = (props) => {
   return (
