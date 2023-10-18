@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider, IconButton, TextInput } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BigButton from '../components/BigButton';
@@ -19,7 +19,7 @@ const ip = Constants.expoConfig.extra.IP;
 
 // Define the NewQuizScreen component
 export const NewQuizScreen = ({ route, navigation }) => {
-  const { textParam, fileId } = route.params || '';
+  const { textParam, fileId, fileNameParam } = route.params || '';
 
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
@@ -35,6 +35,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
   const [hasFile, setHasFile] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [fileName, setFileName] = useState(null);
+  const [currentFileId, setCurrentFileId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Retrieve authentication context
   const auth = useContext(AuthContext);
@@ -42,6 +44,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     setText(textParam);
+    setCurrentFileId(fileId);
+    setFileName(fileNameParam);
   }, [route]);
 
   // Function to handle document selection
@@ -83,6 +87,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
           setText(data.text);
           setHasFile(true);
           setFileName(file.name);
+          setIsEdited(true);
         }
       } catch (err) {
         console.log(err);
@@ -92,28 +97,88 @@ export const NewQuizScreen = ({ route, navigation }) => {
 
   const saveDocument = () => {
     try {
-      if (1) {
-        //is new
-        createFile(fileName, text, session);
+      if (fileId) {
+        updateFile(fileId, fileName, text, session);
+        setIsEdited(false);
       } else {
-        // updateFile(fileId, fileName,text, session)
+        setModalVisible(true);
       }
-      setIsEdited(false);
     } catch (e) {}
   };
 
   const saveAsDocument = () => {
-    try {
-      createFile(fileName, text, session);
-      setIsEdited(false);
-    } catch (e) {}
+    setModalVisible(true);
   };
 
   const openDocument = () => {
-    try {
-      createFile(fileName, text, session);
-      setIsEdited(false);
-    } catch (e) {}
+    navigation.navigate('My Save Documents');
+  };
+
+  // Modal visibility toggle function
+  const toggleModalVisibility = () => setModalVisible((prev) => !prev);
+
+  const ShowCardModal = () => {
+    return (
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          toggleModalVisibility();
+        }}
+      >
+        <View style={localStyles.modal}>
+          <View style={localStyles.modalContent}>
+            <View style={localStyles.modalClose}>
+              <IconButton
+                icon='close'
+                size={20}
+                onPress={toggleModalVisibility}
+              />
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <TextInput
+                underlineColor={colors.white}
+                activeUnderlineColor={colors.white}
+                label='FileName'
+                onChangeText={(name) => setFileName(name)}
+                value={fileName}
+              />
+              <ScrollView
+                padding={null}
+                style={{ maxWidth: '100%', maxHeight: '65%' }}
+              >
+                <Text
+                  style={{
+                    marginBottom: 5,
+                    color: colors.grey
+                  }}
+                >
+                  {text}
+                </Text>
+              </ScrollView>
+            </View>
+            <View style={localStyles.modalButtonsContainer}>
+              <BigButton
+                buttonColor={colors.green}
+                textColor={colors.black}
+                content={'Save New File'}
+                onPress={() => {
+                  createFile(fileName, text, session);
+                  setIsEdited(false);
+                }} //need save function
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
   };
 
   // useEffect hook to update state variables based on text input
@@ -232,7 +297,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
       // Reset state variables
       setText('');
       setHasFile(false);
-      setFileName('');
+      setFileName(null);
+      setCurrentFileId(null);
       setSelectedQuestionType(null);
     } else {
       alert('Error Generating Quiz');
@@ -254,7 +320,9 @@ export const NewQuizScreen = ({ route, navigation }) => {
           <View>
             <Text style={localStyles.pageTitle}>Create New Quiz</Text>
           </View>
-          <Text style={localStyles.title}>Source Material</Text>
+          <Text style={localStyles.title}>
+            Source Material{fileName && ': ' + fileName}
+          </Text>
           <View style={localStyles.textInputContainer}>
             <TextInput
               mode='flat'
@@ -267,7 +335,6 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 setIsEdited(true);
               }}
               value={text}
-              onChangeText={(text) => setText(text)}
               multiline
               numberOfLines={30}
             />
@@ -437,6 +504,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
               disabled={buttonDisabled}
             />
           </View>
+          <ShowCardModal />
         </View>
       </ScrollView>
     </View>
@@ -503,5 +571,36 @@ const localStyles = StyleSheet.create({
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: colors.lightGrey
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 35,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 100,
+    width: '85%',
+    maxHeight: '75%'
+  },
+  modalClose: { alignItems: 'flex-end' },
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  modalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20
   }
 });
