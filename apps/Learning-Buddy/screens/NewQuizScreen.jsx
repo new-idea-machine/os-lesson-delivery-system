@@ -234,6 +234,7 @@ export const NewQuizScreen = ({ navigation }) => {
               }}
               value={characters}
             />
+
             {text && parseInt(characters, 10) < 50 ? (
               <Text>Please enter at least 50 characters to continue</Text>
             ) : null}
@@ -258,9 +259,21 @@ export const NewQuizScreen = ({ navigation }) => {
           <BigButton
             buttonColor={colors.white}
             textColor={colors.black}
-            content={'Save Text'}
+            content={'Save'}
             onPress={saveDocument}
             disabled={!isEdited}
+          />
+          <BigButton
+            buttonColor={colors.white}
+            textColor={colors.black}
+            content={'Save As'}
+            onPress={saveAsDocument}
+          />
+          <BigButton
+            buttonColor={colors.white}
+            textColor={colors.black}
+            content={'open previous'}
+            onPress={openDocument}
           />
           <View style={localStyles.divider}>
             <Divider />
