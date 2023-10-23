@@ -23,7 +23,7 @@ const LocalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 160
+    paddingVertical: 180
   },
   image: {
     resizeMode: 'contain',
