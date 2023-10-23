@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-
+import { Image, StyleSheet, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { colors } from '../config/colors';
+import loadingImage from '../assets/Logo.png';
 
 const Spinner = () => {
   useEffect(() => {
@@ -10,6 +10,7 @@ const Spinner = () => {
   }, []);
   return (
     <View style={LocalStyles.container}>
+      <Image source={loadingImage} style={LocalStyles.image} />
       <ActivityIndicator animating={true} color={colors.green} size='large' />
     </View>
   );
@@ -23,5 +24,9 @@ const LocalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 160
+  },
+  image: {
+    resizeMode: 'contain',
+    width: 100
   }
 });
