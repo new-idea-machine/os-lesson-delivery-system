@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider, IconButton, TextInput } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BigButton from '../components/BigButton';
+import Spinner from '../components/Spinner';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
 import { createFile, extractText } from '../util/filesAPI';
@@ -24,6 +25,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [numQuestions, setNumQuestions] = useState(0);
   const [maxQuestions, setMaxQuestions] = useState(0);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
@@ -181,7 +183,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
   // Function to handle the submission of questions to the next screen
   const onPressHandler = async () => {
     let passingQuestions = {};
-
+    setIsLoading(true);
     // Generate questions based on selected question type
     if (selectedQuestionType == 'Mixed') {
       passingQuestions = await getMixed(numQuestions, text, session);
@@ -215,6 +217,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
       setHasFile(false);
       setFileName('');
       setSelectedQuestionType(null);
+      setIsLoading(false);
     } else {
       alert('Error Generating Quiz');
     }
@@ -230,172 +233,178 @@ export const NewQuizScreen = ({ route, navigation }) => {
         paddingRight: insets.right
       }}
     >
-      <ScrollView style={{ backgroundColor: colors.white }}>
-        <View style={localStyles.container}>
-          <View>
-            <Text style={localStyles.pageTitle}>Create New Quiz</Text>
-          </View>
-          <Text style={localStyles.title}>Source Material</Text>
-          <View style={localStyles.textInputContainer}>
-            <TextInput
-              mode='flat'
-              underlineColor={colors.white}
-              activeUnderlineColor={colors.white}
-              style={localStyles.input}
-              label='Enter text'
-              value={text}
-              onChangeText={(text) => setText(text)}
-              multiline
-              numberOfLines={30}
-            />
-            <TextInput
-              mode='flat'
-              underlineColor={colors.white}
-              activeUnderlineColor={colors.white}
-              style={{
-                paddingTop: 0,
-                marginTop: -5,
-                backgroundColor: colors.lightGrey,
-                width: '100%',
-                borderBottomEndRadius: 15,
-                borderBottomStartRadius: 15,
-                height: 25,
-                textAlign: 'right',
-                fontSize: 12
-              }}
-              value={characters}
-            />
-            {text && parseInt(characters, 10) < 50 ? (
-              <Text>Please enter at least 50 characters to continue</Text>
-            ) : null}
-            {!text ? (
-              <Text>Please enter some content to get started</Text>
-            ) : null}
-          </View>
-          <BigButton
-            buttonColor={colors.white}
-            textColor={colors.black}
-            content={'Upload File'}
-            onPress={pickDocument}
-          />
-          <View style={localStyles.divider}>
-            <Divider />
-          </View>
-          <View>
-            <Text style={localStyles.title}>Number Of Questions</Text>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ScrollView style={{ backgroundColor: colors.white }}>
+          <View style={localStyles.container}>
+            <View>
+              <Text style={localStyles.pageTitle}>Create New Quiz</Text>
+            </View>
+            <Text style={localStyles.title}>Source Material</Text>
             <View style={localStyles.textInputContainer}>
-              <IconButton
-                icon='chevron-up'
-                size={34}
-                iconColor={colors.white}
-                mode='contained'
-                style={localStyles.iconButton}
-                containerColor={colors.aqua}
-                onPress={handleIncrement}
-                disabled={upDisabled}
+              <TextInput
+                mode='flat'
+                underlineColor={colors.white}
+                activeUnderlineColor={colors.white}
+                style={localStyles.input}
+                label='Enter text'
+                value={text}
+                onChangeText={(text) => setText(text)}
+                multiline
+                numberOfLines={30}
               />
               <TextInput
-                editable={false}
+                mode='flat'
                 underlineColor={colors.white}
                 activeUnderlineColor={colors.white}
                 style={{
-                  textAlign: 'center',
-                  width: 158,
-                  height: 60,
+                  paddingTop: 0,
+                  marginTop: -5,
+                  backgroundColor: colors.lightGrey,
+                  width: '100%',
                   borderBottomEndRadius: 15,
                   borderBottomStartRadius: 15,
-                  borderTopStartRadius: 15,
-                  borderTopEndRadius: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: '600',
-                  fontSize: 20,
-                  backgroundColor: colors.lightGrey
+                  height: 25,
+                  textAlign: 'right',
+                  fontSize: 12
                 }}
-                value={`${numQuestions.toString()} / ${maxQuestions}`}
-                onChangeText={(text) => setNumQuestions(parseInt(text))}
-                keyboardType='numeric'
+                value={characters}
               />
-              <IconButton
-                icon='chevron-down'
-                size={34}
-                iconColor={colors.white}
-                mode='contained'
-                style={localStyles.iconButton}
-                containerColor={colors.aqua}
-                onPress={handleDecrement}
-                disabled={downDisabled}
-              />
-              {maxQuestions && upDisabled ? (
-                <Text style={{ textAlign: 'center' }}>
-                  {/* Add more content to request more questions!{'\n'}  */}
-                  {remaining} more characters required to unlock another
-                  question.
-                </Text>
+              {text && parseInt(characters, 10) < 50 ? (
+                <Text>Please enter at least 50 characters to continue</Text>
+              ) : null}
+              {!text ? (
+                <Text>Please enter some content to get started</Text>
               ) : null}
             </View>
-          </View>
-          <View>
-            <Text style={localStyles.title}>Question Types</Text>
-            <View style={localStyles.container}>
+            <BigButton
+              buttonColor={colors.white}
+              textColor={colors.black}
+              content={'Upload File'}
+              onPress={pickDocument}
+            />
+            <View style={localStyles.divider}>
+              <Divider />
+            </View>
+            <View>
+              <Text style={localStyles.title}>Number Of Questions</Text>
+              <View style={localStyles.textInputContainer}>
+                <IconButton
+                  icon='chevron-up'
+                  size={34}
+                  iconColor={colors.white}
+                  mode='contained'
+                  style={localStyles.iconButton}
+                  containerColor={colors.aqua}
+                  onPress={handleIncrement}
+                  disabled={upDisabled}
+                />
+                <TextInput
+                  editable={false}
+                  underlineColor={colors.white}
+                  activeUnderlineColor={colors.white}
+                  style={{
+                    textAlign: 'center',
+                    width: 158,
+                    height: 60,
+                    borderBottomEndRadius: 15,
+                    borderBottomStartRadius: 15,
+                    borderTopStartRadius: 15,
+                    borderTopEndRadius: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: '600',
+                    fontSize: 20,
+                    backgroundColor: colors.lightGrey
+                  }}
+                  value={`${numQuestions.toString()} / ${maxQuestions}`}
+                  onChangeText={(text) => setNumQuestions(parseInt(text))}
+                  keyboardType='numeric'
+                />
+                <IconButton
+                  icon='chevron-down'
+                  size={34}
+                  iconColor={colors.white}
+                  mode='contained'
+                  style={localStyles.iconButton}
+                  containerColor={colors.aqua}
+                  onPress={handleDecrement}
+                  disabled={downDisabled}
+                />
+                {maxQuestions && upDisabled ? (
+                  <Text style={{ textAlign: 'center' }}>
+                    {/* Add more content to request more questions!{'\n'}  */}
+                    {remaining} more characters required to unlock another
+                    question.
+                  </Text>
+                ) : null}
+              </View>
+            </View>
+            <View>
+              <Text style={localStyles.title}>Question Types</Text>
+              <View style={localStyles.container}>
+                <BigButton
+                  buttonColor={
+                    selectedQuestionType === 'Multiple Choice'
+                      ? colors.grey
+                      : colors.lightGrey
+                  }
+                  textColor={
+                    selectedQuestionType === 'Multiple Choice'
+                      ? colors.white
+                      : colors.black
+                  }
+                  content={'Multiple Choice'}
+                  onPress={() => handleQuestionTypePress('Multiple Choice')}
+                  disabled={buttonDisabled}
+                />
+                <BigButton
+                  buttonColor={
+                    selectedQuestionType === 'True/False'
+                      ? colors.grey
+                      : colors.lightGrey
+                  }
+                  textColor={
+                    selectedQuestionType === 'True/False'
+                      ? colors.white
+                      : colors.black
+                  }
+                  content={'True/False'}
+                  onPress={() => handleQuestionTypePress('True/False')}
+                  disabled={buttonDisabled}
+                />
+                <BigButton
+                  buttonColor={
+                    selectedQuestionType === 'Mixed'
+                      ? colors.grey
+                      : colors.lightGrey
+                  }
+                  textColor={
+                    selectedQuestionType === 'Mixed'
+                      ? colors.white
+                      : colors.black
+                  }
+                  content={'Mixed'}
+                  onPress={() => handleQuestionTypePress('Mixed')}
+                  disabled={buttonDisabled}
+                />
+              </View>
+            </View>
+            <View style={localStyles.divider}>
+              <Divider />
+            </View>
+            <View style={{ alignItems: 'center' }}>
               <BigButton
-                buttonColor={
-                  selectedQuestionType === 'Multiple Choice'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedQuestionType === 'Multiple Choice'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'Multiple Choice'}
-                onPress={() => handleQuestionTypePress('Multiple Choice')}
-                disabled={buttonDisabled}
-              />
-              <BigButton
-                buttonColor={
-                  selectedQuestionType === 'True/False'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedQuestionType === 'True/False'
-                    ? colors.white
-                    : colors.black
-                }
-                content={'True/False'}
-                onPress={() => handleQuestionTypePress('True/False')}
-                disabled={buttonDisabled}
-              />
-              <BigButton
-                buttonColor={
-                  selectedQuestionType === 'Mixed'
-                    ? colors.grey
-                    : colors.lightGrey
-                }
-                textColor={
-                  selectedQuestionType === 'Mixed' ? colors.white : colors.black
-                }
-                content={'Mixed'}
-                onPress={() => handleQuestionTypePress('Mixed')}
+                buttonColor={colors.green}
+                textColor={colors.black}
+                content={'Next'}
+                onPress={onPressHandler}
                 disabled={buttonDisabled}
               />
             </View>
           </View>
-          <View style={localStyles.divider}>
-            <Divider />
-          </View>
-          <View style={{ alignItems: 'center' }}>
-            <BigButton
-              buttonColor={colors.green}
-              textColor={colors.black}
-              content={'Next'}
-              onPress={onPressHandler}
-              disabled={buttonDisabled}
-            />
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </View>
   );
 };
