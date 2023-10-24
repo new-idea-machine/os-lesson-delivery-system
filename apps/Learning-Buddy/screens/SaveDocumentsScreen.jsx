@@ -1,20 +1,71 @@
-import { useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Modal, Pressable, View, ScrollView, StyleSheet } from 'react-native';
+import React, { useCallback, useContext, useState } from 'react';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FileCard from '../components/FileCard';
 
 import BigButton from '../components/BigButton';
 
+import { useFocusEffect } from '@react-navigation/native';
 import { colors } from '../config/colors';
+import { AuthContext } from '../providers/AuthProvider';
+import { deleteFile, listAllFiles } from '../util/filesAPI';
 
-export const SaveDocumentsScreen = () => {
+// Define the SaveDocumentsScreen component
+export const SaveDocumentsScreen = ({ navigation }) => {
+  // Initialize state variables
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
+  const [fileId, setFileId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [numDaysLeft, setNumDaysLeft] = useState(0);
+  const [textParam, setTextParam] = useState(null);
+  const [allQuizFiles, setAllQuizFiles] = useState([]);
 
-  const CardModal = () => {
+  // Access the authentication context
+  const auth = useContext(AuthContext);
+  const { session } = auth;
+
+  // Use the useFocusEffect hook to fetch data when the component mounts
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const allFiles = await listAllFiles(session);
+          setAllQuizFiles(allFiles);
+        } catch (error) {
+          console.log('Error fetching files', error);
+        }
+      };
+      fetchData();
+    }, [session])
+  );
+
+  // Modal visibility toggle function
+  const toggleModalVisibility = () => setModalVisible((prev) => !prev);
+  // Submit text context function
+  const SubmitTextParam = () => {
+    try {
+      navigation.navigate('New Quiz Screen2', {
+        screen: 'New Quiz Stack',
+        params: {
+          screen: 'New Quiz Screen',
+          params: {
+            fileId,
+            textParam
+          }
+        }
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'My Save Documents' }]
+      });
+    } catch (error) {
+      console.log('Error navigating:', error);
+    }
+  };
+
+  // Define a function to show the modal
+  const ShowCardModal = () => {
     return (
       <Modal
         animationType='slide'
@@ -22,86 +73,46 @@ export const SaveDocumentsScreen = () => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          toggleModalVisibility();
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: 15,
-              padding: 35,
-              shadowColor: colors.black,
-              shadowOffset: {
-                width: 0,
-                height: 0
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 100
-            }}
-          >
-            <View style={{ alignItems: 'flex-end' }}>
+        <View style={localStyles.modal}>
+          <View style={localStyles.modalContent}>
+            <View style={localStyles.modalClose}>
               <IconButton
                 icon='close'
                 size={20}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={toggleModalVisibility}
               />
-            </View>
-            <View style={{ alignItems: 'flex-start' }}>
-              <Text
-                style={{
-                  marginBottom: 15,
-                  fontWeight: 'bold',
-                  fontSize: 20
-                }}
-              >
-                {selectedFile}
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                36KB
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                2023-08-10, 6:00 PM
-              </Text>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  color: colors.grey
-                }}
-              >
-                {numDaysLeft} Day Left
-              </Text>
             </View>
             <View
               style={{
                 justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 20
+                alignItems: 'center'
               }}
             >
+              <Text style={localStyles.modalTitle}>{selectedFile}</Text>
+              <ScrollView
+                padding={null}
+                style={{ maxWidth: '100%', maxHeight: '65%' }}
+              >
+                <Text
+                  style={{
+                    marginBottom: 5,
+                    color: colors.grey
+                  }}
+                >
+                  {textParam}
+                </Text>
+              </ScrollView>
+            </View>
+            <View style={localStyles.modalButtonsContainer}>
               <BigButton
                 buttonColor={colors.green}
                 textColor={colors.black}
                 content={'Use To Create Quiz'}
                 onPress={() => {
-                  console.log('✅ Use To Create Quiz');
+                  SubmitTextParam();
                 }}
               />
               <Pressable
@@ -111,7 +122,13 @@ export const SaveDocumentsScreen = () => {
                   }
                 ]}
                 onPress={() => {
-                  console.log('✅ Delete Document');
+                  deleteFile(fileId, session);
+                  const updatedFileList = allQuizFiles.filter(
+                    (file) => file.id != fileId
+                  );
+                  setAllQuizFiles(updatedFileList);
+                  setModalVisible(false);
+                  console.log('✅ Delete Document', fileId);
                 }}
               >
                 <Text
@@ -147,77 +164,25 @@ export const SaveDocumentsScreen = () => {
             <Text style={localStyles.pageTitle}>Save Documents</Text>
           </View>
           <View style={localStyles.cardContainer}>
-            <FileCard
-              title='This-Is-A-Long-Filename-101.txt'
-              subtitle={`3 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-101.txt');
-                    setNumDaysLeft(3);
-                    setModalVisible(true);
-                  }}
+            {allQuizFiles &&
+              allQuizFiles.map((file) => (
+                <FileCard
+                  key={file.id}
+                  title={file.name}
+                  right={() => (
+                    <IconButton
+                      icon='dots-vertical'
+                      onPress={() => {
+                        setFileId(file.id);
+                        setSelectedFile(file.name);
+                        setTextParam(file.text);
+                        setModalVisible(true);
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-102.txt'
-              subtitle={`2 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-102.txt');
-                    setNumDaysLeft(2);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-103.txt'
-              subtitle={`1 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-103.txt');
-                    setNumDaysLeft(1);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-104.txt'
-              subtitle={`5 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-104.txt');
-                    setNumDaysLeft(5);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            <FileCard
-              title='This-Is-A-Long-Filename-105.txt'
-              subtitle={`2 days left`}
-              right={() => (
-                <IconButton
-                  icon='dots-vertical'
-                  onPress={() => {
-                    setSelectedFile('This-Is-A-Long-Filename-105.txt');
-                    setNumDaysLeft(2);
-                    setModalVisible(true);
-                  }}
-                />
-              )}
-            />
-            {modalVisible && <CardModal />}
+              ))}
+            {modalVisible && <ShowCardModal />}
           </View>
         </View>
       </ScrollView>
@@ -229,7 +194,6 @@ const localStyles = StyleSheet.create({
   fontStyle: {
     fontFamily: 'Poppins',
     fontSize: 12,
-    // letterSpacing: 2,
     fontWeight: '400'
   },
   container: {
@@ -265,5 +229,36 @@ const localStyles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     color: colors.grey
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 35,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 100,
+    width: '85%',
+    maxHeight: '75%'
+  },
+  modalClose: { alignItems: 'flex-end' },
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  modalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20
   }
 });

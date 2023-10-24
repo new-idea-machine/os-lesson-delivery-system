@@ -93,6 +93,6 @@ class Folder(Base):
     __tablename__ = "folder"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey('profiles.id'),nullable=False)
-    folder_name = Column(Integer)
+    folder_name = Column(String)
 
     user = relationship("User", back_populates="folder")
