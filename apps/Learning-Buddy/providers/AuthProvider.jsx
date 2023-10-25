@@ -43,6 +43,12 @@ const AuthProvider = (props) => {
 
   const signOut = async () => await supabase.auth.signOut();
 
+  const resetPassword = async (email) => {
+    await supabase.auth.resetPasswordForEmail(email, {
+      //TODO: figure out redirectTo on react native :/ e.g redirectTo: 'http://example.com/account/update-password'
+    });
+  };
+
   const signInWithEmail = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -79,7 +85,8 @@ const AuthProvider = (props) => {
         session,
         signOut,
         signInWithEmail,
-        signUpWithEmail
+        signUpWithEmail,
+        resetPassword
       }}
     >
       {props.children}
