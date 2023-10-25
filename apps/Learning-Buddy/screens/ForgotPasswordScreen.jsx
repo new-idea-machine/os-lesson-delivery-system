@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import BigButton from '../components/BigButton';
 import MenuBackButton from '../components/MenuBackButton';
 import MenuInput from '../components/MenuInput';
@@ -7,18 +7,20 @@ import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
-export const LoginScreen = ({ navigation }) => {
+export const ForgotPasswordScreen = ({ navigation }) => {
   const styles = useContext(StyleSheetContext);
   const auth = useContext(AuthContext);
-  const { signInWithEmail } = auth;
+  const { resetPassword } = auth;
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
   const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const formVerify = () => {
     setEmailError(false);
-    setPasswordError(false);
     let isValid = true;
 
     if (!email || !isValidEmail(email)) {
@@ -26,14 +28,8 @@ export const LoginScreen = ({ navigation }) => {
       isValid = false;
     }
 
-    if (!password) {
-      setPasswordError(true);
-      isValid = false;
-    }
-
     const returnVal = {
-      email,
-      password
+      email
     };
 
     if (isValid) {
@@ -41,21 +37,12 @@ export const LoginScreen = ({ navigation }) => {
     } else return false;
   };
 
-  const handleSubmitLogin = async () => {
+  const handleForgotPassword = async () => {
     const verified = formVerify();
     if (verified) {
-      const status = await signInWithEmail(verified.email, verified.password);
-      if (status === 'SignedIn') {
-        // Handle successful sign-in
-      } else {
-        Alert.alert(status);
-      }
+        Alert.alert("Send Email Blah Blah")
+        //TODO: auth resetpassword blah blah sends reset password link 
     }
-  };
-
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   return (
@@ -66,8 +53,16 @@ export const LoginScreen = ({ navigation }) => {
           style={localStyles.logoStyle}
           source={require('../assets/logo_placeholder-1.png')}
         ></Image>
-        <Text style={styles.pageTitle}>LOG IN</Text>
+        <Text style={styles.pageTitle}>FORGOT YOUR PASSWORD?</Text>
       </View>
+
+      <View style={{ paddingTop: 30, alignItems: 'center', marginHorizontal: 50 }}>
+        <Text>
+          Confirm your email address below to recieve information on how to reset your
+          password
+        </Text>
+      </View>
+
       <View style={{ paddingTop: 10, paddingBottom: 30, alignItems: 'center' }}>
         <MenuInput
           placeholder='Email'
@@ -81,34 +76,22 @@ export const LoginScreen = ({ navigation }) => {
           error={emailError}
         />
         {emailError && (
-          <Text style={localStyles.passwordError}>Invalid email</Text>
-        )}
-        <MenuInput
-          placeholder='Password'
-          symbol='lock-outline'
-          hidden='true'
-          setter={setPassword}
-          right
-          error={passwordError}
-        />
-
-        {passwordError && (
-          <Text style={localStyles.passwordError}>Invalid password</Text>
+          <Text style={localStyles.generalError}>Invalid email</Text>
         )}
       </View>
-      <Pressable
-        style={{ display: 'flex', alignSelf: 'flex-start', marginLeft: 53 }}
-        onPress={() => {
-          navigation.navigate("Forgot Password");
-        }}
-      >
-        <Text style={localStyles.forgotPassword}>I Forget My Password</Text>
-      </Pressable>
+
       <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
-        content={'next'}
-        onPress={handleSubmitLogin}
+        content={'submit'}
+        onPress={handleForgotPassword}
+        uppercase='true'
+      />
+      <BigButton
+        buttonColor={colors.green}
+        textColor={colors.black}
+        content={'go back'}
+        onPress={() => navigation.goBack()}
         uppercase='true'
       />
     </View>
@@ -127,15 +110,7 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 10,
     height: '100%'
   },
-  forgotPassword: {
-    fontSize: 12,
-    fontFamily: 'Poppins',
-    color: colors.lightBlue,
-    marginBottom: 30,
-    letterSpacing: 1,
-    textTransform: 'capitalize'
-  },
-  passwordError: {
+  generalError: {
     fontSize: 10,
     color: colors.red,
     textAlign: 'left'
