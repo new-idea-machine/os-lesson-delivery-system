@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider, IconButton, TextInput } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -154,18 +154,18 @@ export const NewQuizScreen = ({ route, navigation }) => {
   }, [numQuestions]);
 
   // Function to handle incrementing numQuestions
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
     if (numQuestions < maxQuestions) {
       setNumQuestions(numQuestions + 1);
     }
-  };
+  }, [numQuestions, maxQuestions]);
 
   // Function to handle decrementing numQuestions
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
     if (numQuestions > 1) {
       setNumQuestions(numQuestions - 1);
     }
-  };
+  }, [numQuestions]);
 
   // Function to handle selection of question type
   const handleQuestionTypePress = (questionTypeContent) => {
@@ -183,43 +183,50 @@ export const NewQuizScreen = ({ route, navigation }) => {
   // Function to handle the submission of questions to the next screen
   const onPressHandler = async () => {
     let passingQuestions = {};
-    setIsLoading(true);
-    // Generate questions based on selected question type
-    if (selectedQuestionType == 'Mixed') {
-      passingQuestions = await getMixed(numQuestions, text, session);
-    } else if (selectedQuestionType == 'True/False') {
-      passingQuestions = await getTrueFalse(numQuestions, text, session);
-    } else {
-      passingQuestions = await getMultipleChoice(numQuestions, text, session);
-    }
 
-    // Process passingQuestions if a file is selected
-    if (hasFile && passingQuestions) {
-    }
-
-    // If passingQuestions is generated successfully
-    if (passingQuestions) {
-      passingQuestions = JSON.parse(passingQuestions);
-
-      // Create a file if a file is selected, otherwise use default name
-      if (hasFile) {
-        createFile(fileName, text, session);
+    try {
+      setIsLoading(true);
+      // Generate questions based on selected question type
+      if (selectedQuestionType == 'Mixed') {
+        passingQuestions = await getMixed(numQuestions, text, session);
+      } else if (selectedQuestionType == 'True/False') {
+        passingQuestions = await getTrueFalse(numQuestions, text, session);
       } else {
-        console.log('quiz name', passingQuestions.quiz_name);
-        createFile(passingQuestions.quiz_name, text, session);
+        passingQuestions = await getMultipleChoice(numQuestions, text, session);
       }
 
-      // Navigate to the Answering Screen with passingQuestions as parameter
-      navigation.navigate('Answering Screen', passingQuestions);
+      // Process passingQuestions if a file is selected
+      if (hasFile && passingQuestions) {
+      }
 
-      // Reset state variables
-      setText('');
-      setHasFile(false);
-      setFileName('');
-      setSelectedQuestionType(null);
-      setIsLoading(false);
-    } else {
+      // If passingQuestions is generated successfully
+      if (passingQuestions) {
+        passingQuestions = JSON.parse(passingQuestions);
+
+        // Create a file if a file is selected, otherwise use default name
+        if (hasFile) {
+          createFile(fileName, text, session);
+        } else {
+          console.log('quiz name', passingQuestions.quiz_name);
+          createFile(passingQuestions.quiz_name, text, session);
+        }
+
+        // Navigate to the Answering Screen with passingQuestions as parameter
+        navigation.navigate('Answering Screen', passingQuestions);
+
+        // Reset state variables
+        setText('');
+        setHasFile(false);
+        setFileName('');
+        setSelectedQuestionType(null);
+        setIsLoading(false);
+      } else {
+        throw new Error('Failed To Generate Quiz');
+      }
+    } catch (error) {
+      console.log(error);
       alert('Error Generating Quiz');
+      setIsLoading(false);
     }
   };
 
