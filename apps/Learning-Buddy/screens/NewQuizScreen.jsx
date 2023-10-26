@@ -32,7 +32,6 @@ export const NewQuizScreen = ({ route, navigation }) => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
-  const [hasFile, setHasFile] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [fileName, setFileName] = useState(null);
   const [currentFileId, setCurrentFileId] = useState(null);
@@ -46,14 +45,11 @@ export const NewQuizScreen = ({ route, navigation }) => {
     setText(textParam);
     setCurrentFileId(fileId);
     setFileName(fileNameParam);
+    setIsEdited(false);
   }, [route]);
 
   // Function to handle document selection
   const pickDocument = async () => {
-    // reset file state
-    setHasFile(false);
-    setFileName('');
-
     let result = await DocumentPicker.getDocumentAsync({
       type: [
         'image/*',
@@ -85,8 +81,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
         } else {
           // Set the extracted text and update state variables
           setText(data.text);
-          setHasFile(true);
           setFileName(file.name);
+          setCurrentFileId(null);
           setIsEdited(true);
         }
       } catch (err) {
@@ -95,29 +91,51 @@ export const NewQuizScreen = ({ route, navigation }) => {
     }
   };
 
-  const saveDocument = () => {
+  const saveDocument = async () => {
     try {
-      if (fileId) {
-        updateFile(fileId, fileName, text, session);
-        setIsEdited(false);
+      if (currentFileId) {
+        const data = await updateFile(currentFileId, fileName, text, session);
+        console.log('saved', data);
+        if (data) {
+          setIsEdited(false);
+        }
       } else {
         setModalVisible(true);
       }
     } catch (e) {}
   };
 
-  const saveAsDocument = () => {
+  const openSaveAsModal = () => {
     setModalVisible(true);
   };
 
   const openDocument = () => {
-    navigation.navigate('My Save Documents');
+    navigation.navigate('Save Documents');
   };
 
   // Modal visibility toggle function
   const toggleModalVisibility = () => setModalVisible((prev) => !prev);
 
-  const ShowCardModal = () => {
+  const ShowCardModal = ({ lastFileName }) => {
+    const [newFileName, setNewFileName] = useState(lastFileName);
+
+    const saveNewFile = async () => {
+      if (newFileName == null || newFileName == '') {
+        alert('filename cannot be blank');
+        return;
+      }
+      if (text == null || text == '') {
+        alert('text cannot be blank');
+        return;
+      }
+      const data = await createFile(newFileName, text, session);
+
+      if (data) {
+        setIsEdited(false);
+        setFileName(newFileName);
+        setModalVisible(false);
+      }
+    };
     return (
       <Modal
         animationType='slide'
@@ -147,8 +165,8 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 underlineColor={colors.white}
                 activeUnderlineColor={colors.white}
                 label='FileName'
-                onChangeText={(name) => setFileName(name)}
-                value={fileName}
+                onChangeText={(name) => setNewFileName(name)}
+                value={newFileName}
               />
               <ScrollView
                 padding={null}
@@ -169,10 +187,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 buttonColor={colors.green}
                 textColor={colors.black}
                 content={'Save New File'}
-                onPress={() => {
-                  createFile(fileName, text, session);
-                  setIsEdited(false);
-                }} //need save function
+                onPress={saveNewFile}
               />
             </View>
           </View>
@@ -283,10 +298,6 @@ export const NewQuizScreen = ({ route, navigation }) => {
       passingQuestions = await getMultipleChoice(numQuestions, text, session);
     }
 
-    // Process passingQuestions if a file is selected
-    if (hasFile && passingQuestions) {
-    }
-
     // If passingQuestions is generated successfully
     if (passingQuestions) {
       passingQuestions = JSON.parse(passingQuestions);
@@ -296,7 +307,6 @@ export const NewQuizScreen = ({ route, navigation }) => {
 
       // Reset state variables
       setText('');
-      setHasFile(false);
       setFileName(null);
       setCurrentFileId(null);
       setSelectedQuestionType(null);
@@ -370,17 +380,19 @@ export const NewQuizScreen = ({ route, navigation }) => {
             onPress={pickDocument}
           />
           <BigButton
+            mode='elevated'
             buttonColor={colors.white}
             textColor={colors.black}
             content={'Save'}
             onPress={saveDocument}
-            disabled={!isEdited}
+            disabled={!isEdited || text == ''}
           />
           <BigButton
             buttonColor={colors.white}
             textColor={colors.black}
             content={'Save As'}
-            onPress={saveAsDocument}
+            onPress={openSaveAsModal}
+            disabled={text == ''}
           />
           <BigButton
             buttonColor={colors.white}
@@ -504,7 +516,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
               disabled={buttonDisabled}
             />
           </View>
-          <ShowCardModal />
+          <ShowCardModal lastFileName={fileName} />
         </View>
       </ScrollView>
     </View>
