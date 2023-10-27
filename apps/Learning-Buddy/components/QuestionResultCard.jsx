@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Card } from 'react-native-paper';
-import AnswerButton from './AnswerButton';
 import { colors } from '../config/colors';
+import AnswerButton from './AnswerButton';
 
 const QuestionResultCard = ({ questionData }) => {
   return (

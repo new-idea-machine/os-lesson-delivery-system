@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,13 +12,13 @@ import { AuthContext } from '../providers/AuthProvider';
 import { deleteFile, listAllFiles } from '../util/filesAPI';
 
 // Define the SaveDocumentsScreen component
-export const SaveDocumentsScreen = () => {
+export const SaveDocumentsScreen = ({ navigation }) => {
   // Initialize state variables
   const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
   const [fileId, setFileId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [textContext, setTextContext] = useState(null);
+  const [textParam, setTextParam] = useState(null);
   const [allQuizFiles, setAllQuizFiles] = useState([]);
 
   // Access the authentication context
@@ -27,14 +27,42 @@ export const SaveDocumentsScreen = () => {
 
   // Use the useFocusEffect hook to fetch data when the component mounts
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const fetchData = async () => {
-        const allFiles = await listAllFiles(session);
-        setAllQuizFiles(allFiles);
+        try {
+          const allFiles = await listAllFiles(session);
+          setAllQuizFiles(allFiles);
+        } catch (error) {
+          console.log('Error fetching files', error);
+        }
       };
       fetchData();
-    }, [])
+    }, [session])
   );
+
+  // Modal visibility toggle function
+  const toggleModalVisibility = () => setModalVisible((prev) => !prev);
+  // Submit text context function
+  const SubmitTextParam = () => {
+    try {
+      navigation.navigate('New Quiz Screen2', {
+        screen: 'New Quiz Stack',
+        params: {
+          screen: 'New Quiz Screen',
+          params: {
+            fileId,
+            textParam
+          }
+        }
+      });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'My Save Documents' }]
+      });
+    } catch (error) {
+      console.log('Error navigating:', error);
+    }
+  };
 
   // Define a function to show the modal
   const ShowCardModal = () => {
@@ -45,40 +73,16 @@ export const SaveDocumentsScreen = () => {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          toggleModalVisibility();
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: 15,
-              padding: 35,
-              shadowColor: colors.black,
-              shadowOffset: {
-                width: 0,
-                height: 0
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 100,
-
-              width: '85%',
-              maxHeight: '75%'
-            }}
-          >
-            <View style={{ alignItems: 'flex-end' }}>
+        <View style={localStyles.modal}>
+          <View style={localStyles.modalContent}>
+            <View style={localStyles.modalClose}>
               <IconButton
                 icon='close'
                 size={20}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={toggleModalVisibility}
               />
             </View>
             <View
@@ -87,15 +91,7 @@ export const SaveDocumentsScreen = () => {
                 alignItems: 'center'
               }}
             >
-              <Text
-                style={{
-                  marginBottom: 15,
-                  fontWeight: 'bold',
-                  fontSize: 20
-                }}
-              >
-                {selectedFile}
-              </Text>
+              <Text style={localStyles.modalTitle}>{selectedFile}</Text>
               <ScrollView
                 padding={null}
                 style={{ maxWidth: '100%', maxHeight: '65%' }}
@@ -106,23 +102,17 @@ export const SaveDocumentsScreen = () => {
                     color: colors.grey
                   }}
                 >
-                  {textContext}
+                  {textParam}
                 </Text>
               </ScrollView>
             </View>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: 20
-              }}
-            >
+            <View style={localStyles.modalButtonsContainer}>
               <BigButton
                 buttonColor={colors.green}
                 textColor={colors.black}
                 content={'Use To Create Quiz'}
                 onPress={() => {
-                  console.log('✅ Use To Create Quiz');
+                  SubmitTextParam();
                 }}
               />
               <Pressable
@@ -185,7 +175,7 @@ export const SaveDocumentsScreen = () => {
                       onPress={() => {
                         setFileId(file.id);
                         setSelectedFile(file.name);
-                        setTextContext(file.text);
+                        setTextParam(file.text);
                         setModalVisible(true);
                       }}
                     />
@@ -204,7 +194,6 @@ const localStyles = StyleSheet.create({
   fontStyle: {
     fontFamily: 'Poppins',
     fontSize: 12,
-    // letterSpacing: 2,
     fontWeight: '400'
   },
   container: {
@@ -240,5 +229,36 @@ const localStyles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     color: colors.grey
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 35,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 100,
+    width: '85%',
+    maxHeight: '75%'
+  },
+  modalClose: { alignItems: 'flex-end' },
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  modalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20
   }
 });

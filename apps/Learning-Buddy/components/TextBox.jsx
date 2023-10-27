@@ -16,7 +16,7 @@ export const TextBox = ({ text, setText, editable }) => {
       activeUnderlineColor={colors.white}
       style={localStyles.input}
       onChangeText={(text) => setText(text)}
-      value={text}
+      defaultValue={text}
       editable={editable}
     />
   </View>)
