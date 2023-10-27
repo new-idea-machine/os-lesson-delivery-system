@@ -30,9 +30,10 @@ export const MyAccountScreen = ({ navigation }) => {
   );
 
   const updateUserInfo = (key, newText) => {
-    newUserInfo = userInfo;
-    newUserInfo[`${key}`] = newText;
-    setUserInfo(newUserInfo);
+    setUserInfo(prevUserInfo => ({
+      ...prevUserInfo,
+      [key]: newText
+    }));
   };
 
   const submitUserInfo = async () => {
@@ -57,7 +58,7 @@ export const MyAccountScreen = ({ navigation }) => {
             activeUnderlineColor={colors.white}
             style={styles.input}
             onChangeText={(newText) => updateUserInfo(key, newText)}
-            defaultValue={userInfo[`${key}`]}
+            value={userInfo[`${key}`]}
             editable={(key=="Email") ? false : true}
           />
           </View>
