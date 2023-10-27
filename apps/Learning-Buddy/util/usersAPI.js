@@ -37,7 +37,7 @@ export const updateAccount = async (userInfo, session) => {
   }
 
   try {
-    const response = await fetch(`http://${ip}:8000/users/update/`, {
+    const response = await fetch(`http://${ip}:8000/users/update`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

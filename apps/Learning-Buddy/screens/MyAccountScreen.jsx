@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Image, View, Text, StyleSheet } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { AuthContext } from '../providers/AuthProvider';
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
-import { TextBox } from '../components/TextBox';
 import { useFocusEffect } from '@react-navigation/native';
 import { getUserById, updateAccount } from '../util/usersAPI';
 
@@ -19,7 +19,6 @@ export const MyAccountScreen = ({ navigation }) => {
     React.useCallback(() => {
       const fetchData = async () => {
         const user = await getUserById(session);
-        console.log(user);
         setUserInfo({
           "Full Name": user.fullname,
           "Email": user.email,
@@ -51,11 +50,17 @@ export const MyAccountScreen = ({ navigation }) => {
       {Object.keys(userInfo).map(key => (
         <View key={key}>
           <Text style={styles.text}>{key}: </Text>
-          <TextBox
-            text={userInfo[`${key}`]}
-            setText={(newText) => updateUserInfo(key, newText)}
+          <View style={styles.textInputContainer}>
+          <TextInput
+            mode='flat'
+            underlineColor={colors.white}
+            activeUnderlineColor={colors.white}
+            style={styles.input}
+            onChangeText={(newText) => updateUserInfo(key, newText)}
+            defaultValue={userInfo[`${key}`]}
             editable={(key=="Email") ? false : true}
           />
+          </View>
         </View>
         ))}
 
@@ -115,5 +120,16 @@ const styles = StyleSheet.create({
   },
   error: {
     color: colors.red
+  },
+  textInputContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  input: {
+    width: '100%',
+    margin: 10,
+    borderTopStartRadius: 5,
+    borderTopEndRadius: 5,
+    backgroundColor: colors.lightGrey
   }
 });
