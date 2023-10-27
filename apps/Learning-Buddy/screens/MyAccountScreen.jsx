@@ -12,13 +12,14 @@ export const MyAccountScreen = ({ navigation }) => {
   const auth = useContext(AuthContext);
   const { signOut, session } = auth;
   const [userInfo, setUserInfo] = useState({});
-  const [updateInfoButton, setUpdateInfoButton] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   // Optional: figure out how to upload avatar photos to supabase (do this in a different branch)
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         const user = await getUserById(session);
+        console.log(user);
         setUserInfo({
           "Full Name": user.fullname,
           "Email": user.email,
@@ -33,15 +34,11 @@ export const MyAccountScreen = ({ navigation }) => {
     newUserInfo = userInfo;
     newUserInfo[`${key}`] = newText;
     setUserInfo(newUserInfo);
-    setUpdateInfoButton(true);
   };
 
   const submitUserInfo = async () => {
     const submittedInfo = await updateAccount(userInfo, session);
-    if (submittedInfo) {
-      console.log(submittedInfo)
-      setUpdateInfoButton(false);
-    }
+    setErrorMessage((submittedInfo) ? false : true);
   }
 
   return (
@@ -52,25 +49,26 @@ export const MyAccountScreen = ({ navigation }) => {
       />
       <Text style={styles.title}>My Account</Text>
       {Object.keys(userInfo).map(key => (
-        <>
-          <Text style={styles.text}
-            key={key}
-          >
-          {key}: 
-          </Text>
-          <TextBox 
-            key={`${key}-01`}
+        <View key={key}>
+          <Text style={styles.text}>{key}: </Text>
+          <TextBox
             text={userInfo[`${key}`]}
             setText={(newText) => updateUserInfo(key, newText)}
-            />
-        </>
+            editable={(key=="Email") ? false : true}
+          />
+        </View>
         ))}
+
+        {(errorMessage) &&
+        <Text style={`${styles.text} ${styles.error}`}>
+            Please, ensure the information is proper.
+        </Text>
+        }
 
       <BigButton
         buttonColor={colors.green}
         textColor={colors.black}
         content={'Update Information'}
-        disabled={updateInfoButton ? false : true}
         onPress={() =>
           submitUserInfo()
         }
@@ -114,5 +112,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20
+  },
+  error: {
+    color: colors.red
   }
 });

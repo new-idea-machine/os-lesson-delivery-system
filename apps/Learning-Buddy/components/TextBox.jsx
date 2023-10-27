@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { colors } from '../config/colors';
+import PropTypes from 'prop-types';
 
 
 // Define the Textbox component
-export const TextBox = ({ text, setText }) => {
+export const TextBox = ({ text, setText, editable }) => {
 
   return (
     <View style={localStyles.textInputContainer}>
@@ -16,6 +17,7 @@ export const TextBox = ({ text, setText }) => {
       style={localStyles.input}
       onChangeText={(text) => setText(text)}
       value={text}
+      editable={editable}
     />
   </View>)
 }
@@ -33,3 +35,7 @@ const localStyles = StyleSheet.create({
     backgroundColor: colors.lightGrey
   }
 });
+
+TextBox.defaultProps = {
+  editable: true
+}
