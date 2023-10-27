@@ -9,8 +9,12 @@ export const extractText = async (formData, session) => {
       body: formData,
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
-    const data = await response.json();
-    return data;
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
     return null;
@@ -23,8 +27,12 @@ export const listAllFiles = async (session) => {
       method: 'GET',
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
-    const data = await response.json();
-    return data;
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
     return null;
@@ -37,9 +45,12 @@ export const listFileById = async (id, session) => {
       method: 'GET',
       headers: { Authorization: `Bearer ${session.access_token}` }
     });
-    const data = await response.json();
-    console.log(data);
-    return data;
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
     return null;
@@ -58,8 +69,12 @@ export const createFile = async (name, text, session) => {
       },
       body: source
     });
-    const data = await response.json();
-    return data;
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else {
+      return null;
+    }
   } catch (error) {
     console.error(error);
     return null;
@@ -78,8 +93,11 @@ export const updateFile = async (id, name, text, session) => {
       },
       body: source
     });
-    const data = await response.json();
-    return data;
+    if (response.status == 200) {
+      const data = await response.json();
+
+      return data;
+    } else return null;
   } catch (error) {
     console.error(error);
     return null;
