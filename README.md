@@ -22,7 +22,7 @@ To start the FastAPI server, navigate to the project's root directory and use th
 
 Note that two .env files are required for the operation of this repo at present time.
 
-1. The first one will be in apps/Learning-Buddy, with the four following fields: IP, SUPABASEURL, SUPABASEKEY_PUBLIC and SUPABASEKEY_SECRET. The IP field should be automatically populated with your IPv4 address upon your first time running the frontend with `npm run start:app`.
+1. The first one will be in apps/Learning-Buddy, with the four following fields: IP, SUPABASEURL, SUPABASEKEY_PUBLIC and SUPABASEKEY_SECRET. The IP field should be automatically populated with your IPv4 address upon your first time running the frontend with `npm run start:app` (or `npx expo start --clear`).
 2. The second one can be found in backend, and has the following fields: API-TOKEN and DATABASE_URL. The API-TOKEN field is required to prompt OpenAI's API and can be created through creating your own account on their website.
 
 ### Backend Setup:
@@ -32,7 +32,7 @@ Note that two .env files are required for the operation of this repo at present 
 1. [Install Python](https://www.python.org/downloads/). If you encounter the error "python: command not found," you can contact Maggie for assistance.
 2. Open your terminal in the project's **backend** folder.
 3. Run the command `python -m venv venv`.
-4. Activate the virtual environment with the command `source venv/scripts/activate`. If you encounter any issues, refer to the appropriate command for your operating system (e.g., `bin/activate`).
+4. Activate the virtual environment with the command `source venv/scripts/activate`. If you encounter any issues, refer to the appropriate command for your operating system (e.g., `source venv/bin/activate`).
 5. Set the Python path by running `export PYTHONPATH=$PWD`.
 6. Install the required dependencies with `pip install -r requirements.txt`.
 7. Testing: to confirm server functionality, run `python main.py` from the same folder. Point your browser to `http://localhost:8000/docs` to ensure it is working.
