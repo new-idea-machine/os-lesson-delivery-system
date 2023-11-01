@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BigButton from '../components/BigButton';
 import { colors } from '../config/colors';
+import { Card, ProgressBar } from 'react-native-paper';
 
 export const QuizResultScreen = ({ route, navigation }) => {
   // Get safe area insets
