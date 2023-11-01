@@ -33,7 +33,7 @@ app.include_router(quiz.router, dependencies=[Depends(JWTBearer())])
 
 
 # Configure CORS middleware
-origins = ["http://localhost:3000", "localhost:3000"]
+origins = ["http://localhost:3000", "localhost:3000","http://localhost:19006"]
 
 
 app.add_middleware(
