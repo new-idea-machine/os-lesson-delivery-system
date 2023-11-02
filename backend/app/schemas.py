@@ -15,8 +15,11 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
-    id: int
-    is_active: bool
+    id: UUID
+    avatar_url: Optional[str]
+    fullname: Optional[str]
+    phonenumber: Optional[str]
+    # is_active: bool
 
     class Config:
         orm_mode = True
