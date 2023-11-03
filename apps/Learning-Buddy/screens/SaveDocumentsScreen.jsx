@@ -51,7 +51,8 @@ export const SaveDocumentsScreen = ({ navigation }) => {
           screen: 'New Quiz Screen',
           params: {
             fileId,
-            textParam
+            textParam,
+            fileNameParam: selectedFile
           }
         }
       });

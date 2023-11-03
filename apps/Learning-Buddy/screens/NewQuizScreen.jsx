@@ -1,26 +1,26 @@
 import Constants from 'expo-constants';
 import * as DocumentPicker from 'expo-document-picker';
-import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Divider, IconButton, TextInput } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BigButton from '../components/BigButton';
 import Spinner from '../components/Spinner';
 import { colors } from '../config/colors';
 import { AuthContext } from '../providers/AuthProvider';
-import { createFile, extractText } from '../util/filesAPI';
 import {
   getMixed,
   getMultipleChoice,
   getTrueFalse
 } from '../util/quizGenerateAPI';
+import { createFile, extractText, updateFile } from '../util/filesAPI';
 
 // Get IP from Expo Constants
 const ip = Constants.expoConfig.extra.IP;
 
 // Define the NewQuizScreen component
 export const NewQuizScreen = ({ route, navigation }) => {
-  const { textParam, fileId } = route.params || '';
+  const { textParam, fileId, fileNameParam } = route.params || '';
 
   // Initialize state variables using React Hooks
   const insets = useSafeAreaInsets();
@@ -34,8 +34,10 @@ export const NewQuizScreen = ({ route, navigation }) => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [characters, setCharacters] = useState('0');
   const [remaining, setRemaining] = useState(0);
-  const [hasFile, setHasFile] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
   const [fileName, setFileName] = useState(null);
+  const [currentFileId, setCurrentFileId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Retrieve authentication context
   const auth = useContext(AuthContext);
@@ -43,14 +45,13 @@ export const NewQuizScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     setText(textParam);
+    setCurrentFileId(fileId);
+    setFileName(fileNameParam);
+    setIsEdited(false);
   }, [route]);
 
   // Function to handle document selection
   const pickDocument = async () => {
-    // reset file state
-    setHasFile(false);
-    setFileName('');
-
     let result = await DocumentPicker.getDocumentAsync({
       type: [
         'image/*',
@@ -82,13 +83,119 @@ export const NewQuizScreen = ({ route, navigation }) => {
         } else {
           // Set the extracted text and update state variables
           setText(data.text);
-          setHasFile(true);
           setFileName(file.name);
+          setCurrentFileId(null);
+          setIsEdited(true);
         }
       } catch (err) {
         console.log(err);
       }
     }
+  };
+
+  const saveDocument = async () => {
+    try {
+      if (currentFileId) {
+        const data = await updateFile(currentFileId, fileName, text, session);
+        console.log('saved', data);
+        if (data) {
+          setIsEdited(false);
+        }
+      } else {
+        setModalVisible(true);
+      }
+    } catch (e) {}
+  };
+
+  const openSaveAsModal = () => {
+    setModalVisible(true);
+  };
+
+  const openDocument = () => {
+    navigation.navigate('Save Documents');
+  };
+
+  // Modal visibility toggle function
+  const toggleModalVisibility = () => setModalVisible((prev) => !prev);
+
+  const ShowCardModal = ({ lastFileName }) => {
+    const [newFileName, setNewFileName] = useState(lastFileName);
+
+    const saveNewFile = async () => {
+      if (newFileName == null || newFileName == '') {
+        alert('filename cannot be blank');
+        return;
+      }
+      if (text == null || text == '') {
+        alert('text cannot be blank');
+        return;
+      }
+      const data = await createFile(newFileName, text, session);
+
+      if (data) {
+        setIsEdited(false);
+        setFileName(newFileName);
+        setModalVisible(false);
+      }
+    };
+    return (
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          toggleModalVisibility();
+        }}
+      >
+        <View style={localStyles.modal}>
+          <View style={localStyles.modalContent}>
+            <View style={localStyles.modalClose}>
+              <IconButton
+                icon='close'
+                size={20}
+                onPress={toggleModalVisibility}
+              />
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <TextInput
+                underlineColor={colors.white}
+                activeUnderlineColor={colors.white}
+                label='FileName'
+                onChangeText={(name) => setNewFileName(name)}
+                value={newFileName}
+              />
+              <ScrollView
+                padding={null}
+                style={{ maxWidth: '100%', maxHeight: '65%' }}
+              >
+                <Text
+                  style={{
+                    marginBottom: 5,
+                    color: colors.grey
+                  }}
+                >
+                  {text}
+                </Text>
+              </ScrollView>
+            </View>
+            <View style={localStyles.modalButtonsContainer}>
+              <BigButton
+                buttonColor={colors.green}
+                textColor={colors.black}
+                content={'Save New File'}
+                onPress={saveNewFile}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
   };
 
   // useEffect hook to update state variables based on text input
@@ -154,18 +261,18 @@ export const NewQuizScreen = ({ route, navigation }) => {
   }, [numQuestions]);
 
   // Function to handle incrementing numQuestions
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
     if (numQuestions < maxQuestions) {
       setNumQuestions(numQuestions + 1);
     }
-  };
+  }, [numQuestions, maxQuestions]);
 
   // Function to handle decrementing numQuestions
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
     if (numQuestions > 1) {
       setNumQuestions(numQuestions - 1);
     }
-  };
+  }, [numQuestions]);
 
   // Function to handle selection of question type
   const handleQuestionTypePress = (questionTypeContent) => {
@@ -183,43 +290,38 @@ export const NewQuizScreen = ({ route, navigation }) => {
   // Function to handle the submission of questions to the next screen
   const onPressHandler = async () => {
     let passingQuestions = {};
-    setIsLoading(true);
-    // Generate questions based on selected question type
-    if (selectedQuestionType == 'Mixed') {
-      passingQuestions = await getMixed(numQuestions, text, session);
-    } else if (selectedQuestionType == 'True/False') {
-      passingQuestions = await getTrueFalse(numQuestions, text, session);
-    } else {
-      passingQuestions = await getMultipleChoice(numQuestions, text, session);
-    }
 
-    // Process passingQuestions if a file is selected
-    if (hasFile && passingQuestions) {
-    }
-
-    // If passingQuestions is generated successfully
-    if (passingQuestions) {
-      passingQuestions = JSON.parse(passingQuestions);
-
-      // Create a file if a file is selected, otherwise use default name
-      if (hasFile) {
-        createFile(fileName, text, session);
+    try {
+      setIsLoading(true);
+      // Generate questions based on selected question type
+      if (selectedQuestionType == 'Mixed') {
+        passingQuestions = await getMixed(numQuestions, text, session);
+      } else if (selectedQuestionType == 'True/False') {
+        passingQuestions = await getTrueFalse(numQuestions, text, session);
       } else {
-        console.log('quiz name', passingQuestions.quiz_name);
-        createFile(passingQuestions.quiz_name, text, session);
+        passingQuestions = await getMultipleChoice(numQuestions, text, session);
       }
 
-      // Navigate to the Answering Screen with passingQuestions as parameter
-      navigation.navigate('Answering Screen', passingQuestions);
+      // If passingQuestions is generated successfully
+      if (passingQuestions) {
+        passingQuestions = JSON.parse(passingQuestions);
 
-      // Reset state variables
-      setText('');
-      setHasFile(false);
-      setFileName('');
-      setSelectedQuestionType(null);
-      setIsLoading(false);
-    } else {
+        // Navigate to the Answering Screen with passingQuestions as parameter
+        navigation.navigate('Answering Screen', passingQuestions);
+
+        // Reset state variables
+        setText('');
+        setFileName('');
+        setCurrentFileId(null);
+        setSelectedQuestionType(null);
+        setIsLoading(false);
+      } else {
+        throw new Error('Failed To Generate Quiz');
+      }
+    } catch (error) {
+      console.log(error);
       alert('Error Generating Quiz');
+      setIsLoading(false);
     }
   };
 
@@ -241,7 +343,9 @@ export const NewQuizScreen = ({ route, navigation }) => {
             <View>
               <Text style={localStyles.pageTitle}>Create New Quiz</Text>
             </View>
-            <Text style={localStyles.title}>Source Material</Text>
+            <Text style={localStyles.title}>
+              Source Material{fileName && ': ' + fileName}
+            </Text>
             <View style={localStyles.textInputContainer}>
               <TextInput
                 mode='flat'
@@ -249,8 +353,11 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 activeUnderlineColor={colors.white}
                 style={localStyles.input}
                 label='Enter text'
+                onChangeText={(text) => {
+                  setText(text);
+                  setIsEdited(true);
+                }}
                 value={text}
-                onChangeText={(text) => setText(text)}
                 multiline
                 numberOfLines={30}
               />
@@ -271,6 +378,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
                 }}
                 value={characters}
               />
+
               {text && parseInt(characters, 10) < 50 ? (
                 <Text>Please enter at least 50 characters to continue</Text>
               ) : null}
@@ -283,6 +391,27 @@ export const NewQuizScreen = ({ route, navigation }) => {
               textColor={colors.black}
               content={'Upload File'}
               onPress={pickDocument}
+            />
+            <BigButton
+              mode='elevated'
+              buttonColor={colors.white}
+              textColor={colors.black}
+              content={'Save'}
+              onPress={saveDocument}
+              disabled={!isEdited || text == ''}
+            />
+            <BigButton
+              buttonColor={colors.white}
+              textColor={colors.black}
+              content={'Save As'}
+              onPress={openSaveAsModal}
+              disabled={text == ''}
+            />
+            <BigButton
+              buttonColor={colors.white}
+              textColor={colors.black}
+              content={'open previous'}
+              onPress={openDocument}
             />
             <View style={localStyles.divider}>
               <Divider />
@@ -403,6 +532,7 @@ export const NewQuizScreen = ({ route, navigation }) => {
               />
             </View>
           </View>
+          <ShowCardModal lastFileName={fileName} />
         </ScrollView>
       )}
     </View>
@@ -469,5 +599,36 @@ const localStyles = StyleSheet.create({
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     backgroundColor: colors.lightGrey
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    padding: 35,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 100,
+    width: '85%',
+    maxHeight: '75%'
+  },
+  modalClose: { alignItems: 'flex-end' },
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  modalButtonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20
   }
 });
